@@ -1,0 +1,69 @@
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import { hasLocale, NextIntlClientProvider } from "next-intl";
+import { setRequestLocale } from "next-intl/server";
+import { routing } from "@/i18n/routing";
+import { jost, montserrat, plexArabic } from "@/lib/fonts";
+import { PrefsProvider } from "@/components/primitives/PrefsProvider";
+import { ToastProvider } from "@/components/primitives/Toast";
+import { SiteHeader } from "@/components/sections/SiteHeader";
+import { SiteFooter } from "@/components/sections/SiteFooter";
+import { cn } from "@/lib/cn";
+import "../globals.css";
+
+export const metadata: Metadata = {
+  title: {
+    default: "Alcázar — The address before it exists",
+    template: "%s | Alcázar",
+  },
+  description:
+    "UAE off-plan real estate advisory and mortgage consultancy. A defended shortlist of pre-construction assets, with financing for residents and non-residents.",
+};
+
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
+
+export default async function LocaleLayout({
+  children,
+  params,
+}: {
+  children: React.ReactNode;
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  if (!hasLocale(routing.locales, locale)) notFound();
+  setRequestLocale(locale);
+
+  const isAr = locale === "ar";
+
+  return (
+    <html
+      lang={locale}
+      dir={isAr ? "rtl" : "ltr"}
+      className={cn(
+        jost.variable,
+        montserrat.variable,
+        isAr && plexArabic.variable,
+      )}
+    >
+      <body>
+        <NextIntlClientProvider>
+          <PrefsProvider>
+            <ToastProvider>
+              <a
+                href="#main"
+                className="type-eyebrow sr-only bg-blue px-4 py-2 text-sand focus:not-sr-only focus:fixed focus:start-4 focus:top-4 focus:z-50"
+              >
+                Skip to content
+              </a>
+              <SiteHeader />
+              <main id="main">{children}</main>
+              <SiteFooter />
+            </ToastProvider>
+          </PrefsProvider>
+        </NextIntlClientProvider>
+      </body>
+    </html>
+  );
+}

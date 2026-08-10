@@ -1,0 +1,38 @@
+{
+  "nav": {
+    "projects": "Projects",
+    "developers": "Developers",
+    "communities": "Communities",
+    "mortgages": "Mortgages",
+    "howWeWork": "How we work",
+    "insights": "Insights",
+    "careers": "Careers",
+    "contact": "Contact",
+    "menu": "Menu",
+    "close": "Close",
+    "enquire": "Enquire"
+  },
+  "home": {
+    "eyebrow": "UAE off-plan advisory",
+    "title": "Own the skyline early",
+    "support": "A defended shortlist of pre-construction assets, underwritten before we show them to you.",
+    "ctaShortlist": "See the shortlist",
+    "ctaBorrow": "Check what you can borrow"
+  },
+  "brand": {
+    "tagline": "The address before it exists."
+  },
+  "prefs": {
+    "language": "Language",
+    "currency": "Currency",
+    "units": "Units",
+    "sqft": "sqft",
+    "sqm": "sqm"
+  },
+  "footer": {
+    "escrow": "Purchase payments are made to the developer's DLD-registered escrow account. Alcázar does not hold client funds.",
+    "investment": "Projections are not guarantees. Off-plan property carries construction, delivery, market and liquidity risk. Values can fall.",
+    "mortgage": "Alcázar acts as an intermediary and is not a lender. Financing figures are indicative only and approval is not guaranteed.",
+    "rights": "© {year} Alcázar. All rights reserved."
+  }
+}
