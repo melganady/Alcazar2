@@ -18,8 +18,9 @@ const run = async () => {
     });
     console.log("GATE FAILED — publish was allowed");
     process.exit(1);
-  } catch (err: any) {
-    const msg = err?.data?.errors?.[0]?.message ?? err.message;
+  } catch (err) {
+    const e = err as { data?: { errors?: Array<{ message?: string }> }; message?: string };
+    const msg = e.data?.errors?.[0]?.message ?? e.message;
     console.log("GATE BLOCKED as expected:", msg);
     process.exit(0);
   }

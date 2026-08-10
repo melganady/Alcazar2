@@ -173,10 +173,11 @@ const seed = async () => {
     const slugBase = name.toLowerCase().replace(/[^a-z0-9]+/g, "-");
     const community = COMMUNITIES[i % COMMUNITIES.length];
     const slug = `${slugBase}-${community.slug}`;
-    const plan = PLANS[i % PLANS.length];
+    // decorrelated from the publish/shortlist cycles so filter combos have data
+    const plan = PLANS[(i * 3 + 1) % PLANS.length];
     const devIdx = (i * 5 + 2) % DEVELOPERS.length;
     const bedsMin = i % 3 === 0 ? 0 : 1;
-    const bedsMax = 1 + ((i * 3) % 4);
+    const bedsMax = 1 + ((i * 3 + Math.floor(i / 4)) % 4);
     const priceFrom = 800_000 + ((i * 731) % 40) * 180_000;
     const sizeFrom = 420 + ((i * 137) % 30) * 55;
     const handoverYear = 2026 + ((i * 3 + 1) % 4);
@@ -256,7 +257,7 @@ const seed = async () => {
           ? {
               declineReason:
                 "Failed on price vs comparables and exit terms at review date. Fixture text.",
-              declinePublic: i % 2 === 0,
+              declinePublic: i % 3 === 2,
             }
           : {}),
         mortgageable: (["yes", "at-handover-only", "unknown", "yes"] as const)[i % 4],
