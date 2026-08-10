@@ -41,3 +41,34 @@ export async function createLead(formData: FormData) {
 
   redirect(`${returnTo}?sent=1#enquire`);
 }
+
+/**
+ * §8 soft gate — results stay visible; emailing the PDF costs name + email +
+ * residency. That is the lead. PDF generation + Resend dispatch land in
+ * Phase 5; the request is captured with the full scenario now.
+ */
+export async function requestCalculatorPdf(
+  _prev: { ok: boolean } | null,
+  formData: FormData,
+): Promise<{ ok: boolean }> {
+  const honeypot = String(formData.get("company") || "");
+  if (honeypot) return { ok: true };
+
+  const residency = String(formData.get("residencyStatus") || "");
+  const payload = await getPayloadClient();
+  await payload.create({
+    collection: "leads",
+    data: {
+      name: String(formData.get("name") || "").slice(0, 200),
+      email: String(formData.get("email") || "").slice(0, 200) || undefined,
+      residencyStatus: ["uae-resident", "non-resident", "uae-national"].includes(residency)
+        ? (residency as "uae-resident" | "non-resident" | "uae-national")
+        : undefined,
+      financeNeeded: true,
+      sourcePage: "/mortgages/calculator",
+      locale: String(formData.get("locale") || "en"),
+      message: `Calculator PDF request. Scenario: ${String(formData.get("scenario") || "").slice(0, 1500)}`,
+    },
+  });
+  return { ok: true };
+}

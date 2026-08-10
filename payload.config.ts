@@ -15,6 +15,7 @@ import { Agents } from "./payload/collections/Agents";
 import { Articles } from "./payload/collections/Articles";
 import { Leads } from "./payload/collections/Leads";
 import { SiteStats } from "./payload/globals/SiteStats";
+import { MortgageConstants } from "./payload/globals/MortgageConstants";
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -34,7 +35,7 @@ export default buildConfig({
     Media,
     Users,
   ],
-  globals: [SiteStats],
+  globals: [SiteStats, MortgageConstants],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || "",
   typescript: {

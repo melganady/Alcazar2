@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "seed": "node --env-file=.env --import tsx scripts/seed.ts"
+    "seed": "node --env-file=.env --import tsx scripts/seed.ts",
+    "test": "vitest run"
   },
   "dependencies": {
     "@payloadcms/db-sqlite": "^3.87.1",
@@ -31,7 +32,8 @@
     "eslint-config-next": "~15.4.11",
     "postcss": "^8.5.26",
     "tailwindcss": "^3.4.19",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^4.1.10"
   },
   "type": "module"
 }

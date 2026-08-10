@@ -103,9 +103,11 @@ export interface Config {
   fallbackLocale: null;
   globals: {
     'site-stats': SiteStat;
+    'mortgage-constants': MortgageConstant;
   };
   globalsSelect: {
     'site-stats': SiteStatsSelect<false> | SiteStatsSelect<true>;
+    'mortgage-constants': MortgageConstantsSelect<false> | MortgageConstantsSelect<true>;
   };
   locale: null;
   widgets: {
@@ -985,6 +987,52 @@ export interface SiteStat {
   createdAt?: string | null;
 }
 /**
+ * CBUAE caps and DLD fee schedule. Verify against current circulars before launch — these render publicly with the effective date.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "mortgage-constants".
+ */
+export interface MortgageConstant {
+  id: number;
+  effectiveFrom: string;
+  sourceNote: string;
+  ltv: {
+    nationalFirstLe5MPct: number;
+    nationalFirstGt5MPct: number;
+    expatFirstLe5MPct: number;
+    expatFirstGt5MPct: number;
+    secondPropertyPct: number;
+    nonResidentPct: number;
+    offPlanPct: number;
+    firstPropertyThresholdAED: number;
+  };
+  dbr: {
+    expatPct: number;
+    nationalPct: number;
+  };
+  tenure: {
+    maxYears: number;
+    maxAgeSalaried: number;
+    maxAgeSelfEmployed: number;
+  };
+  fees: {
+    dldTransferPct: number;
+    dldAdminAED: number;
+    mortgageRegistrationPct: number;
+    mortgageRegistrationAdminAED: number;
+    bankArrangementPct: number;
+    valuationMinAED: number;
+    valuationMaxAED: number;
+    trusteeMinAED: number;
+    trusteeMaxAED: number;
+    agencyCommissionPct: number;
+    lifeInsurancePctAnnual: number;
+    propertyInsurancePctAnnual: number;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "site-stats_select".
  */
@@ -1000,6 +1048,58 @@ export interface SiteStatsSelect<T extends boolean = true> {
         source?: T;
         asOf?: T;
         id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "mortgage-constants_select".
+ */
+export interface MortgageConstantsSelect<T extends boolean = true> {
+  effectiveFrom?: T;
+  sourceNote?: T;
+  ltv?:
+    | T
+    | {
+        nationalFirstLe5MPct?: T;
+        nationalFirstGt5MPct?: T;
+        expatFirstLe5MPct?: T;
+        expatFirstGt5MPct?: T;
+        secondPropertyPct?: T;
+        nonResidentPct?: T;
+        offPlanPct?: T;
+        firstPropertyThresholdAED?: T;
+      };
+  dbr?:
+    | T
+    | {
+        expatPct?: T;
+        nationalPct?: T;
+      };
+  tenure?:
+    | T
+    | {
+        maxYears?: T;
+        maxAgeSalaried?: T;
+        maxAgeSelfEmployed?: T;
+      };
+  fees?:
+    | T
+    | {
+        dldTransferPct?: T;
+        dldAdminAED?: T;
+        mortgageRegistrationPct?: T;
+        mortgageRegistrationAdminAED?: T;
+        bankArrangementPct?: T;
+        valuationMinAED?: T;
+        valuationMaxAED?: T;
+        trusteeMinAED?: T;
+        trusteeMaxAED?: T;
+        agencyCommissionPct?: T;
+        lifeInsurancePctAnnual?: T;
+        propertyInsurancePctAnnual?: T;
       };
   updatedAt?: T;
   createdAt?: T;
