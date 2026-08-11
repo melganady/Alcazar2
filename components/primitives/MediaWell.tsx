@@ -51,7 +51,7 @@ export function MediaWell({
       role="img"
       aria-label={alt ?? (label ? `${label} — render to follow` : "Render to follow")}
       className={cn(
-        "relative flex items-center justify-center overflow-hidden bg-linen",
+        "relative flex items-center justify-center overflow-hidden bg-pine/8",
         aspect,
         className,
       )}
@@ -62,7 +62,7 @@ export function MediaWell({
           key={pos}
           aria-hidden
           viewBox="0 0 12 12"
-          className={cn("absolute h-2.5 w-2.5 text-ash", pos)}
+          className={cn("absolute h-2.5 w-2.5 text-pine", pos)}
         >
           <path d="M6 0v12M0 6h12" stroke="currentColor" strokeWidth="1" fill="none" />
         </svg>
@@ -71,7 +71,7 @@ export function MediaWell({
       <div className="flex flex-col items-center gap-2 px-6 text-center">
         <span
           aria-hidden
-          className="font-display text-display-l font-light leading-none text-ash"
+          className="font-display text-display-l font-light leading-none text-pine/70"
         >
           Á
         </span>

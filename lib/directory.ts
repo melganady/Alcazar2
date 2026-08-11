@@ -98,7 +98,7 @@ export async function getCommunities(): Promise<DirectoryEntry[]> {
       return {
         slug: c.slug,
         name: c.name,
-        subtitle: c.emirate,
+        subtitle: c.region,
         projectCount: projects.length,
         priceFromAED: priceFloor(projects),
         image: hero.url,

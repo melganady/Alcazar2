@@ -36,7 +36,7 @@ export async function generateMetadata({
   const priced = projects.map((p) => p.priceFromAED).filter((v) => v > 0);
   const floor = priced.length > 0 ? Math.min(...priced) : undefined;
   return {
-    title: `${community.name}, ${community.emirate} — projects and entry prices`,
+    title: `${community.name}, ${community.region} — projects and entry prices`,
     description: `${projects.length} projects in ${community.name}${
       floor ? `, from AED ${floor.toLocaleString("en-AE")}` : ""
     }. What is available and what completes nearby.`,
@@ -76,7 +76,7 @@ export default async function CommunityPage({
     address: {
       "@type": "PostalAddress",
       addressLocality: community.name,
-      addressRegion: community.emirate,
+      addressRegion: community.region,
       addressCountry: "AE",
     },
     geo:
@@ -105,7 +105,7 @@ export default async function CommunityPage({
       />
       <div className="mx-auto flex max-w-container flex-col gap-10 px-4 py-12 md:px-6">
         <header className="flex flex-col gap-3">
-          <Eyebrow>{community.emirate}</Eyebrow>
+          <Eyebrow>{community.region}</Eyebrow>
           <h1 className="type-display-l text-iron">{community.name}</h1>
         </header>
 

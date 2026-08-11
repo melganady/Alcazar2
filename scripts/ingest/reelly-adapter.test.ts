@@ -141,7 +141,7 @@ describe("toProjectDraft", () => {
   it("maps identity and location", () => {
     expect(d.name).toBe("One Crescent Palm");
     expect(d.subCommunity).toBe("Palm Jumeirah");
-    expect(d.emirate).toBe("Dubai");
+    expect(d.region).toBe("Dubai");
     expect(d.slug).toBe("one-crescent-palm-palm-jumeirah");
   });
 
@@ -176,7 +176,7 @@ describe("toProjectDraft", () => {
       { ...RECORD, location: { region: "Ras Al Khaimah", district: "Al Marjan Island" } },
       CONTRACT,
     )!;
-    expect(rak.emirate).toBe("Ras Al Khaimah");
+    expect(rak.region).toBe("Ras Al Khaimah");
     expect(rak.subCommunity).toBe("Al Marjan Island");
   });
 

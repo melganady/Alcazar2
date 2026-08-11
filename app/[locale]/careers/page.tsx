@@ -132,7 +132,7 @@ export default async function CareersPage({
         {/* Application — 60-second video, not a CV */}
         <section id="apply" className="scroll-mt-24">
           <CropMarks>
-            <div className="flex flex-col gap-6 bg-ash p-8">
+            <div className="flex flex-col gap-6 bg-pine/18 p-8">
               <div className="flex flex-col gap-2">
                 <h2 className="type-display-m text-iron">Send 60 seconds, not a CV</h2>
                 <p className="type-body max-w-2xl text-iron/80">

@@ -15,7 +15,7 @@ import {
 import { alternates, shouldIndexFilteredView } from "@/lib/seo";
 
 const FACET_KEYS = [
-  "emirate", "community", "developer", "type", "beds", "priceMin", "priceMax",
+  "region", "community", "developer", "type", "beds", "priceMin", "priceMax",
   "handover", "postHandover", "status", "mortgageable", "goldenVisa", "shortlisted",
 ] as const;
 

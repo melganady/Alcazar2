@@ -202,7 +202,7 @@ export default async function ProjectPage({
           <Eyebrow>
             {(project.propertyTypes ?? []).join(" · ")} ·{" "}
             {formatBedrooms(project.bedroomsMin, project.bedroomsMax)} ·{" "}
-            {community?.name ?? project.subCommunity}, {project.emirate}
+            {community?.name ?? project.subCommunity}, {project.region}
           </Eyebrow>
           <h1 className="type-display-l text-iron">
             {project.name}, {project.subCommunity}
@@ -324,7 +324,7 @@ export default async function ProjectPage({
         <Section id="location" title={t("locationTitle")}>
           <div className="flex flex-col gap-6">
             <p className="type-body text-iron/80">
-              {community?.name ?? project.subCommunity}, {project.emirate}
+              {community?.name ?? project.subCommunity}, {project.region}
               {community?.transportNotes ? ` — ${community.transportNotes}` : ""}
             </p>
             <div>
@@ -415,7 +415,7 @@ export default async function ProjectPage({
         {/* Our view — the verdict panel, framed in ash wood */}
         <Section id="our-view" title={t("viewTitle")} titleBlue>
           <CropMarks>
-            <div className="flex flex-col gap-8 bg-ash p-6 md:p-8">
+            <div className="flex flex-col gap-8 bg-pine/18 p-6 md:p-8">
               {project.alcazarVerdict ? (
                 <div className="type-body-l max-w-2xl text-iron [&_p]:mb-3">
                   <RichText data={project.alcazarVerdict} />

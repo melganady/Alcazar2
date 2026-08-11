@@ -1,14 +1,15 @@
 import type { CollectionConfig } from "payload";
-import { EMIRATES } from "./shared";
+import { COUNTRY_OPTIONS, REGION_OPTIONS } from "./markets";
 
 export const Communities: CollectionConfig = {
   slug: "communities",
-  admin: { useAsTitle: "name", defaultColumns: ["name", "emirate"] },
+  admin: { useAsTitle: "name", defaultColumns: ["name", "region", "country"] },
   access: { read: () => true },
   fields: [
     { name: "slug", type: "text", required: true, unique: true, index: true },
     { name: "name", type: "text", required: true },
-    { name: "emirate", type: "select", required: true, options: EMIRATES },
+    { name: "country", type: "select", required: true, options: COUNTRY_OPTIONS, defaultValue: "AE" },
+    { name: "region", type: "select", required: true, options: REGION_OPTIONS, defaultValue: "Dubai" },
     { name: "description", type: "richText" },
     {
       type: "row",

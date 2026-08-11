@@ -46,7 +46,7 @@ export default async function InsightsPage({
             <Link
               key={a.id}
               href={`/insights/${a.slug}`}
-              className="group flex flex-col gap-2 border border-rule bg-linen p-5 transition-colors duration-fast ease-brand hover:border-iron"
+              className="group flex flex-col gap-2 border border-rule bg-linen p-5 transition-colors duration-fast ease-brand hover:border-pine"
             >
               <span className="type-micro uppercase text-iron/80">{a.category}</span>
               <h2 className="type-display-s text-iron group-hover:underline group-hover:underline-offset-4">{a.title}</h2>

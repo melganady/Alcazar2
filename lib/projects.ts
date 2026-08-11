@@ -5,7 +5,7 @@ import type { Project } from "@/payload-types";
 export const PAGE_SIZE = 24;
 
 export type ProjectFilters = {
-  emirate?: string;
+  region?: string;
   community?: string; // slug
   developer?: string; // slug
   type?: string;
@@ -47,7 +47,7 @@ export async function queryProjects(filters: ProjectFilters) {
   const payload = await getPayloadClient();
   const and: Where[] = baseWhere();
 
-  if (filters.emirate) and.push({ emirate: { equals: filters.emirate } });
+  if (filters.region) and.push({ region: { equals: filters.region } });
 
   if (filters.community) {
     const c = await payload.find({
@@ -184,7 +184,7 @@ export async function getFilterOptions() {
     communities: communities.docs.map((c) => ({
       slug: c.slug,
       name: c.name,
-      emirate: c.emirate,
+      region: c.region,
     })),
     developers: developers.docs.map((d) => ({ slug: d.slug, name: d.name })),
   };

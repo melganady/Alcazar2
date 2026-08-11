@@ -126,7 +126,7 @@ export function ProjectSlider({
               }}
               className={cn(
                 "h-1 transition-all duration-fast ease-brand",
-                i === index ? "w-8 bg-iron" : "w-4 bg-rule hover:bg-pine",
+                i === index ? "w-8 bg-iron" : "w-4 bg-pine/50 hover:bg-pine",
               )}
             />
           ))}
@@ -158,7 +158,7 @@ function SliderButton({
       type="button"
       aria-label={label}
       onClick={onClick}
-      className="type-body flex h-9 w-9 items-center justify-center border border-rule text-iron transition-colors duration-fast ease-brand hover:border-iron"
+      className="type-body flex h-9 w-9 items-center justify-center border border-pine text-iron transition-colors duration-fast ease-brand hover:bg-pine/25"
     >
       {children}
     </button>

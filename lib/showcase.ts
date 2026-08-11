@@ -25,7 +25,7 @@ export async function getSlides(limit = 6): Promise<Slide[]> {
     slug: p.slug,
     name: p.name,
     subCommunity: p.subCommunity,
-    region: p.emirate,
+    region: p.region,
     priceFromAED: p.priceFromAED,
     priceLabel: `AED ${p.priceFromAED.toLocaleString("en-AE")}`,
     planLabel: p.paymentPlan?.label || "—",

@@ -12,7 +12,7 @@ import { Button } from "@/components/primitives/Button";
 import { track } from "@/lib/analytics";
 
 export type FilterOptions = {
-  communities: Array<{ slug: string; name: string; emirate: string }>;
+  communities: Array<{ slug: string; name: string; region: string }>;
   developers: Array<{ slug: string; name: string }>;
 };
 
@@ -64,7 +64,7 @@ export function FilterBar({ options }: { options: FilterOptions }) {
 
   const emirate = get("emirate");
   const communities = useMemo(
-    () => options.communities.filter((c) => !emirate || c.emirate === emirate),
+    () => options.communities.filter((c) => !emirate || c.region === emirate),
     [options.communities, emirate],
   );
 
@@ -82,7 +82,7 @@ export function FilterBar({ options }: { options: FilterOptions }) {
         id="f-emirate"
         label={t("emirate")}
         value={emirate}
-        onChange={(e) => set({ emirate: e.target.value, community: "" })}
+        onChange={(e) => set({ region: e.target.value, community: "" })}
         options={[{ value: "", label: t("any") }, ...EMIRATES.map((v) => ({ value: v, label: v }))]}
       />
       <Select

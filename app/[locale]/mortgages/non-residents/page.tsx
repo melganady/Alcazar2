@@ -199,7 +199,7 @@ export default async function NonResidentsPage({
 
       {/* CTA */}
       <CropMarks className="self-start">
-        <div className="flex flex-col items-start gap-4 bg-ash p-8">
+        <div className="flex flex-col items-start gap-4 bg-pine/18 p-8">
           <p className="type-display-s max-w-xl text-iron">
             Model your exact scenario — deposit, monthly, and the constraint that binds you.
           </p>

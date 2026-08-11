@@ -78,7 +78,7 @@ describe("factsFromCardText — the §5 boundary", () => {
         "bedroomsRange",
         "community",
         "developerName",
-        "emirate",
+        "region",
         "fingerprint",
         "handover",
         "paymentPlanLabel",
@@ -102,7 +102,7 @@ describe("factsFromCardText — the §5 boundary", () => {
     expect(facts.priceFromAED).toBe(1_600_000);
     expect(facts.paymentPlanLabel).toBe("60/40");
     expect(facts.handover).toBe("Q4 2027");
-    expect(facts.emirate).toBe("Dubai");
+    expect(facts.region).toBe("Dubai");
     expect(facts.bedroomsRange).toBe("1–3 BR");
   });
 });

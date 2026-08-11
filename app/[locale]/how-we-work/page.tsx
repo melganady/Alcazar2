@@ -45,7 +45,7 @@ export default async function HowWeWorkPage({
       </section>
 
       <CropMarks className="self-start">
-        <div className="bg-ash p-8">
+        <div className="bg-pine/18 p-8">
           <p className="type-display-m max-w-2xl text-iron">{VERBATIM.theTest}</p>
         </div>
       </CropMarks>

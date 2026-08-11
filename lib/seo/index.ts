@@ -100,7 +100,7 @@ export function projectJsonLd(project: Project) {
     address: {
       "@type": "PostalAddress",
       addressLocality: project.subCommunity,
-      addressRegion: project.emirate,
+      addressRegion: project.region,
       addressCountry: "AE",
     },
     geo:

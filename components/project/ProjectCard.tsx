@@ -69,7 +69,7 @@ export function ProjectCard({
           </Link>
         </h3>
         <p className="type-body-s text-iron/80">
-          {rel(project, "community")}, {project.emirate}
+          {rel(project, "community")}, {project.region}
         </p>
         <p className="type-display-s text-iron">
           <span className="type-micro me-2 uppercase text-iron/80">{t("from")}</span>

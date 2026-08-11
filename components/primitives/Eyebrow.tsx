@@ -9,6 +9,9 @@ export function Eyebrow({
   className?: string;
 }) {
   return (
-    <p className={cn("type-eyebrow text-iron/80", className)}>{children}</p>
+    <p className={cn("type-eyebrow flex items-center gap-2.5 text-iron/80", className)}>
+      <span aria-hidden className="h-px w-6 bg-pine" />
+      {children}
+    </p>
   );
 }

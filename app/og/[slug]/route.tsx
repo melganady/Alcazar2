@@ -95,7 +95,7 @@ export async function GET(
 
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <div style={{ color: IRON, opacity: 0.8, fontSize: 20, letterSpacing: "0.28em" }}>
-            {`${project.subCommunity.toUpperCase()}, ${project.emirate.toUpperCase()}`}
+            {`${project.subCommunity.toUpperCase()}, ${project.region.toUpperCase()}`}
           </div>
           <div
             style={{

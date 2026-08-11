@@ -72,7 +72,7 @@ export default async function MortgagesPage({
           <Link
             key={c.href}
             href={c.href}
-            className="group flex flex-col gap-3 border border-rule bg-linen p-6 transition-colors duration-fast ease-brand hover:border-iron"
+            className="group flex flex-col gap-3 border border-rule bg-linen p-6 transition-colors duration-fast ease-brand hover:border-pine"
           >
             <h2 className="type-display-s text-iron group-hover:underline group-hover:underline-offset-4">{c.title}</h2>
             <p className="type-body-s text-iron/80">{c.body}</p>

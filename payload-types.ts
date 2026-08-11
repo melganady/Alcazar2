@@ -151,7 +151,54 @@ export interface Project {
   name: string;
   subCommunity: string;
   community?: (number | null) | Community;
-  emirate: 'Dubai' | 'Abu Dhabi' | 'Ras Al Khaimah' | 'Sharjah' | 'Ajman' | 'UAQ' | 'Fujairah';
+  /**
+   * Decides which advertising rules apply. UAE listings require a Trakheesi permit; other markets have their own regime.
+   */
+  country: 'AE' | 'OM' | 'GE' | 'TH' | 'ID' | 'EG' | 'US' | 'CY';
+  /**
+   * Emirate, governorate, province or state, depending on the country.
+   */
+  region:
+    | 'Dubai'
+    | 'Abu Dhabi'
+    | 'Ras Al Khaimah'
+    | 'Sharjah'
+    | 'Ajman'
+    | 'UAQ'
+    | 'Fujairah'
+    | 'Muscat'
+    | 'Dhofar'
+    | 'Musandam'
+    | 'Al Batinah North'
+    | 'Al Batinah South'
+    | 'Tbilisi'
+    | 'Adjara'
+    | 'Imereti'
+    | 'Kvemo Kartli'
+    | 'Bangkok'
+    | 'Phuket'
+    | 'Chon Buri'
+    | 'Chiang Mai'
+    | 'Surat Thani'
+    | 'Bali'
+    | 'Jakarta'
+    | 'West Java'
+    | 'East Java'
+    | 'Matrouh (North Coast)'
+    | 'Cairo'
+    | 'Giza'
+    | 'Red Sea'
+    | 'South Sinai'
+    | 'Florida'
+    | 'Texas'
+    | 'Georgia'
+    | 'New York'
+    | 'California'
+    | 'Arizona'
+    | 'Limassol'
+    | 'Paphos'
+    | 'Larnaca'
+    | 'Nicosia';
   developer?: (number | null) | Developer;
   status: 'pre-launch' | 'launched' | 'under-construction' | 'nearing-handover' | 'handed-over' | 'sold-out';
   propertyTypes: (
@@ -267,7 +314,7 @@ export interface Project {
    */
   mediaLicenceNote?: string | null;
   /**
-   * §11.1 — required before publish. Renders on the page.
+   * §11.1 — required before a UAE listing can publish. Renders on the page.
    */
   trakheesiPermitNumber?: string | null;
   seo?: {
@@ -310,7 +357,48 @@ export interface Community {
   id: number;
   slug: string;
   name: string;
-  emirate: 'Dubai' | 'Abu Dhabi' | 'Ras Al Khaimah' | 'Sharjah' | 'Ajman' | 'UAQ' | 'Fujairah';
+  country: 'AE' | 'OM' | 'GE' | 'TH' | 'ID' | 'EG' | 'US' | 'CY';
+  region:
+    | 'Dubai'
+    | 'Abu Dhabi'
+    | 'Ras Al Khaimah'
+    | 'Sharjah'
+    | 'Ajman'
+    | 'UAQ'
+    | 'Fujairah'
+    | 'Muscat'
+    | 'Dhofar'
+    | 'Musandam'
+    | 'Al Batinah North'
+    | 'Al Batinah South'
+    | 'Tbilisi'
+    | 'Adjara'
+    | 'Imereti'
+    | 'Kvemo Kartli'
+    | 'Bangkok'
+    | 'Phuket'
+    | 'Chon Buri'
+    | 'Chiang Mai'
+    | 'Surat Thani'
+    | 'Bali'
+    | 'Jakarta'
+    | 'West Java'
+    | 'East Java'
+    | 'Matrouh (North Coast)'
+    | 'Cairo'
+    | 'Giza'
+    | 'Red Sea'
+    | 'South Sinai'
+    | 'Florida'
+    | 'Texas'
+    | 'Georgia'
+    | 'New York'
+    | 'California'
+    | 'Arizona'
+    | 'Limassol'
+    | 'Paphos'
+    | 'Larnaca'
+    | 'Nicosia';
   description?: {
     root: {
       type: string;
@@ -701,7 +789,8 @@ export interface ProjectsSelect<T extends boolean = true> {
   name?: T;
   subCommunity?: T;
   community?: T;
-  emirate?: T;
+  country?: T;
+  region?: T;
   developer?: T;
   status?: T;
   propertyTypes?: T;
@@ -824,7 +913,8 @@ export interface DevelopersSelect<T extends boolean = true> {
 export interface CommunitiesSelect<T extends boolean = true> {
   slug?: T;
   name?: T;
-  emirate?: T;
+  country?: T;
+  region?: T;
   description?: T;
   lat?: T;
   lng?: T;

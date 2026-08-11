@@ -109,3 +109,21 @@ describe("hairlines", () => {
     expect(AA_LARGE).toBe(3);
   });
 });
+
+/*
+ * Pine smoke is used widely as a wash and as graphical marks. These pin the
+ * two rules that keeps that safe: text never sits IN pine, and text sitting ON
+ * a pine wash still clears AA.
+ */
+describe("pine smoke used as a wash stays accessible", () => {
+  it("iron text on a pine wash clears AA at every strength we use", () => {
+    for (const alpha of [0.08, 0.12, 0.18, 0.25]) {
+      const wash = composite(PINE, FROST, alpha);
+      expect(contrastRatio(IRON, wash)).toBeGreaterThanOrEqual(AA_NORMAL);
+    }
+  });
+  it("solid pine still fails as text, which is why it is never used for text", () => {
+    expect(contrastRatio(PINE, FROST)).toBeLessThan(AA_NORMAL);
+    expect(contrastRatio(IRON, PINE)).toBeLessThan(AA_NORMAL);
+  });
+});

@@ -105,7 +105,7 @@ export default async function ComparePage({
                       {p.name}
                     </Link>
                     <p className="type-body-s mt-1 font-normal text-iron/80">
-                      {p.subCommunity}, {p.emirate}
+                      {p.subCommunity}, {p.region}
                     </p>
                   </th>
                 ))}

@@ -114,7 +114,7 @@ export default async function HomePage({
           </div>
           <div className="grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-4">
             {INVESTMENT_MODELS.map((m, i) => (
-              <div key={m.key} className="flex flex-col gap-2 border-t border-rule pt-4">
+              <div key={m.key} className="flex flex-col gap-2 border-t-2 border-pine pt-4">
                 <span className="type-micro text-iron/80">{String(i + 1).padStart(2, "0")}</span>
                 <h3 className="type-display-s text-iron">{m.title}</h3>
                 <p className="type-body-s text-iron/80">{m.line}</p>
@@ -219,7 +219,7 @@ export default async function HomePage({
           </div>
           <ul className="flex flex-wrap gap-x-10 gap-y-4">
             {liveMarkets.map((m) => (
-              <li key={m.key} className="flex min-w-48 flex-col gap-1 border-t border-rule pt-4">
+              <li key={m.key} className="flex min-w-48 flex-col gap-1 border-t-2 border-pine pt-4">
                 <span className="type-display-s text-iron">{m.name}</span>
                 <span className="type-body-s text-iron/80">{m.note}</span>
               </li>
@@ -272,7 +272,7 @@ export default async function HomePage({
                 <Link
                   key={a.id}
                   href={`/insights/${a.slug}`}
-                  className="group flex flex-col gap-2 border border-rule bg-linen p-5 transition-colors duration-fast ease-brand hover:border-iron"
+                  className="group flex flex-col gap-2 border border-rule bg-linen p-5 transition-colors duration-fast ease-brand hover:border-pine"
                 >
                   <span className="type-micro uppercase text-iron/80">{a.category}</span>
                   <span className="type-display-s text-iron group-hover:underline group-hover:underline-offset-4">

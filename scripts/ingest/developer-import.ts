@@ -129,7 +129,8 @@ async function run() {
         name: r.name,
         subCommunity: r.subCommunity,
         community: community?.docs[0]?.id,
-        emirate: (r.emirate || "Dubai") as "Dubai",
+        country: "AE" as const,
+        region: (r.emirate || "Dubai") as "Dubai",
         developer: dev?.docs[0]?.id,
         status: "launched",
         propertyTypes: (r.propertyTypes || "Apartment")

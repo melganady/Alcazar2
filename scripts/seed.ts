@@ -98,7 +98,8 @@ const seed = async () => {
       data: {
         slug: c.slug,
         name: c.name,
-        emirate: c.emirate,
+        country: "AE" as const,
+        region: c.emirate,
         lat: c.lat,
         lng: c.lng,
         avgPricePerSqft: c.ppsf,
@@ -203,7 +204,8 @@ const seed = async () => {
         name,
         subCommunity: community.name,
         community: communityIds[community.slug],
-        emirate: community.emirate,
+        country: "AE" as const,
+        region: community.emirate,
         developer: developerIds[devIdx],
         status: (["pre-launch", "launched", "under-construction"] as const)[i % 3],
         propertyTypes:

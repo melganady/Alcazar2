@@ -1,6 +1,7 @@
 import type { CollectionConfig } from "payload";
 import { ValidationError } from "payload";
-import { EMIRATES, PROPERTY_TYPES } from "./shared";
+import { PROPERTY_TYPES } from "./shared";
+import { COUNTRY_OPTIONS, REGION_OPTIONS, requiresTrakheesi } from "./markets";
 
 const FILTER_TESTS = [
   ["developerRecord", "Developer record"],
@@ -45,8 +46,10 @@ export const Projects: CollectionConfig = {
           if (!data.mediaLicence || data.mediaLicence === "unlicensed") {
             missing.push("media licence must be developer-supplied or own photography");
           }
-          if (!data.trakheesiPermitNumber) {
-            missing.push("Trakheesi permit number (§11.1)");
+          // §11.1 applies to UAE adverts. Demanding it of a Georgian listing
+          // would be wrong; skipping it on a Dubai listing would be an offence.
+          if (requiresTrakheesi(data.country) && !data.trakheesiPermitNumber) {
+            missing.push("Trakheesi permit number (§11.1, required for UAE listings)");
           }
           const verdictEmpty =
             !data.alcazarVerdict ||
@@ -84,7 +87,25 @@ export const Projects: CollectionConfig = {
     { name: "name", type: "text", required: true },
     { name: "subCommunity", type: "text", required: true },
     { name: "community", type: "relationship", relationTo: "communities" },
-    { name: "emirate", type: "select", required: true, options: EMIRATES, defaultValue: "Dubai" },
+    {
+      name: "country",
+      type: "select",
+      required: true,
+      options: COUNTRY_OPTIONS,
+      defaultValue: "AE",
+      admin: {
+        description:
+          "Decides which advertising rules apply. UAE listings require a Trakheesi permit; other markets have their own regime.",
+      },
+    },
+    {
+      name: "region",
+      type: "select",
+      required: true,
+      options: REGION_OPTIONS,
+      defaultValue: "Dubai",
+      admin: { description: "Emirate, governorate, province or state, depending on the country." },
+    },
     { name: "developer", type: "relationship", relationTo: "developers" },
     {
       name: "status",
@@ -273,7 +294,11 @@ export const Projects: CollectionConfig = {
     {
       name: "trakheesiPermitNumber",
       type: "text",
-      admin: { position: "sidebar", description: "§11.1 — required before publish. Renders on the page." },
+      admin: {
+        position: "sidebar",
+        condition: (data) => requiresTrakheesi(data?.country),
+        description: "§11.1 — required before a UAE listing can publish. Renders on the page.",
+      },
     },
 
     // ---- SEO + publishing ----

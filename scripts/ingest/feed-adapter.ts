@@ -16,7 +16,7 @@ export type FeedListing = {
   name: string;
   subCommunity: string;
   community?: string;
-  emirate?: string;
+  region?: string;
   developerName?: string;
   propertyTypes?: string[];
   bedroomsMin?: number;

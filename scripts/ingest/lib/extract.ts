@@ -11,7 +11,7 @@ export type UniverseFact = {
   projectName: string;
   developerName?: string;
   community?: string;
-  emirate?: string;
+  region?: string;
   handover?: string;
   paymentPlanLabel?: string;
   priceFromAED?: number;
@@ -130,7 +130,7 @@ export function factsFromCardText(
     projectName,
     developerName,
     community,
-    emirate: parseEmirate(cardText),
+    region: parseEmirate(cardText),
     handover: parseHandover(cardText),
     paymentPlanLabel: parsePaymentPlan(cardText),
     priceFromAED: parsePriceAED(cardText),

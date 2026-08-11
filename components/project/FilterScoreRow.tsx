@@ -31,7 +31,7 @@ export function FilterScoreRow({
                 <span
                   key={n}
                   className={
-                    n <= value ? "h-1.5 w-5 bg-iron" : "h-1.5 w-5 bg-rule"
+                    n <= value ? "h-1.5 w-5 bg-pine" : "h-1.5 w-5 bg-rule"
                   }
                 />
               ))}
