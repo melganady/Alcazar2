@@ -85,13 +85,19 @@ function Section({
 
 export default async function ProjectPage({
   params,
+  preview = false,
 }: {
   params: Promise<{ locale: string; slug: string }>;
+  /** Set only by the authenticated staff preview route (§11.1). */
+  preview?: boolean;
 }) {
   const { locale, slug } = await params;
   setRequestLocale(locale);
   const project = await getProjectBySlug(slug);
-  if (!project || !project.publishedAt) notFound();
+  if (!project) notFound();
+  // Unpublished projects are invisible publicly: without a Trakheesi permit
+  // they may not be advertised. Staff can still review them via /preview.
+  if (!project.publishedAt && !preview) notFound();
 
   const declined = project.alcazarStatus === "declined";
   if (declined && !project.declinePublic) notFound();

@@ -1,125 +1,198 @@
 import { describe, expect, it } from "vitest";
-import { extractMedia, toProjectDraft } from "./reelly-adapter";
+import {
+  extractMedia,
+  mapPaymentPlan,
+  mapPropertyTypes,
+  mapUnitTypes,
+  parseCompletion,
+  parseServiceCharge,
+  toProjectDraft,
+} from "./reelly-adapter";
 
 /*
- * Reelly does not publish the project schema, so the adapter reads each value
- * from the first key that exists. These tests pin that behaviour against the
- * naming variants the field could plausibly arrive under, so a schema surprise
- * on import day is a failing test rather than 400 malformed drafts.
- *
- * Replace these fixtures with a real record from `npm run reelly:discover`
- * once the key is live.
+ * Fixtures below are shaped from a real Reelly record (project 12,
+ * "One Crescent Palm") captured via `npm run reelly:discover`, trimmed to the
+ * fields we map. If Reelly changes the schema, these fail rather than the
+ * import silently producing malformed drafts.
  */
 
-const CONTRACT = "REELLY-TEST-001";
+const CONTRACT = "REELLY-2026-001";
+
+const RECORD = {
+  id: 12,
+  slug_name: "one-crescent-palm",
+  name: "One Crescent Palm",
+  developer: "AHS Properties",
+  construction_status: "under_construction",
+  sale_status: "on_sale",
+  completion_date: "Q2 2026",
+  escrow_number: "12711866920002",
+  service_charge: "26 AED/sqft",
+  post_handover: false,
+  min_price: 180000000.004825,
+  max_price: 180000000.004825,
+  min_size: 22600.1783592,
+  max_size: 22600.1783592,
+  min_bedrooms: 6,
+  max_bedrooms: 6,
+  available_unit_types: ["penthouse"],
+  available_unit_types_display: ["Penthouse"],
+  location: { region: "Dubai", district: "Palm Jumeirah", sector: "Palm Jumeirah" },
+  cover_image: { url: "https://api.reelly.io/vault/cover.png", metadata: { mime: "image/png" } },
+  architecture: [{ url: "https://api.reelly.io/vault/a1.jpg" }, { url: "https://api.reelly.io/vault/a2.jpg" }],
+  interior: [{ url: "https://api.reelly.io/vault/i1.jpg" }],
+  lobby: [{ url: "https://api.reelly.io/vault/l1.jpg" }],
+  general_plan: { url: "https://api.reelly.io/vault/master.png" },
+  payment_plans: [
+    {
+      id: 39,
+      name: "Payment plan",
+      steps: [
+        { id: 7167, name: "On booking", percentage: 20 },
+        { id: 7168, name: "During construction", percentage: 50 },
+        { id: 7169, name: "On handover", percentage: 30 },
+      ],
+    },
+  ],
+  typical_units: [
+    { bedrooms: 6, from_price_aed: 180000000, to_price_aed: 180000000, from_size_sqft: 22600, to_size_sqft: 22600 },
+  ],
+};
+
+describe("field parsers", () => {
+  it('parses "Q2 2026" into a quarter and a year', () => {
+    expect(parseCompletion("Q2 2026")).toEqual({ quarter: "Q2", year: 2026 });
+  });
+  it("falls back to the year alone when no quarter is given", () => {
+    expect(parseCompletion("2027")).toEqual({ year: 2027 });
+    expect(parseCompletion(null)).toEqual({});
+  });
+  it('parses "26 AED/sqft" into a number', () => {
+    expect(parseServiceCharge("26 AED/sqft")).toBe(26);
+    expect(parseServiceCharge(null)).toBeUndefined();
+  });
+  it("maps unit-type display values onto our enum, defaulting to Apartment", () => {
+    expect(mapPropertyTypes(["Penthouse"])).toEqual(["Penthouse"]);
+    expect(mapPropertyTypes(["Villa", "Townhouse"])).toEqual(["Villa", "Townhouse"]);
+    expect(mapPropertyTypes(["Serviced Plot"])).toEqual(["Apartment"]);
+    expect(mapPropertyTypes(undefined)).toEqual(["Apartment"]);
+  });
+});
 
 describe("extractMedia", () => {
-  it("reads the documented { url, metadata } media shape", () => {
+  it("collects every gallery, cover first so it becomes the hero", () => {
+    const urls = extractMedia(RECORD);
+    expect(urls[0]).toBe("https://api.reelly.io/vault/cover.png");
+    expect(urls).toHaveLength(6); // cover + 2 architecture + 1 interior + 1 lobby + master plan
+  });
+  it("de-duplicates and rejects anything that is not an absolute URL", () => {
     expect(
       extractMedia({
-        images: [
-          { url: "https://cdn.reelly.io/a.jpg", metadata: { mime: "image/jpeg" } },
-          { url: "https://cdn.reelly.io/b.jpg" },
-        ],
-      }),
-    ).toEqual(["https://cdn.reelly.io/a.jpg", "https://cdn.reelly.io/b.jpg"]);
-  });
-
-  it("also accepts plain string arrays and a single cover image", () => {
-    expect(extractMedia({ photos: ["https://cdn/x.jpg"] })).toEqual(["https://cdn/x.jpg"]);
-    expect(extractMedia({ cover: { url: "https://cdn/c.jpg" } })).toEqual(["https://cdn/c.jpg"]);
-  });
-
-  it("de-duplicates and drops anything that is not an absolute URL", () => {
-    expect(
-      extractMedia({
-        images: [{ url: "https://cdn/a.jpg" }, { url: "https://cdn/a.jpg" }],
-        gallery: ["/relative/path.jpg", "not-a-url"],
+        architecture: [{ url: "https://cdn/a.jpg" }, { url: "https://cdn/a.jpg" }],
+        interior: ["/relative.jpg"],
       }),
     ).toEqual(["https://cdn/a.jpg"]);
   });
-
-  it("returns an empty list when the record carries no media", () => {
+  it("returns nothing for a record with no imagery", () => {
     expect(extractMedia({ name: "No pictures" })).toEqual([]);
   });
 });
 
-describe("toProjectDraft", () => {
-  const record = {
-    name: "Seaside",
-    area: "Dubai Islands",
-    city: "Dubai",
-    min_price: 1600000,
-    min_area: 720,
-    min_bedrooms: 1,
-    max_bedrooms: 3,
-    payment_plan: "60/40",
-    handover_year: 2028,
-    developer: "Meridian Developments",
-  };
+describe("mapPaymentPlan", () => {
+  it("derives the split from the steps and keeps them as milestones", () => {
+    const plan = mapPaymentPlan(RECORD);
+    expect(plan.duringConstructionPct).toBe(70); // booking 20 + construction 50
+    expect(plan.onHandoverPct).toBe(30);
+    expect(plan.label).toBe("70/30");
+    expect(plan.milestones).toHaveLength(3);
+    expect(plan.milestones[0]).toEqual({ label: "On booking", pct: 20, trigger: "On booking" });
+  });
+  it("marks a post-handover plan in the label", () => {
+    expect(mapPaymentPlan({ ...RECORD, post_handover: true }).label).toBe("70/30 post-handover");
+  });
+  it("survives a project with no payment plan", () => {
+    const plan = mapPaymentPlan({ name: "No plan" });
+    expect(plan.milestones).toEqual([]);
+    expect(plan.label).toBe("");
+  });
+});
 
-  it("maps a well-formed record", () => {
-    const d = toProjectDraft(record, CONTRACT)!;
-    expect(d.name).toBe("Seaside");
-    expect(d.subCommunity).toBe("Dubai Islands");
+describe("mapUnitTypes", () => {
+  it("maps typical_units onto our unit rows", () => {
+    expect(mapUnitTypes(RECORD)).toEqual([
+      {
+        label: "6 BR",
+        bedrooms: 6,
+        sizeSqftMin: 22600,
+        sizeSqftMax: 22600,
+        priceFromAED: 180000000,
+        availability: "available",
+      },
+    ]);
+  });
+  it("labels a zero-bedroom unit as a studio", () => {
+    expect(mapUnitTypes({ typical_units: [{ bedrooms: 0 }] })[0].label).toBe("Studio");
+  });
+});
+
+describe("toProjectDraft", () => {
+  const d = toProjectDraft(RECORD, CONTRACT)!;
+
+  it("maps identity and location", () => {
+    expect(d.name).toBe("One Crescent Palm");
+    expect(d.subCommunity).toBe("Palm Jumeirah");
     expect(d.emirate).toBe("Dubai");
-    expect(d.priceFromAED).toBe(1_600_000);
-    expect(d.bedroomsMin).toBe(1);
-    expect(d.bedroomsMax).toBe(3);
-    expect(d.handoverYear).toBe(2028);
-    expect(d.paymentPlan.label).toBe("60/40");
+    expect(d.slug).toBe("one-crescent-palm-palm-jumeirah");
   });
 
-  it("builds a stable, URL-safe slug", () => {
-    expect(toProjectDraft(record, CONTRACT)!.slug).toBe("seaside-dubai-islands");
-    expect(
-      toProjectDraft({ name: "Águila Tower II", area: "Al Marjan" }, CONTRACT)!.slug,
-    ).toMatch(/^[a-z0-9-]+$/);
+  it("rounds the float prices and sizes the API returns", () => {
+    expect(d.priceFromAED).toBe(180_000_000);
+    expect(d.sizeFromSqft).toBe(22_600);
+  });
+
+  it("maps construction status onto our vocabulary", () => {
+    expect(d.status).toBe("under-construction");
+    expect(toProjectDraft({ ...RECORD, sale_status: "sold_out" }, CONTRACT)!.status).toBe("sold-out");
+  });
+
+  it("treats an escrow number as escrow confirmed (§11.4)", () => {
+    expect(d.escrowAccountConfirmed).toBe(true);
+    expect(d.dldProjectNumber).toBe("12711866920002");
+    expect(toProjectDraft({ ...RECORD, escrow_number: null }, CONTRACT)!.escrowAccountConfirmed).toBe(false);
   });
 
   it("records the licence so the display right is auditable (§11.9)", () => {
-    const d = toProjectDraft(record, CONTRACT)!;
     expect(d.mediaLicence).toBe("developer-supplied");
     expect(d.mediaLicenceNote).toContain(CONTRACT);
     expect(d.mediaLicenceNote).toContain("Reelly");
   });
 
   it("never sets publishedAt — a data licence is not an advertising permit", () => {
-    expect(toProjectDraft(record, CONTRACT)).not.toHaveProperty("publishedAt");
-  });
-
-  it("tolerates the alternative field names the schema might use", () => {
-    const d = toProjectDraft(
-      {
-        title: "Marea",
-        community: "Business Bay",
-        emirate: "Dubai",
-        starting_price: "AED 2,400,000",
-        completion_year: "2027",
-        developer_name: "Northlight Group",
-      },
-      CONTRACT,
-    )!;
-    expect(d.name).toBe("Marea");
-    expect(d.subCommunity).toBe("Business Bay");
-    expect(d.priceFromAED).toBe(2_400_000);
-    expect(d.handoverYear).toBe(2027);
-    expect(d.developerName).toBe("Northlight Group");
+    expect(d).not.toHaveProperty("publishedAt");
   });
 
   it("resolves a non-Dubai emirate rather than defaulting silently", () => {
-    expect(toProjectDraft({ name: "The Strand", city: "Ras Al Khaimah" }, CONTRACT)!.emirate)
-      .toBe("Ras Al Khaimah");
+    const rak = toProjectDraft(
+      { ...RECORD, location: { region: "Ras Al Khaimah", district: "Al Marjan Island" } },
+      CONTRACT,
+    )!;
+    expect(rak.emirate).toBe("Ras Al Khaimah");
+    expect(rak.subCommunity).toBe("Al Marjan Island");
   });
 
   it("rejects a record with no name instead of inventing one", () => {
-    expect(toProjectDraft({ area: "Dubai Marina" }, CONTRACT)).toBeNull();
+    expect(toProjectDraft({ id: 99 }, CONTRACT)).toBeNull();
   });
 
-  it("leaves missing numerics at a safe zero rather than guessing", () => {
-    const d = toProjectDraft({ name: "Sparse", area: "Meydan" }, CONTRACT)!;
-    expect(d.priceFromAED).toBe(0);
-    expect(d.sizeFromSqft).toBe(0);
-    expect(d.paymentPlan.label).toBe("");
+  it("produces a URL-safe slug from an accented name", () => {
+    expect(toProjectDraft({ name: "Águila Tower II", location: { sector: "Al Marjan" } }, CONTRACT)!.slug)
+      .toMatch(/^[a-z0-9-]+$/);
+  });
+
+  it("survives a sparse record without throwing", () => {
+    const sparse = toProjectDraft({ name: "Sparse" }, CONTRACT)!;
+    expect(sparse.priceFromAED).toBe(0);
+    expect(sparse.bedroomsMin).toBe(0);
+    expect(sparse.unitTypes).toEqual([]);
   });
 });
