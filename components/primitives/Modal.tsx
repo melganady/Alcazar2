@@ -35,18 +35,18 @@ export function Modal({
         if (e.target === ref.current) onClose(); // backdrop click
       }}
       className={cn(
-        "w-full max-w-lg bg-white p-0 text-midnight backdrop:bg-midnight/40",
+        "w-full max-w-lg bg-linen p-0 text-iron backdrop:bg-iron/40",
         className,
       )}
     >
       <div className="flex flex-col gap-5 p-8">
         <div className="flex items-start justify-between gap-6">
-          <h2 className="type-display-s text-midnight">{title}</h2>
+          <h2 className="type-display-s text-iron">{title}</h2>
           <button
             type="button"
             onClick={onClose}
             aria-label={closeLabel}
-            className="type-eyebrow -m-2 p-2 text-midnight/65 transition-colors duration-fast ease-brand hover:text-blue"
+            className="type-eyebrow -m-2 p-2 text-iron/80 transition-colors duration-fast ease-brand hover:text-iron"
           >
             <svg aria-hidden viewBox="0 0 12 12" className="h-3 w-3">
               <path d="M1 1l10 10M11 1L1 11" stroke="currentColor" fill="none" />

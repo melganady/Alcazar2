@@ -27,8 +27,8 @@ export default async function TeamPage({
     <div className="mx-auto flex max-w-container flex-col gap-10 px-4 py-12 md:px-6">
       <header className="flex flex-col gap-3">
         <Eyebrow>Alcázar · Consultants</Eyebrow>
-        <h1 className="type-display-l text-blue">Named, not pooled</h1>
-        <p className="type-body-l max-w-2xl text-midnight/80">
+        <h1 className="type-display-l text-iron">Named, not pooled</h1>
+        <p className="type-body-l max-w-2xl text-iron/80">
           Every enquiry reaches a person with a broker number, not a shared inbox.
           Filter by the language you want to be sold in.
         </p>

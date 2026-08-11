@@ -15,7 +15,7 @@ export function SiteFooter() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="bg-midnight text-sand">
+    <footer className="bg-iron text-ash">
       <div className="mx-auto flex max-w-container flex-col gap-10 px-4 py-12 md:px-6">
         <div className="flex flex-col justify-between gap-8 md:flex-row md:items-start">
           <Logo reversed className="-m-2" />
@@ -24,7 +24,7 @@ export function SiteFooter() {
               <Link
                 key={l.href}
                 href={l.href}
-                className="type-micro uppercase text-sand/60 transition-colors duration-fast ease-brand hover:text-sand"
+                className="type-micro uppercase text-ash/80 transition-colors duration-fast ease-brand hover:text-ash"
               >
                 {l.label}
               </Link>
@@ -33,15 +33,15 @@ export function SiteFooter() {
         </div>
 
         {/* §11 — compliance strip. ORN / licence numbers are placeholders until Q3 is answered. */}
-        <div className="flex flex-col gap-3 border-t border-sand/15 pt-8">
-          <p className="type-micro text-sand/60">
+        <div className="flex flex-col gap-3 border-t border-ash/15 pt-8">
+          <p className="type-micro text-ash/80">
             {SITE.compliance.legalName} · {SITE.compliance.orn} ·{" "}
             {SITE.compliance.tradeLicence} · {SITE.compliance.city}
           </p>
-          <p className="type-micro text-sand/60">{t("escrow")}</p>
-          <p className="type-micro text-sand/60">{t("investment")}</p>
-          <p className="type-micro text-sand/60">{t("mortgage")}</p>
-          <p className="type-micro text-sand/60">{t("rights", { year })}</p>
+          <p className="type-micro text-ash/80">{t("escrow")}</p>
+          <p className="type-micro text-ash/80">{t("investment")}</p>
+          <p className="type-micro text-ash/80">{t("mortgage")}</p>
+          <p className="type-micro text-ash/80">{t("rights", { year })}</p>
         </div>
       </div>
     </footer>

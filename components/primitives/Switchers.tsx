@@ -7,7 +7,7 @@ import { usePrefs } from "./PrefsProvider";
 import { cn } from "@/lib/cn";
 
 const utilitySelect =
-  "type-micro cursor-pointer appearance-none border-0 bg-transparent uppercase text-midnight/70 transition-colors duration-fast ease-brand hover:text-blue focus:text-blue";
+  "type-micro cursor-pointer appearance-none border-0 bg-transparent uppercase text-iron/80 transition-colors duration-fast ease-brand hover:text-iron hover:underline hover:underline-offset-4 focus:text-iron";
 
 export function CurrencySwitcher() {
   const t = useTranslations("prefs");
@@ -43,7 +43,7 @@ export function UnitSwitcher() {
           onClick={() => setUnit(u)}
           className={cn(
             "type-micro uppercase transition-colors duration-fast ease-brand",
-            unit === u ? "font-medium text-blue" : "text-midnight/65 hover:text-blue",
+            unit === u ? "font-medium text-iron" : "text-iron/80 hover:underline hover:underline-offset-4",
           )}
         >
           {t(u)}
@@ -64,7 +64,7 @@ export function LocaleSwitcher() {
       type="button"
       aria-label={t("language")}
       onClick={() => router.replace(pathname, { locale: other })}
-      className="type-micro uppercase text-midnight/70 transition-colors duration-fast ease-brand hover:text-blue"
+      className="type-micro uppercase text-iron/80 transition-colors duration-fast ease-brand hover:text-iron hover:underline hover:underline-offset-4"
     >
       {other === "ar" ? "العربية" : "English"}
     </button>

@@ -11,7 +11,7 @@ type FieldProps = {
 export function Field({ id, label, hint, error, className, ...props }: FieldProps) {
   return (
     <div className={cn("flex flex-col gap-1.5", className)}>
-      <label htmlFor={id} className="type-body-s font-medium text-midnight">
+      <label htmlFor={id} className="type-body-s font-medium text-iron">
         {label}
       </label>
       <input
@@ -19,18 +19,18 @@ export function Field({ id, label, hint, error, className, ...props }: FieldProp
         aria-invalid={error ? true : undefined}
         aria-describedby={error ? `${id}-error` : hint ? `${id}-hint` : undefined}
         className={cn(
-          "type-body w-full border bg-white px-3.5 py-2.5 text-midnight placeholder:text-midnight/65 transition-colors duration-fast ease-brand",
-          error ? "border-blue" : "border-rule focus:border-blue",
+          "type-body w-full border bg-linen px-3.5 py-2.5 text-iron placeholder:text-iron/80 transition-colors duration-fast ease-brand",
+          error ? "border-iron" : "border-rule focus:border-iron",
         )}
         {...props}
       />
       {hint && !error ? (
-        <p id={`${id}-hint`} className="type-micro text-midnight/65">
+        <p id={`${id}-hint`} className="type-micro text-iron/80">
           {hint}
         </p>
       ) : null}
       {error ? (
-        <p id={`${id}-error`} className="type-micro font-medium text-blue">
+        <p id={`${id}-error`} className="type-micro font-medium text-iron">
           {error}
         </p>
       ) : null}

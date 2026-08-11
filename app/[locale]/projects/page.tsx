@@ -79,22 +79,22 @@ export default async function ProjectsPage({
       <div className="mx-auto flex max-w-container flex-col gap-8 px-4 py-12 md:px-6">
         <header className="flex flex-col gap-3">
           <Eyebrow>Alcázar</Eyebrow>
-          <h1 className="type-display-l text-blue">{t("title")}</h1>
-          <p className="type-body-l max-w-2xl text-midnight/80">{t("intro")}</p>
+          <h1 className="type-display-l text-iron">{t("title")}</h1>
+          <p className="type-body-l max-w-2xl text-iron/80">{t("intro")}</p>
         </header>
 
         <FilterBar options={options} />
 
         <div className="flex flex-wrap items-center justify-between gap-4">
-          <p aria-live="polite" className="type-eyebrow text-midnight/65">
+          <p aria-live="polite" className="type-eyebrow text-iron/80">
             {t("results", { count: result.totalDocs })}
           </p>
           <ControlsBar />
         </div>
 
         {view === "map" ? (
-          <div className="flex min-h-72 items-center justify-center border border-rule bg-white p-10 text-center">
-            <p className="type-body max-w-md text-midnight/70">{t("mapPending")}</p>
+          <div className="flex min-h-72 items-center justify-center border border-rule bg-linen p-10 text-center">
+            <p className="type-body max-w-md text-iron/80">{t("mapPending")}</p>
           </div>
         ) : (
           <div
@@ -116,19 +116,19 @@ export default async function ProjectsPage({
               <Link
                 href={pageLink(result.page! - 1)}
                 rel="prev"
-                className="type-eyebrow text-midnight/65 hover:text-blue"
+                className="type-eyebrow text-iron/80 hover:underline hover:underline-offset-4"
               >
                 {t("prevPage")}
               </Link>
             ) : null}
-            <span className="type-body-s text-midnight/65">
+            <span className="type-body-s text-iron/80">
               {result.page} / {result.totalPages}
             </span>
             {result.hasNextPage ? (
               <Link
                 href={pageLink(result.page! + 1)}
                 rel="next"
-                className="type-eyebrow text-midnight/65 hover:text-blue"
+                className="type-eyebrow text-iron/80 hover:underline hover:underline-offset-4"
               >
                 {t("nextPage")}
               </Link>

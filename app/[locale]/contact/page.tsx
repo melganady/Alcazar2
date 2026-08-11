@@ -38,8 +38,8 @@ export default async function ContactPage({
     <div className="mx-auto flex max-w-container flex-col gap-10 px-4 py-12 md:px-6">
       <header className="flex flex-col gap-3">
         <Eyebrow>Alcázar · Contact</Eyebrow>
-        <h1 className="type-display-l text-blue">Start with a brief</h1>
-        <p className="type-body-l max-w-2xl text-midnight/80">
+        <h1 className="type-display-l text-iron">Start with a brief</h1>
+        <p className="type-body-l max-w-2xl text-iron/80">
           Twenty minutes, no deck. Tell us the budget, the residency status and
           the exit horizon — the rest follows from those three.
         </p>
@@ -48,16 +48,16 @@ export default async function ContactPage({
       <div className="grid gap-10 md:grid-cols-[minmax(0,22rem)_1fr]">
         <aside className="flex flex-col gap-6">
           {agent ? (
-            <div className="flex flex-col gap-1 border border-rule bg-white p-5">
-              <p className="type-micro uppercase text-midnight/65">{t("consultant")}</p>
-              <p className="type-display-s text-midnight">{agent.name}</p>
-              <p className="type-body-s text-midnight/70">{agent.role}</p>
-              <p className="type-micro text-midnight/65">RERA BRN {agent.brn}</p>
+            <div className="flex flex-col gap-1 border border-rule bg-linen p-5">
+              <p className="type-micro uppercase text-iron/80">{t("consultant")}</p>
+              <p className="type-display-s text-iron">{agent.name}</p>
+              <p className="type-body-s text-iron/80">{agent.role}</p>
+              <p className="type-micro text-iron/80">RERA BRN {agent.brn}</p>
               <div className="mt-3 flex flex-wrap gap-3">
                 {waHref ? (
                   <a
                     href={waHref}
-                    className="type-eyebrow bg-blue px-4 py-2.5 text-sand transition-colors duration-fast ease-brand hover:bg-midnight"
+                    className="type-eyebrow bg-iron px-4 py-2.5 text-ash transition-colors duration-fast ease-brand hover:bg-iron/85"
                   >
                     WhatsApp
                   </a>
@@ -65,7 +65,7 @@ export default async function ContactPage({
                 {agent.email ? (
                   <a
                     href={`mailto:${agent.email}`}
-                    className="type-eyebrow border border-blue px-4 py-2.5 text-blue transition-colors duration-fast ease-brand hover:bg-blue hover:text-sand"
+                    className="type-eyebrow border border-iron px-4 py-2.5 text-iron transition-colors duration-fast ease-brand hover:bg-iron hover:text-ash"
                   >
                     Email
                   </a>
@@ -74,11 +74,11 @@ export default async function ContactPage({
             </div>
           ) : null}
 
-          <div className="flex flex-col gap-2 border border-rule bg-white p-5">
-            <p className="type-micro uppercase text-midnight/65">Office</p>
-            <p className="type-body-s text-midnight">{SITE.compliance.legalName}</p>
-            <p className="type-body-s text-midnight/70">{SITE.compliance.city}</p>
-            <p className="type-micro mt-2 text-midnight/65">
+          <div className="flex flex-col gap-2 border border-rule bg-linen p-5">
+            <p className="type-micro uppercase text-iron/80">Office</p>
+            <p className="type-body-s text-iron">{SITE.compliance.legalName}</p>
+            <p className="type-body-s text-iron/80">{SITE.compliance.city}</p>
+            <p className="type-micro mt-2 text-iron/80">
               {SITE.compliance.orn} · {SITE.compliance.tradeLicence}
             </p>
           </div>
@@ -127,28 +127,28 @@ export default async function ContactPage({
             </div>
 
             {/* PDPL — granular, separate, unticked (§11.7) */}
-            <label className="type-body-s flex items-start gap-2 text-midnight">
-              <input type="checkbox" name="financeNeeded" className="mt-1 h-4 w-4 accent-[var(--alcazar-blue)]" />
+            <label className="type-body-s flex items-start gap-2 text-iron">
+              <input type="checkbox" name="financeNeeded" className="mt-1 h-4 w-4 accent-[var(--iron-grey)]" />
               {t("formFinance")}
             </label>
-            <label className="type-body-s flex items-start gap-2 text-midnight">
-              <input type="checkbox" name="whatsappConsent" className="mt-1 h-4 w-4 accent-[var(--alcazar-blue)]" />
+            <label className="type-body-s flex items-start gap-2 text-iron">
+              <input type="checkbox" name="whatsappConsent" className="mt-1 h-4 w-4 accent-[var(--iron-grey)]" />
               {t("formWhatsappConsent")}
             </label>
-            <label className="type-body-s flex items-start gap-2 text-midnight sm:col-span-2">
-              <input type="checkbox" name="marketingConsent" className="mt-1 h-4 w-4 accent-[var(--alcazar-blue)]" />
+            <label className="type-body-s flex items-start gap-2 text-iron sm:col-span-2">
+              <input type="checkbox" name="marketingConsent" className="mt-1 h-4 w-4 accent-[var(--iron-grey)]" />
               Send me occasional market notes. Separate from the reply to this enquiry.
             </label>
 
             <button
               type="submit"
-              className="type-eyebrow bg-blue px-6 py-3.5 text-sand transition-colors duration-fast ease-brand hover:bg-midnight sm:col-span-2 sm:justify-self-start"
+              className="type-eyebrow bg-iron px-6 py-3.5 text-ash transition-colors duration-fast ease-brand hover:bg-iron/85 sm:col-span-2 sm:justify-self-start"
             >
               {t("formSubmit")}
             </button>
           </form>
 
-          <p className="type-micro max-w-2xl text-midnight/65">
+          <p className="type-micro max-w-2xl text-iron/80">
             We process your details to respond to this enquiry, under our privacy
             policy. Marketing and WhatsApp consent are separate and optional, and
             you can ask us to delete your data at any time.

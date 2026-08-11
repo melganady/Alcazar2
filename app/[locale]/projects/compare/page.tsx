@@ -86,24 +86,24 @@ export default async function ComparePage({
     <div className="mx-auto flex max-w-container flex-col gap-8 px-4 py-12 md:px-6">
       <header className="flex flex-col gap-3">
         <Eyebrow>Alcázar</Eyebrow>
-        <h1 className="type-display-l text-blue">{t("compareTitle")}</h1>
+        <h1 className="type-display-l text-iron">{t("compareTitle")}</h1>
         {projects.length < 2 ? (
-          <p className="type-body-l text-midnight/70">{t("compareHint")}</p>
+          <p className="type-body-l text-iron/80">{t("compareHint")}</p>
         ) : null}
       </header>
 
       {projects.length > 0 ? (
-        <div className="overflow-x-auto border border-rule bg-white">
+        <div className="overflow-x-auto border border-rule bg-linen">
           <table className="w-full min-w-[44rem] border-collapse">
             <thead>
               <tr className="border-b border-rule">
                 <th className="w-44 p-4" />
                 {projects.map((p) => (
                   <th key={p.id} className="p-4 text-start">
-                    <Link href={`/projects/${p.slug}`} className="type-display-s text-midnight hover:text-blue">
+                    <Link href={`/projects/${p.slug}`} className="type-display-s text-iron underline-offset-4 hover:underline">
                       {p.name}
                     </Link>
-                    <p className="type-body-s mt-1 font-normal text-midnight/65">
+                    <p className="type-body-s mt-1 font-normal text-iron/80">
                       {p.subCommunity}, {p.emirate}
                     </p>
                   </th>
@@ -113,9 +113,9 @@ export default async function ComparePage({
             <tbody>
               {rows.map(([label, render]) => (
                 <tr key={label} className="border-b border-rule/60 align-top">
-                  <th className="type-eyebrow p-4 text-start text-midnight/65">{label}</th>
+                  <th className="type-eyebrow p-4 text-start text-iron/80">{label}</th>
                   {projects.map((p) => (
-                    <td key={p.id} className="type-body-s p-4 text-midnight">
+                    <td key={p.id} className="type-body-s p-4 text-iron">
                       {render(p)}
                     </td>
                   ))}
@@ -125,10 +125,10 @@ export default async function ComparePage({
           </table>
         </div>
       ) : (
-        <p className="type-body text-midnight/70">{t("compareHint")}</p>
+        <p className="type-body text-iron/80">{t("compareHint")}</p>
       )}
 
-      <Link href="/projects" className="type-eyebrow self-start text-midnight/65 hover:text-blue">
+      <Link href="/projects" className="type-eyebrow self-start text-iron/80 hover:underline hover:underline-offset-4">
         ← {t("title")}
       </Link>
     </div>

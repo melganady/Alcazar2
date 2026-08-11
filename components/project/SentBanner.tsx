@@ -9,7 +9,7 @@ export function SentBanner({ consultant }: { consultant: string }) {
   const t = useTranslations("project");
   if (params.get("sent") !== "1") return null;
   return (
-    <p role="status" className="type-body border border-blue/40 bg-white p-4 text-midnight">
+    <p role="status" className="type-body border border-iron/40 bg-linen p-4 text-iron">
       {t("formSent", { consultant })}
     </p>
   );

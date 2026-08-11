@@ -94,29 +94,29 @@ export default async function ArticlePage({
       <article className="mx-auto flex max-w-container flex-col gap-10 px-4 py-12 md:px-6">
         <header className="flex max-w-3xl flex-col gap-3">
           <Eyebrow>{article.category}</Eyebrow>
-          <h1 className="type-display-l text-midnight">{article.title}</h1>
-          <p className="type-body-s text-midnight/65">
+          <h1 className="type-display-l text-iron">{article.title}</h1>
+          <p className="type-body-s text-iron/80">
             {author ? `${author.name} · ${author.role} · ` : ""}
             {String(article.publishedAt).slice(0, 10)}
           </p>
         </header>
 
         {article.body ? (
-          <div className="type-body-l max-w-3xl text-midnight/85 [&_h2]:mb-3 [&_h2]:mt-8 [&_h2]:font-display [&_h2]:uppercase [&_h2]:tracking-display-m [&_h2]:text-midnight [&_p]:mb-4">
+          <div className="type-body-l max-w-3xl text-iron/85 [&_h2]:mb-3 [&_h2]:mt-8 [&_h2]:font-display [&_h2]:uppercase [&_h2]:tracking-display-m [&_h2]:text-iron [&_p]:mb-4">
             <RichText data={article.body} />
           </div>
         ) : null}
 
         {article.faq && article.faq.length > 0 ? (
           <section className="flex max-w-3xl flex-col gap-4">
-            <h2 className="type-display-m text-midnight">Questions</h2>
-            <div className="flex flex-col divide-y divide-rule border border-rule bg-white">
+            <h2 className="type-display-m text-iron">Questions</h2>
+            <div className="flex flex-col divide-y divide-rule border border-rule bg-linen">
               {article.faq.map((f) => (
                 <details key={f.id ?? f.q} className="p-5">
-                  <summary className="type-body cursor-pointer font-medium text-midnight hover:text-blue">
+                  <summary className="type-body cursor-pointer font-medium text-iron underline-offset-4 hover:underline">
                     {f.q}
                   </summary>
-                  <p className="type-body mt-3 text-midnight/80">{f.a}</p>
+                  <p className="type-body mt-3 text-iron/80">{f.a}</p>
                 </details>
               ))}
             </div>
@@ -125,7 +125,7 @@ export default async function ArticlePage({
 
         {relatedProjects.length > 0 ? (
           <section className="flex flex-col gap-5 border-t border-rule pt-10">
-            <h2 className="type-display-m text-midnight">Projects in this piece</h2>
+            <h2 className="type-display-m text-iron">Projects in this piece</h2>
             <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {relatedProjects.slice(0, 3).map((p) => (
                 <ProjectCard key={p.id} project={p} />
@@ -134,7 +134,7 @@ export default async function ArticlePage({
           </section>
         ) : null}
 
-        <Link href="/insights" className="type-eyebrow self-start text-midnight/65 hover:text-blue">
+        <Link href="/insights" className="type-eyebrow self-start text-iron/80 hover:underline hover:underline-offset-4">
           ← Insights
         </Link>
       </article>

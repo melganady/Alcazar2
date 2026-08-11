@@ -59,8 +59,8 @@ export default async function MortgagesPage({
     <div className="mx-auto flex max-w-container flex-col gap-12 px-4 py-12 md:px-6">
       <header className="flex flex-col gap-3">
         <Eyebrow>Alcázar · Mortgage advisory</Eyebrow>
-        <h1 className="type-display-l text-blue">Financing, without the fog</h1>
-        <p className="type-body-l max-w-2xl text-midnight/80">
+        <h1 className="type-display-l text-iron">Financing, without the fog</h1>
+        <p className="type-body-l max-w-2xl text-iron/80">
           Residents and non-residents. We arrange, we do not lend — and we show
           you which constraint actually limits what you can borrow before any
           bank does.
@@ -72,40 +72,40 @@ export default async function MortgagesPage({
           <Link
             key={c.href}
             href={c.href}
-            className="group flex flex-col gap-3 border border-rule bg-white p-6 transition-colors duration-fast ease-brand hover:border-blue"
+            className="group flex flex-col gap-3 border border-rule bg-linen p-6 transition-colors duration-fast ease-brand hover:border-iron"
           >
-            <h2 className="type-display-s text-midnight group-hover:text-blue">{c.title}</h2>
-            <p className="type-body-s text-midnight/70">{c.body}</p>
+            <h2 className="type-display-s text-iron group-hover:underline group-hover:underline-offset-4">{c.title}</h2>
+            <p className="type-body-s text-iron/80">{c.body}</p>
           </Link>
         ))}
       </div>
 
       <section className="flex flex-col gap-5">
-        <h2 className="type-display-m text-midnight">Lender panel</h2>
-        <div className="overflow-x-auto border border-rule bg-white">
+        <h2 className="type-display-m text-iron">Lender panel</h2>
+        <div className="overflow-x-auto border border-rule bg-linen">
           <table className="w-full min-w-[44rem] border-collapse">
             <thead>
               <tr className="border-b border-rule">
                 {["Lender", "Max LTV resident", "Max LTV non-resident", "Finances off-plan", "Indicative fixed rate", "Fixed period"].map((h) => (
-                  <th key={h} className="type-eyebrow p-3 text-start text-midnight/65">{h}</th>
+                  <th key={h} className="type-eyebrow p-3 text-start text-iron/80">{h}</th>
                 ))}
               </tr>
             </thead>
             <tbody>
               {lenders.map((l) => (
                 <tr key={l.id} className="border-b border-rule/60">
-                  <td className="type-body-s p-3 font-medium text-midnight">{l.name}</td>
-                  <td className="type-body-s p-3 text-midnight">{l.maxLtvResidentPct}%</td>
-                  <td className="type-body-s p-3 text-midnight">{l.maxLtvNonResidentPct}%</td>
-                  <td className="type-body-s p-3 text-midnight">{l.financesOffplan ? "Yes" : "No"}</td>
-                  <td className="type-body-s p-3 text-midnight">{l.indicativeFixedRatePct}%</td>
-                  <td className="type-body-s p-3 text-midnight">{l.fixedPeriodYears} years</td>
+                  <td className="type-body-s p-3 font-medium text-iron">{l.name}</td>
+                  <td className="type-body-s p-3 text-iron">{l.maxLtvResidentPct}%</td>
+                  <td className="type-body-s p-3 text-iron">{l.maxLtvNonResidentPct}%</td>
+                  <td className="type-body-s p-3 text-iron">{l.financesOffplan ? "Yes" : "No"}</td>
+                  <td className="type-body-s p-3 text-iron">{l.indicativeFixedRatePct}%</td>
+                  <td className="type-body-s p-3 text-iron">{l.fixedPeriodYears} years</td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
-        <p className="type-micro max-w-3xl text-midnight/65">
+        <p className="type-micro max-w-3xl text-iron/80">
           Rates effective {lenders[0]?.ratesEffectiveFrom?.slice(0, 10) ?? constants.effectiveFrom}.
           Indicative only; lender criteria vary and approval is not guaranteed. Alcázar acts as an
           intermediary and is not a lender.

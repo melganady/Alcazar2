@@ -108,27 +108,27 @@ export function StyleguideDemos() {
         onClose={() => setSheetOpen(false)}
         title="Filters"
       >
-        <p className="type-body text-midnight/80">
+        <p className="type-body text-iron/80">
           Mobile filter controls render here. Body scroll locks while open.
         </p>
       </Sheet>
 
       {/* Currency + units, driven by the live switchers in the header */}
-      <div className="flex flex-col gap-2 border border-rule bg-white p-6">
-        <p className="type-eyebrow text-midnight/65">
+      <div className="flex flex-col gap-2 border border-rule bg-linen p-6">
+        <p className="type-eyebrow text-iron/80">
           Live price display · currency {currency} · {unit}
         </p>
-        <p className="type-display-m text-midnight">
+        <p className="type-display-m text-iron">
           {formatAED(samplePriceAED)}
           {converted ? (
-            <span className="type-body-l ms-3 text-midnight/65">{converted}</span>
+            <span className="type-body-l ms-3 text-iron/80">{converted}</span>
           ) : null}
         </p>
-        <p className="type-body-s text-midnight/70">
+        <p className="type-body-s text-iron/80">
           {formatArea(sampleSqft, unit)}
         </p>
-        {note ? <p className="type-micro text-midnight/65">{note}</p> : null}
-        <p className="type-micro text-midnight/65">
+        {note ? <p className="type-micro text-iron/80">{note}</p> : null}
+        <p className="type-micro text-iron/80">
           AED is the contractual currency and is always shown. Seed rates —
           replaced by a daily cached fetch in Phase 5.
         </p>

@@ -15,10 +15,11 @@ const config: Config = {
     colors: {
       transparent: "transparent",
       current: "currentColor",
-      blue: "rgb(var(--alcazar-blue-rgb) / <alpha-value>)",
-      sand: "rgb(var(--desert-sand-rgb) / <alpha-value>)",
-      midnight: "rgb(var(--midnight-rgb) / <alpha-value>)",
-      white: "rgb(var(--white-rgb) / <alpha-value>)",
+      iron: "rgb(var(--iron-grey-rgb) / <alpha-value>)",
+      ash: "rgb(var(--ash-wood-rgb) / <alpha-value>)",
+      pine: "rgb(var(--pine-smoke-rgb) / <alpha-value>)",
+      linen: "rgb(var(--nordic-linen-rgb) / <alpha-value>)",
+      frost: "rgb(var(--frost-white-rgb) / <alpha-value>)",
       rule: "rgb(var(--rule-rgb) / <alpha-value>)",
     },
     fontFamily: {

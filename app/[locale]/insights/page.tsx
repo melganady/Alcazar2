@@ -33,8 +33,8 @@ export default async function InsightsPage({
     <div className="mx-auto flex max-w-container flex-col gap-10 px-4 py-12 md:px-6">
       <header className="flex flex-col gap-3">
         <Eyebrow>Alcázar · Insights</Eyebrow>
-        <h1 className="type-display-l text-blue">Insights</h1>
-        <p className="type-body-l max-w-2xl text-midnight/80">
+        <h1 className="type-display-l text-iron">Insights</h1>
+        <p className="type-body-l max-w-2xl text-iron/80">
           Market, mortgage, community and developer analysis — written by the desk
           that runs the filter, not by a content agency.
         </p>
@@ -46,13 +46,13 @@ export default async function InsightsPage({
             <Link
               key={a.id}
               href={`/insights/${a.slug}`}
-              className="group flex flex-col gap-2 border border-rule bg-white p-5 transition-colors duration-fast ease-brand hover:border-blue"
+              className="group flex flex-col gap-2 border border-rule bg-linen p-5 transition-colors duration-fast ease-brand hover:border-iron"
             >
-              <span className="type-micro uppercase text-midnight/65">{a.category}</span>
-              <h2 className="type-display-s text-midnight group-hover:text-blue">{a.title}</h2>
-              {a.excerpt ? <p className="type-body-s text-midnight/70">{a.excerpt}</p> : null}
+              <span className="type-micro uppercase text-iron/80">{a.category}</span>
+              <h2 className="type-display-s text-iron group-hover:underline group-hover:underline-offset-4">{a.title}</h2>
+              {a.excerpt ? <p className="type-body-s text-iron/80">{a.excerpt}</p> : null}
               {a.publishedAt ? (
-                <span className="type-micro mt-1 text-midnight/65">
+                <span className="type-micro mt-1 text-iron/80">
                   {String(a.publishedAt).slice(0, 10)}
                 </span>
               ) : null}
@@ -60,7 +60,7 @@ export default async function InsightsPage({
           ))}
         </div>
       ) : (
-        <p className="type-body text-midnight/70">
+        <p className="type-body text-iron/80">
           The first articles publish with launch. Project pages already carry our
           written view on every listing.
         </p>

@@ -34,13 +34,13 @@ export function ProjectCard({
   return (
     <article
       className={cn(
-        "group border border-rule bg-white",
+        "group border border-rule bg-linen",
         layout === "list" && "sm:grid sm:grid-cols-[minmax(0,16rem)_1fr]",
       )}
     >
       <Link
         href={`/projects/${project.slug}`}
-        className="relative block aspect-[3/2] overflow-hidden bg-sand"
+        className="relative block aspect-[3/2] overflow-hidden bg-linen"
       >
         {hero ? (
           <Image
@@ -51,14 +51,14 @@ export function ProjectCard({
             className="object-cover"
           />
         ) : (
-          <span className="absolute inset-0 flex items-center justify-center font-display text-display-l font-light text-blue/30">
+          <span className="absolute inset-0 flex items-center justify-center font-display text-display-l font-light text-iron/30">
             Á
           </span>
         )}
         {shortlisted ? (
           <span
             title={t("shortlisted")}
-            className="absolute end-3 top-3 flex h-7 w-7 items-center justify-center bg-blue font-display text-body-s text-sand"
+            className="absolute end-3 top-3 flex h-7 w-7 items-center justify-center bg-iron font-display text-body-s text-ash"
           >
             Á
           </span>
@@ -66,37 +66,37 @@ export function ProjectCard({
       </Link>
 
       <div className="flex flex-col gap-2 p-5">
-        <p className="type-eyebrow text-midnight/65">
+        <p className="type-eyebrow text-iron/80">
           {(project.propertyTypes ?? []).join(" · ")} ·{" "}
           {formatBedrooms(project.bedroomsMin, project.bedroomsMax)}
         </p>
-        <h3 className="type-display-s text-midnight">
+        <h3 className="type-display-s text-iron">
           <Link
             href={`/projects/${project.slug}`}
-            className="transition-colors duration-fast ease-brand group-hover:text-blue"
+            className="transition-colors duration-fast ease-brand group-hover:underline group-hover:underline-offset-4"
           >
             {project.name}, {project.subCommunity}
           </Link>
         </h3>
-        <p className="type-body-s text-midnight/65">
+        <p className="type-body-s text-iron/80">
           {rel(project, "community")}, {project.emirate}
         </p>
-        <p className="type-display-s text-midnight">
-          <span className="type-micro me-2 uppercase text-midnight/65">{t("from")}</span>
+        <p className="type-display-s text-iron">
+          <span className="type-micro me-2 uppercase text-iron/80">{t("from")}</span>
           <PriceDisplay amountAED={project.priceFromAED} convertedClassName="type-body-s" />
         </p>
         <div className="mt-2 grid grid-cols-3 gap-2 border-t border-rule pt-3">
           <div>
-            <p className="type-micro uppercase text-midnight/65">{t("plan")}</p>
-            <p className="type-body-s text-midnight">{project.paymentPlan?.label ?? "—"}</p>
+            <p className="type-micro uppercase text-iron/80">{t("plan")}</p>
+            <p className="type-body-s text-iron">{project.paymentPlan?.label ?? "—"}</p>
           </div>
           <div>
-            <p className="type-micro uppercase text-midnight/65">{t("developer")}</p>
-            <p className="type-body-s truncate text-midnight">{rel(project, "developer")}</p>
+            <p className="type-micro uppercase text-iron/80">{t("developer")}</p>
+            <p className="type-body-s truncate text-iron">{rel(project, "developer")}</p>
           </div>
           <div>
-            <p className="type-micro uppercase text-midnight/65">{t("handover")}</p>
-            <p className="type-body-s text-midnight">
+            <p className="type-micro uppercase text-iron/80">{t("handover")}</p>
+            <p className="type-body-s text-iron">
               {project.handoverQuarter} {project.handoverYear}
             </p>
           </div>

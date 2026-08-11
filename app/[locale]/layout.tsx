@@ -66,7 +66,7 @@ export default async function LocaleLayout({
             <ToastProvider>
               <a
                 href="#main"
-                className="type-eyebrow sr-only bg-blue px-4 py-2 text-sand focus:not-sr-only focus:fixed focus:start-4 focus:top-4 focus:z-50"
+                className="type-eyebrow sr-only bg-iron px-4 py-2 text-ash focus:not-sr-only focus:fixed focus:start-4 focus:top-4 focus:z-50"
               >
                 Skip to content
               </a>

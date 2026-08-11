@@ -1,23 +1,28 @@
 /*
- * ALCÁZAR — design tokens. Single source of truth (§1 of the brief).
- * Components consume these via Tailwind theme mappings or .type-* classes.
- * No colour, type or motion value may be defined anywhere else.
+ * ALCÁZAR — design tokens. Single source of truth.
+ * Brand identity: "UAE luxury real estate brand identity", draft 01, Aug 2026.
+ * Every component consumes these; no colour, type or motion value is defined
+ * anywhere else.
  */
 
 :root {
-  /* ---- Colour ---- */
-  --alcazar-blue: #1a41ad;
-  --desert-sand: #f0e5cf;
-  --midnight: #10182b;
-  --white: #ffffff;
-  --rule: #d8cdb6; /* hairlines on sand */
+  /* ---- Colour: the five-colour palette ---- */
+  --iron-grey: #3f4244; /* the signature. Wordmark, headlines, full fields. */
+  --ash-wood: #d7d1c6; /* the warm ground. Framed fields, reversed type. */
+  --pine-smoke: #8a937f; /* the one accent. Rules, tags, quiet emphasis. */
+  --nordic-linen: #edeae3; /* digital surfaces. */
+  --frost-white: #f7f7f5; /* the primary page ground. */
 
-  /* RGB triplets so Tailwind alpha modifiers (text-blue/60) work */
-  --alcazar-blue-rgb: 26 65 173;
-  --desert-sand-rgb: 240 229 207;
-  --midnight-rgb: 16 24 43;
-  --white-rgb: 255 255 255;
-  --rule-rgb: 216 205 182;
+  /* Derived hairline — ash wood carrying the rule role on light grounds. */
+  --rule: #d7d1c6;
+
+  /* RGB triplets so Tailwind alpha modifiers (text-iron/80) work */
+  --iron-grey-rgb: 63 66 68;
+  --ash-wood-rgb: 215 209 198;
+  --pine-smoke-rgb: 138 147 127;
+  --nordic-linen-rgb: 237 234 227;
+  --frost-white-rgb: 247 247 245;
+  --rule-rgb: 215 209 198;
 
   /* ---- Type scale (fluid, 375px -> 1440px viewport) ---- */
   --text-display-xl: clamp(2.125rem, 1.465rem + 2.817vw, 4rem);    /* 34 -> 64 */

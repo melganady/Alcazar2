@@ -188,16 +188,16 @@ export default async function LegalPage({
     <div className="mx-auto flex max-w-3xl flex-col gap-10 px-4 py-12 md:px-6">
       <header className="flex flex-col gap-3">
         <Eyebrow>Alcázar · Legal</Eyebrow>
-        <h1 className="type-display-l text-blue">{doc.title}</h1>
-        <p className="type-body-l text-midnight/80">{doc.intro}</p>
+        <h1 className="type-display-l text-iron">{doc.title}</h1>
+        <p className="type-body-l text-iron/80">{doc.intro}</p>
       </header>
 
       <div className="flex flex-col gap-8">
         {doc.sections.map((s) => (
           <section key={s.h} className="flex flex-col gap-3 border-t border-rule pt-6">
-            <h2 className="type-display-s text-midnight">{s.h}</h2>
+            <h2 className="type-display-s text-iron">{s.h}</h2>
             {s.p.map((p, i) => (
-              <p key={i} className="type-body text-midnight/80">
+              <p key={i} className="type-body text-iron/80">
                 {p}
               </p>
             ))}
@@ -205,7 +205,7 @@ export default async function LegalPage({
         ))}
       </div>
 
-      <p className="type-micro text-midnight/65">
+      <p className="type-micro text-iron/80">
         These pages are drafted for review by counsel before launch and are not
         legal advice.
       </p>

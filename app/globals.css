@@ -6,16 +6,16 @@
 
 @layer base {
   body {
-    @apply bg-sand font-text text-body font-light text-midnight;
+    @apply bg-frost font-text text-body font-light text-iron;
     line-height: 1.65;
   }
 
   ::selection {
-    background: rgb(var(--alcazar-blue-rgb) / 0.15);
+    background: rgb(var(--pine-smoke-rgb) / 0.28);
   }
 
   :focus-visible {
-    outline: 2px solid var(--alcazar-blue);
+    outline: 2px solid var(--iron-grey);
     outline-offset: 2px;
   }
 
@@ -107,8 +107,8 @@
     height: 1rem;
     width: 1rem;
     border-radius: 0;
-    border: 1px solid var(--alcazar-blue);
-    background: var(--white);
+    border: 1px solid var(--iron-grey);
+    background: var(--frost-white);
     cursor: pointer;
   }
   .range-thumb::-moz-range-track {
@@ -120,8 +120,8 @@
     height: 1rem;
     width: 1rem;
     border-radius: 0;
-    border: 1px solid var(--alcazar-blue);
-    background: var(--white);
+    border: 1px solid var(--iron-grey);
+    background: var(--frost-white);
     cursor: pointer;
   }
 }

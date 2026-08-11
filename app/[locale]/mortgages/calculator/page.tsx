@@ -54,8 +54,8 @@ export default async function CalculatorPage({
     <div className="mx-auto flex max-w-container flex-col gap-8 px-4 py-12 md:px-6">
       <header className="flex flex-col gap-3">
         <Eyebrow>Alcázar · {project ? project.name : "UAE"}</Eyebrow>
-        <h1 className="type-display-l text-blue">{t("calcTitle")}</h1>
-        <p className="type-body-l max-w-2xl text-midnight/80">{t("calcIntro")}</p>
+        <h1 className="type-display-l text-iron">{t("calcTitle")}</h1>
+        <p className="type-body-l max-w-2xl text-iron/80">{t("calcIntro")}</p>
       </header>
       <Calculator
         constants={constants}

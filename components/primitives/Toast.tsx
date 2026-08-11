@@ -43,7 +43,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
           <div
             key={t.id}
             className={cn(
-              "type-body-s border border-rule bg-white px-4 py-3 text-midnight",
+              "type-body-s border border-rule bg-linen px-4 py-3 text-iron",
             )}
           >
             {t.message}

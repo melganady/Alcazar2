@@ -2,24 +2,24 @@ import { cn } from "@/lib/cn";
 
 /**
  * Numbers first, adjectives last. Value renders in display type;
- * no animated counters (§1 Motion).
+ * no animated counters. `reversed` is for stats sitting on an iron field.
  */
 export function StatBlock({
   value,
   label,
   source,
-  tone = "midnight",
+  tone = "default",
   className,
 }: {
   value: string;
   label: string;
   source?: string; // "DLD, Jul 2026" — required wherever the stat is a market claim
-  tone?: "midnight" | "blue" | "sand";
+  tone?: "default" | "reversed";
   className?: string;
 }) {
   const valueColor =
-    tone === "sand" ? "text-sand" : tone === "blue" ? "text-blue" : "text-midnight";
-  const labelColor = tone === "sand" ? "text-sand/80" : "text-midnight/65";
+    tone === "reversed" ? "text-ash" : "text-iron";
+  const labelColor = tone === "reversed" ? "text-ash/80" : "text-iron/80";
   return (
     <div className={cn("flex flex-col gap-1.5", className)}>
       <span className={cn("type-display-m", valueColor)}>{value}</span>

@@ -41,7 +41,7 @@ export function ControlsBar() {
             onClick={() => set("view", v === "grid" ? "" : v)}
             className={cn(
               "type-eyebrow transition-colors duration-fast ease-brand",
-              view === v ? "text-blue" : "text-midnight/65 hover:text-blue",
+              view === v ? "text-iron" : "text-iron/80 hover:underline hover:underline-offset-4",
             )}
           >
             {t(v === "grid" ? "viewGrid" : v === "list" ? "viewList" : "viewMap")}
@@ -49,11 +49,11 @@ export function ControlsBar() {
         ))}
       </div>
       <label className="flex items-center gap-2">
-        <span className="type-micro uppercase text-midnight/65">{t("sort")}</span>
+        <span className="type-micro uppercase text-iron/80">{t("sort")}</span>
         <select
           value={sort}
           onChange={(e) => set("sort", e.target.value === "relevance" ? "" : e.target.value)}
-          className="type-body-s cursor-pointer appearance-none border-0 bg-transparent text-midnight hover:text-blue"
+          className="type-body-s cursor-pointer appearance-none border-0 bg-transparent text-iron underline-offset-4 hover:underline"
         >
           <option value="relevance">{t("sortRelevance")}</option>
           <option value="price-asc">{t("sortPriceAsc")}</option>

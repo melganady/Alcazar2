@@ -74,7 +74,7 @@ function Section({
 }) {
   return (
     <section id={id} className="scroll-mt-24 border-t border-rule py-10">
-      <h2 className={`type-display-m mb-6 ${titleBlue ? "text-blue" : "text-midnight"}`}>
+      <h2 className={`type-display-m mb-6 ${titleBlue ? "text-iron" : "text-iron"}`}>
         {title}
       </h2>
       {children}
@@ -175,13 +175,13 @@ export default async function ProjectPage({
         }}
       />
       {/* Sticky sub-nav */}
-      <nav className="sticky top-0 z-30 border-b border-rule bg-sand">
+      <nav className="sticky top-0 z-30 border-b border-rule bg-frost">
         <div className="mx-auto flex max-w-container gap-5 overflow-x-auto px-4 py-3 md:px-6">
           {NAV.map(([id, label]) => (
             <a
               key={id}
               href={`#${id}`}
-              className="type-eyebrow whitespace-nowrap text-midnight/65 transition-colors duration-fast ease-brand hover:text-blue"
+              className="type-eyebrow whitespace-nowrap text-iron/80 transition-colors duration-fast ease-brand hover:text-iron hover:underline hover:underline-offset-4"
             >
               {label}
             </a>
@@ -197,24 +197,24 @@ export default async function ProjectPage({
             {formatBedrooms(project.bedroomsMin, project.bedroomsMax)} ·{" "}
             {community?.name ?? project.subCommunity}, {project.emirate}
           </Eyebrow>
-          <h1 className="type-display-l text-midnight">
+          <h1 className="type-display-l text-iron">
             {project.name}, {project.subCommunity}
           </h1>
           {declined ? (
-            <div className="max-w-2xl border border-rule bg-white p-5">
-              <p className="type-display-s text-midnight">{t("declinedTitle")}</p>
-              <p className="type-body mt-2 text-midnight/80">{project.declineReason}</p>
-              <p className="type-body-s mt-2 text-midnight/65">{t("declinedNote")}</p>
+            <div className="max-w-2xl border border-rule bg-linen p-5">
+              <p className="type-display-s text-iron">{t("declinedTitle")}</p>
+              <p className="type-body mt-2 text-iron/80">{project.declineReason}</p>
+              <p className="type-body-s mt-2 text-iron/80">{t("declinedNote")}</p>
             </div>
           ) : null}
         </header>
 
         {/* Gallery (developer-supplied only) or placeholder field */}
         {!declined ? (
-          <div className="relative flex aspect-[21/9] items-center justify-center overflow-hidden bg-sand">
-            <span className="font-display text-display-xl font-light text-blue/25">Á</span>
+          <div className="relative flex aspect-[21/9] items-center justify-center overflow-hidden bg-linen">
+            <span className="font-display text-display-xl font-light text-iron/25">Á</span>
             {project.trakheesiPermitNumber ? (
-              <span className="type-micro absolute bottom-0 end-0 bg-white/90 px-3 py-1.5 text-midnight/65">
+              <span className="type-micro absolute bottom-0 end-0 bg-linen/90 px-3 py-1.5 text-iron/80">
                 {t("legalPermit", { number: project.trakheesiPermitNumber })}
                 {developer ? ` · ${developer.name}` : ""}
               </span>
@@ -223,11 +223,11 @@ export default async function ProjectPage({
         ) : null}
 
         {/* Fact bar */}
-        <div className="mt-8 grid grid-cols-2 gap-x-6 gap-y-5 border border-rule bg-white p-6 sm:grid-cols-4">
+        <div className="mt-8 grid grid-cols-2 gap-x-6 gap-y-5 border border-rule bg-linen p-6 sm:grid-cols-4">
           {facts.map(([label, value]) => (
             <div key={label} className="flex flex-col gap-1">
-              <span className="type-micro uppercase text-midnight/65">{label}</span>
-              <span className="type-body-s font-medium text-midnight">{value}</span>
+              <span className="type-micro uppercase text-iron/80">{label}</span>
+              <span className="type-body-s font-medium text-iron">{value}</span>
             </div>
           ))}
         </div>
@@ -246,20 +246,20 @@ export default async function ProjectPage({
               slug={project.slug}
             />
           ) : (
-            <p className="type-body text-midnight/70">{project.paymentPlan?.label}</p>
+            <p className="type-body text-iron/80">{project.paymentPlan?.label}</p>
           )}
         </Section>
 
         {/* Units */}
         {!declined && project.unitTypes?.length ? (
           <Section id="units" title={t("unitsTitle")}>
-            <div className="overflow-x-auto border border-rule bg-white">
+            <div className="overflow-x-auto border border-rule bg-linen">
               <table className="w-full min-w-[38rem] border-collapse">
                 <thead>
                   <tr className="border-b border-rule">
                     {[t("unitLayout"), t("unitBeds"), t("unitSize"), t("unitPriceFrom"), t("unitAvailability")].map(
                       (h) => (
-                        <th key={h} className="type-eyebrow p-3 text-start text-midnight/65">
+                        <th key={h} className="type-eyebrow p-3 text-start text-iron/80">
                           {h}
                         </th>
                       ),
@@ -269,25 +269,25 @@ export default async function ProjectPage({
                 <tbody>
                   {project.unitTypes.map((u) => (
                     <tr key={u.id} className="border-b border-rule/60">
-                      <td className="type-body-s p-3 font-medium text-midnight">{u.label}</td>
-                      <td className="type-body-s p-3 text-midnight">
+                      <td className="type-body-s p-3 font-medium text-iron">{u.label}</td>
+                      <td className="type-body-s p-3 text-iron">
                         {u.bedrooms === 0 ? tps("studio") : u.bedrooms}
                       </td>
-                      <td className="type-body-s p-3 text-midnight">
+                      <td className="type-body-s p-3 text-iron">
                         {u.sizeSqftMin ? (
                           <AreaDisplay sqft={u.sizeSqftMin} sqftMax={u.sizeSqftMax} />
                         ) : (
                           "—"
                         )}
                       </td>
-                      <td className="type-body-s p-3 text-midnight">
+                      <td className="type-body-s p-3 text-iron">
                         {u.priceFromAED ? (
                           <PriceDisplay amountAED={u.priceFromAED} convertedClassName="type-micro" />
                         ) : (
                           "—"
                         )}
                       </td>
-                      <td className="type-body-s p-3 text-midnight/70">
+                      <td className="type-body-s p-3 text-iron/80">
                         {u.availability === "available"
                           ? t("availabilityAvailable")
                           : u.availability === "limited"
@@ -305,30 +305,30 @@ export default async function ProjectPage({
         {/* Location + supply in window */}
         <Section id="location" title={t("locationTitle")}>
           <div className="flex flex-col gap-6">
-            <p className="type-body text-midnight/80">
+            <p className="type-body text-iron/80">
               {community?.name ?? project.subCommunity}, {project.emirate}
               {community?.transportNotes ? ` — ${community.transportNotes}` : ""}
             </p>
             <div>
-              <h3 className="type-display-s mb-3 text-midnight">{t("supplyTitle")}</h3>
+              <h3 className="type-display-s mb-3 text-iron">{t("supplyTitle")}</h3>
               {supply.length > 0 ? (
-                <ul className="flex flex-col divide-y divide-rule border border-rule bg-white">
+                <ul className="flex flex-col divide-y divide-rule border border-rule bg-linen">
                   {supply.map((s) => (
                     <li key={s.id} className="flex items-baseline justify-between gap-4 p-3">
                       <Link
                         href={`/projects/${s.slug}`}
-                        className="type-body-s font-medium text-midnight hover:text-blue"
+                        className="type-body-s font-medium text-iron underline-offset-4 hover:underline"
                       >
                         {s.name}
                       </Link>
-                      <span className="type-body-s whitespace-nowrap text-midnight/65">
+                      <span className="type-body-s whitespace-nowrap text-iron/80">
                         {s.handoverQuarter} {s.handoverYear}
                       </span>
                     </li>
                   ))}
                 </ul>
               ) : (
-                <p className="type-body-s text-midnight/65">{t("supplyNone")}</p>
+                <p className="type-body-s text-iron/80">{t("supplyNone")}</p>
               )}
             </div>
           </div>
@@ -338,12 +338,12 @@ export default async function ProjectPage({
         {!declined ? (
           <Section id="financing" title={t("financingTitle")}>
             <div className="grid gap-6 md:grid-cols-2">
-              <div className="flex flex-col gap-4 border border-rule bg-white p-6">
-                <p className="type-display-s text-midnight">{t(mortgageableKey)}</p>
+              <div className="flex flex-col gap-4 border border-rule bg-linen p-6">
+                <p className="type-display-s text-iron">{t(mortgageableKey)}</p>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <p className="type-micro uppercase text-midnight/65">{t("depositResident")}</p>
-                    <p className="type-body font-medium text-midnight">
+                    <p className="type-micro uppercase text-iron/80">{t("depositResident")}</p>
+                    <p className="type-body font-medium text-iron">
                       <PriceDisplay
                         amountAED={depositFor(project.priceFromAED, INDICATIVE_LTV.residentFirstPropertyPct)}
                         convertedClassName="type-micro"
@@ -351,8 +351,8 @@ export default async function ProjectPage({
                     </p>
                   </div>
                   <div>
-                    <p className="type-micro uppercase text-midnight/65">{t("depositNonResident")}</p>
-                    <p className="type-body font-medium text-midnight">
+                    <p className="type-micro uppercase text-iron/80">{t("depositNonResident")}</p>
+                    <p className="type-body font-medium text-iron">
                       <PriceDisplay
                         amountAED={depositFor(project.priceFromAED, INDICATIVE_LTV.nonResidentPct)}
                         convertedClassName="type-micro"
@@ -360,7 +360,7 @@ export default async function ProjectPage({
                     </p>
                   </div>
                 </div>
-                <p className="type-micro text-midnight/65">
+                <p className="type-micro text-iron/80">
                   {t("ltvNote", {
                     residentPct: INDICATIVE_LTV.residentFirstPropertyPct,
                     nonResidentPct: INDICATIVE_LTV.nonResidentPct,
@@ -370,19 +370,19 @@ export default async function ProjectPage({
                 </p>
                 <Link
                   href={`/mortgages/calculator?price=${project.priceFromAED}&propertyStatus=off-plan&project=${project.slug}`}
-                  className="type-eyebrow self-start border border-blue px-4 py-2.5 text-blue transition-colors duration-fast ease-brand hover:bg-blue hover:text-sand"
+                  className="type-eyebrow self-start border border-iron px-4 py-2.5 text-iron transition-colors duration-fast ease-brand hover:bg-iron hover:text-ash"
                 >
                   {t("openCalculator")}
                 </Link>
               </div>
               {lenders.length > 0 ? (
-                <div className="border border-rule bg-white p-6">
-                  <p className="type-eyebrow mb-4 text-midnight/65">{t("lendersKnown")}</p>
+                <div className="border border-rule bg-linen p-6">
+                  <p className="type-eyebrow mb-4 text-iron/80">{t("lendersKnown")}</p>
                   <ul className="flex flex-col divide-y divide-rule">
                     {lenders.map((l) => (
                       <li key={l.id} className="flex items-baseline justify-between gap-4 py-2.5">
-                        <span className="type-body-s font-medium text-midnight">{l.name}</span>
-                        <span className="type-body-s text-midnight/65">
+                        <span className="type-body-s font-medium text-iron">{l.name}</span>
+                        <span className="type-body-s text-iron/80">
                           LTV {l.maxLtvResidentPct}% / {l.maxLtvNonResidentPct}%
                         </span>
                       </li>
@@ -394,12 +394,12 @@ export default async function ProjectPage({
           </Section>
         ) : null}
 
-        {/* Our view — the page's one blue headline (§1) */}
+        {/* Our view — the verdict panel, framed in ash wood */}
         <Section id="our-view" title={t("viewTitle")} titleBlue>
           <CropMarks>
-            <div className="flex flex-col gap-8 bg-sand p-6 md:p-8">
+            <div className="flex flex-col gap-8 bg-ash p-6 md:p-8">
               {project.alcazarVerdict ? (
-                <div className="type-body-l max-w-2xl text-midnight [&_p]:mb-3">
+                <div className="type-body-l max-w-2xl text-iron [&_p]:mb-3">
                   <RichText data={project.alcazarVerdict} />
                 </div>
               ) : null}
@@ -413,9 +413,9 @@ export default async function ProjectPage({
         {/* Developer */}
         {developer ? (
           <Section id="developer" title={t("developerTitle")}>
-            <div className="flex max-w-2xl flex-col gap-3 border border-rule bg-white p-6">
-              <p className="type-display-s text-midnight">{developer.name}</p>
-              <p className="type-body-s text-midnight/70">
+            <div className="flex max-w-2xl flex-col gap-3 border border-rule bg-linen p-6">
+              <p className="type-display-s text-iron">{developer.name}</p>
+              <p className="type-body-s text-iron/80">
                 {[
                   developer.foundedYear ? t("developerFounded", { year: developer.foundedYear }) : null,
                   developer.projectsDelivered != null
@@ -429,7 +429,7 @@ export default async function ProjectPage({
                   .join(" · ")}
               </p>
               {developer.deliveryTrackRecord ? (
-                <div className="type-body text-midnight/80">
+                <div className="type-body text-iron/80">
                   <RichText data={developer.deliveryTrackRecord} />
                 </div>
               ) : null}
@@ -459,11 +459,11 @@ export default async function ProjectPage({
             <div className="grid gap-8 md:grid-cols-[minmax(0,20rem)_1fr]">
               <div className="flex flex-col gap-4">
                 {agent ? (
-                  <div className="flex flex-col gap-1 border border-rule bg-white p-5">
-                    <p className="type-micro uppercase text-midnight/65">{t("consultant")}</p>
-                    <p className="type-display-s text-midnight">{agent.name}</p>
-                    <p className="type-body-s text-midnight/70">{agent.role}</p>
-                    <p className="type-micro text-midnight/65">RERA BRN {agent.brn}</p>
+                  <div className="flex flex-col gap-1 border border-rule bg-linen p-5">
+                    <p className="type-micro uppercase text-iron/80">{t("consultant")}</p>
+                    <p className="type-display-s text-iron">{agent.name}</p>
+                    <p className="type-body-s text-iron/80">{agent.role}</p>
+                    <p className="type-micro text-iron/80">RERA BRN {agent.brn}</p>
                     {waHref ? (
                       <WhatsAppLink
                         href={waHref}
@@ -516,17 +516,17 @@ export default async function ProjectPage({
                 <div className="sm:col-span-2">
                   <Field id="lead-message" name="message" label={t("formMessage")} />
                 </div>
-                <label className="type-body-s flex items-center gap-2 text-midnight">
-                  <input type="checkbox" name="financeNeeded" className="h-4 w-4 accent-[var(--alcazar-blue)]" />
+                <label className="type-body-s flex items-center gap-2 text-iron">
+                  <input type="checkbox" name="financeNeeded" className="h-4 w-4 accent-[var(--iron-grey)]" />
                   {t("formFinance")}
                 </label>
-                <label className="type-body-s flex items-center gap-2 text-midnight">
-                  <input type="checkbox" name="whatsappConsent" className="h-4 w-4 accent-[var(--alcazar-blue)]" />
+                <label className="type-body-s flex items-center gap-2 text-iron">
+                  <input type="checkbox" name="whatsappConsent" className="h-4 w-4 accent-[var(--iron-grey)]" />
                   {t("formWhatsappConsent")}
                 </label>
                 <button
                   type="submit"
-                  className="type-eyebrow bg-blue px-6 py-3.5 text-sand transition-colors duration-fast ease-brand hover:bg-midnight sm:col-span-2 sm:justify-self-start"
+                  className="type-eyebrow bg-iron px-6 py-3.5 text-ash transition-colors duration-fast ease-brand hover:bg-iron/85 sm:col-span-2 sm:justify-self-start"
                 >
                   {t("formSubmit")}
                 </button>
@@ -538,13 +538,13 @@ export default async function ProjectPage({
         {/* Legal strip */}
         <div className="mt-4 flex flex-col gap-2 border-t border-rule pt-6">
           {project.trakheesiPermitNumber ? (
-            <p className="type-micro text-midnight/65">
+            <p className="type-micro text-iron/80">
               {t("legalPermit", { number: project.trakheesiPermitNumber })}
             </p>
           ) : null}
-          <p className="type-micro text-midnight/65">{t("legalEscrow")}</p>
-          <p className="type-micro text-midnight/65">{t("legalPrices")}</p>
-          <p className="type-micro text-midnight/65">{t("legalProjections")}</p>
+          <p className="type-micro text-iron/80">{t("legalEscrow")}</p>
+          <p className="type-micro text-iron/80">{t("legalPrices")}</p>
+          <p className="type-micro text-iron/80">{t("legalProjections")}</p>
         </div>
       </div>
     </CompareProvider>

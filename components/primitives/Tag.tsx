@@ -7,16 +7,16 @@ export function Tag({
   className,
 }: {
   children: ReactNode;
-  tone?: "neutral" | "blue";
+  tone?: "neutral" | "accent";
   className?: string;
 }) {
   return (
     <span
       className={cn(
         "inline-flex items-center type-eyebrow px-2.5 py-1 border",
-        tone === "blue"
-          ? "border-blue/40 text-blue"
-          : "border-rule text-midnight/70",
+        tone === "accent"
+          ? "border-pine text-iron"
+          : "border-rule text-iron/80",
         className,
       )}
     >

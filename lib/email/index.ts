@@ -65,12 +65,12 @@ export function autoresponderHtml({
   consultantRole: string;
   nextStep: string;
 }): string {
-  return `<!doctype html><html><body style="margin:0;background:#F0E5CF;font-family:Montserrat,Arial,sans-serif;color:#10182B">
-  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#F0E5CF;padding:32px 16px">
+  return `<!doctype html><html><body style="margin:0;background:#F7F7F5;font-family:Montserrat,Arial,sans-serif;color:#3F4244">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#F7F7F5;padding:32px 16px">
     <tr><td align="center">
-      <table role="presentation" width="560" cellpadding="0" cellspacing="0" style="background:#FFFFFF;border:1px solid #D8CDB6">
+      <table role="presentation" width="560" cellpadding="0" cellspacing="0" style="background:#EDEAE3;border:1px solid #D7D1C6">
         <tr><td style="padding:32px 32px 24px">
-          <p style="margin:0;font-size:20px;letter-spacing:0.2em;color:#1A41AD;font-weight:300">ALC&Aacute;ZAR</p>
+          <p style="margin:0;font-size:20px;letter-spacing:0.2em;color:#3F4244;font-weight:300">ALC&Aacute;ZAR</p>
         </td></tr>
         <tr><td style="padding:0 32px 8px">
           <p style="margin:0;font-size:14px;line-height:1.7">${leadName},</p>
@@ -78,7 +78,7 @@ export function autoresponderHtml({
         </td></tr>
         <tr><td style="padding:24px 32px 32px">
           <p style="margin:0;font-size:13px;line-height:1.6"><strong>${consultantName}</strong><br/>${consultantRole}, Alc&aacute;zar</p>
-          <p style="margin:16px 0 0;font-size:10px;color:#6B7280;line-height:1.6">The address before it exists. &middot; Reply to this email to reach me directly.</p>
+          <p style="margin:16px 0 0;font-size:10px;color:#3F4244;opacity:0.8;line-height:1.6">The address before it exists. &middot; Reply to this email to reach me directly.</p>
         </td></tr>
       </table>
     </td></tr>

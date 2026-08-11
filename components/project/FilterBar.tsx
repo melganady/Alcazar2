@@ -200,13 +200,13 @@ export function FilterBar({ options }: { options: FilterOptions }) {
   return (
     <>
       {/* Desktop */}
-      <div className="hidden border border-rule bg-white p-5 lg:block">
+      <div className="hidden border border-rule bg-linen p-5 lg:block">
         {controls}
         {activeCount > 0 ? (
           <button
             type="button"
             onClick={clear}
-            className="type-micro mt-4 uppercase text-midnight/65 transition-colors duration-fast ease-brand hover:text-blue"
+            className="type-micro mt-4 uppercase text-iron/80 transition-colors duration-fast ease-brand hover:text-iron hover:underline hover:underline-offset-4"
           >
             {t("clear")} ({activeCount})
           </button>

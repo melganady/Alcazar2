@@ -25,13 +25,13 @@ export function FilterScoreRow({
         const value = scores[key] ?? 0;
         return (
           <div key={key} className="flex flex-col gap-1.5">
-            <dt className="type-micro uppercase text-midnight/65">{t(labelKey)}</dt>
+            <dt className="type-micro uppercase text-iron/80">{t(labelKey)}</dt>
             <dd className="flex items-center gap-1" aria-label={`${value} / 5`}>
               {[1, 2, 3, 4, 5].map((n) => (
                 <span
                   key={n}
                   className={
-                    n <= value ? "h-1.5 w-5 bg-blue" : "h-1.5 w-5 bg-rule"
+                    n <= value ? "h-1.5 w-5 bg-iron" : "h-1.5 w-5 bg-rule"
                   }
                 />
               ))}
