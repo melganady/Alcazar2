@@ -336,13 +336,11 @@ async function importProjects() {
         ).id;
     }
 
-    const projectData: Record<string, unknown> = { ...draft };
-    delete projectData.developerName;
-    projectData.developer = developerId;
-
+    const { developerName, ...rest } = draft;
+    void developerName; // resolved to a relationship above
     const project = await payload.create({
       collection: "projects",
-      data: projectData as Parameters<typeof payload.create>[0]["data"],
+      data: { ...rest, developer: developerId },
     });
     created++;
 

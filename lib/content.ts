@@ -1,17 +1,44 @@
 /**
- * Shared editorial content used across pages (§6, Appendix).
+ * Shared editorial content (§6, Appendix).
  * Verbatim brand lines live here so they cannot drift between pages.
  */
 
 export const VERBATIM = {
   tagline: "The address before it exists.",
   positioning:
-    "A modern, agile real estate house selling tomorrow's skyline today. Built for HNW investors buying off-plan — and for the Gen Z brokers who close them.",
+    "A modern, agile real estate investment house. We place capital into property across the UAE and beyond — off-plan, ready, and repositioned — for private investors buying in cash or on finance.",
   theTest: "If we cannot write the exit, we do not write the entry.",
   careersHeadline: "Young, not casual.",
 } as const;
 
-/** The eight tests, §6 /how-we-work and the home filter section. */
+/**
+ * The ways clients buy through us. Each is a distinct product with its own
+ * maths, hold period and exit — not a variation on one listing type.
+ */
+export const INVESTMENT_MODELS = [
+  {
+    key: "off-plan",
+    title: "Off-plan",
+    line: "Buy before completion on a developer payment plan. Capital staged over construction, exit at or after handover.",
+  },
+  {
+    key: "ready",
+    title: "Ready, income-producing",
+    line: "Completed stock let from day one. Yield from month one, no construction risk, financeable at full LTV.",
+  },
+  {
+    key: "fix-and-flip",
+    title: "Fix and flip",
+    line: "Under-priced ready stock, refurbished and resold. Returns come from the works and the timeline, not the market.",
+  },
+  {
+    key: "finance",
+    title: "Cash or mortgage",
+    line: "We arrange financing alongside the asset, for residents and non-residents. The borrowing ceiling decides the shortlist.",
+  },
+] as const;
+
+/** The eight tests — the filter every asset runs before it reaches a client. */
 export const EIGHT_TESTS = [
   {
     key: "developerRecord",
@@ -21,27 +48,27 @@ export const EIGHT_TESTS = [
   {
     key: "regulatoryStanding",
     title: "Regulatory standing",
-    body: "DLD project registration, escrow account confirmed, Oqood eligibility. Verified, not assumed.",
+    body: "Project registration, escrow confirmed, title clean. Verified against the register, not assumed.",
   },
   {
     key: "priceVsComparables",
     title: "Price vs comparables",
-    body: "Price per square foot against what is trading in the same sub-community today, and against what completes near handover.",
+    body: "Price per square foot against what is trading in the same sub-market today, and against what completes near handover.",
   },
   {
     key: "paymentStructure",
-    title: "Payment structure",
-    body: "How much capital is exposed before a key exists. A 40/60 with a long post-handover tail is a different asset to an 80/20.",
+    title: "Capital structure",
+    body: "How much capital is exposed, and when. A 40/60 with a long post-handover tail is a different asset to an all-cash ready purchase.",
   },
   {
     key: "supplyInWindow",
     title: "Supply in window",
-    body: "What else completes in the same community within a year either side. Your exit competes with every one of them.",
+    body: "What else completes in the same market within a year either side. Your exit competes with every one of them.",
   },
   {
     key: "exitTerms",
     title: "Exit terms",
-    body: "Assignment permitted, from what percentage paid, at what developer NOC fee. This is where the test gets decided.",
+    body: "Assignment permitted, from what percentage paid, at what fee. Or for ready stock: liquidity, buyer depth, days on market.",
   },
   {
     key: "runningCost",
@@ -55,11 +82,25 @@ export const EIGHT_TESTS = [
   },
 ] as const;
 
-/** The five stages, §6 home and /how-we-work. */
+/** The five stages of an engagement. */
 export const FIVE_STAGES = [
-  { n: "01", title: "Brief", line: "Budget, residency status, purpose, exit horizon. Twenty minutes, no deck." },
-  { n: "02", title: "Filter", line: "We run the eight tests. Most launches do not pass. You see the ones that do." },
-  { n: "03", title: "Structure", line: "Payment plan against your cash flow, financing route against your residency." },
-  { n: "04", title: "Secure", line: "Allocation, booking, escrow-registered payment, Oqood registration." },
-  { n: "05", title: "Hold", line: "Construction milestones, handover, and the exit we wrote at the start." },
+  { n: "01", title: "Brief", line: "Capital, residency status, model, exit horizon. Twenty minutes, no deck." },
+  { n: "02", title: "Filter", line: "We run the eight tests. Most assets do not pass. You see the ones that do." },
+  { n: "03", title: "Structure", line: "Cash or finance, against your position. The borrowing ceiling sets the shortlist." },
+  { n: "04", title: "Secure", line: "Allocation, booking, escrow-registered payment, registration." },
+  { n: "05", title: "Hold", line: "Milestones, handover or works, tenancy, and the exit we wrote at the start." },
+] as const;
+
+/**
+ * Markets we place capital into. `live` gates what the site claims today —
+ * never advertise a market before the licence and the inventory exist.
+ */
+export const MARKETS = [
+  { key: "uae", name: "United Arab Emirates", note: "Dubai, Abu Dhabi, Ras Al Khaimah", live: true },
+  { key: "oman", name: "Oman", note: "Muscat", live: false },
+  { key: "georgia", name: "Georgia", note: "Tbilisi, Batumi", live: false },
+  { key: "thailand", name: "Thailand", note: "Phuket, Bangkok", live: false },
+  { key: "indonesia", name: "Indonesia", note: "Bali", live: false },
+  { key: "egypt", name: "Egypt", note: "North Coast", live: false },
+  { key: "usa", name: "United States", note: "Fix and flip", live: false },
 ] as const;

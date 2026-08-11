@@ -17,7 +17,6 @@
     "seed:mortgage": "node --env-file=.env --import tsx scripts/seed-mortgage.ts",
     "check:budgets": "node --import tsx scripts/check-budgets.ts",
     "sourcing:list": "node --env-file=.env --import tsx scripts/ingest/sourcing-list.ts",
-    "import:universe": "node --env-file=.env --import tsx scripts/ingest/import-universe-facts.ts",
     "import:media": "node --env-file=.env --import tsx scripts/ingest/import-media.ts",
     "reelly:discover": "node --env-file=.env --import tsx scripts/ingest/reelly-adapter.ts --discover",
     "reelly:import": "node --env-file=.env --import tsx scripts/ingest/reelly-adapter.ts"

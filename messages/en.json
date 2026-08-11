@@ -13,11 +13,33 @@
     "enquire": "Enquire"
   },
   "home": {
-    "eyebrow": "UAE off-plan advisory",
-    "title": "Own the skyline early",
-    "support": "A defended shortlist of pre-construction assets, underwritten before we show them to you.",
-    "ctaShortlist": "See the shortlist",
-    "ctaBorrow": "Check what you can borrow"
+    "eyebrow": "Real estate investment · UAE and beyond",
+    "title": "Put capital where the numbers hold",
+    "support": "We select, underwrite and place property for private investors — off-plan, ready or repositioned, in cash or on finance. Every asset survives the same eight tests before you see it.",
+    "ctaShortlist": "See live inventory",
+    "ctaBorrow": "Check what you can borrow",
+    "liveTitle": "Live inventory",
+    "allProjects": "All projects",
+    "modelsEyebrow": "How capital goes in",
+    "modelsTitle": "Four ways in. The maths decides which one is yours.",
+    "filterEyebrow": "The filter",
+    "filterNumber": "Of {reviewed} assets reviewed this year, {shortlisted} reached a client shortlist.",
+    "filterFallback": "Every asset runs eight tests before it reaches you.",
+    "howWeWork": "How we work",
+    "shortlistTitle": "The shortlist",
+    "allShortlisted": "All shortlisted",
+    "marketTitle": "The market, in numbers",
+    "marketsEyebrow": "Where we place capital",
+    "marketsTitle": "One desk, several markets",
+    "marketsSupport": "We publish a market only once the licence and the inventory are both in place. These are live today.",
+    "financeTitle": "Cash or mortgage — we arrange both",
+    "financeSupport": "Non-residents borrow up to {pct}% against completed UAE property. Start with the deposit.",
+    "stagesTitle": "How we work",
+    "insightsTitle": "Insights",
+    "allInsights": "All insights",
+    "contactTitle": "Start with a brief",
+    "contactSupport": "Twenty minutes, no deck. Capital, residency status, model, exit horizon.",
+    "contactCta": "Contact"
   },
   "brand": {
     "tagline": "The address before it exists."
