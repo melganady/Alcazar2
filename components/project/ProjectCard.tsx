@@ -1,7 +1,7 @@
-import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/cn";
+import { MediaWell } from "@/components/primitives/MediaWell";
 import { formatBedrooms } from "@/lib/format";
 import type { Project } from "@/payload-types";
 import { PriceDisplay } from "./PriceDisplay";
@@ -38,23 +38,13 @@ export function ProjectCard({
         layout === "list" && "sm:grid sm:grid-cols-[minmax(0,16rem)_1fr]",
       )}
     >
-      <Link
-        href={`/projects/${project.slug}`}
-        className="relative block aspect-[3/2] overflow-hidden bg-linen"
-      >
-        {hero ? (
-          <Image
-            src={hero.url}
-            alt={hero.alt}
-            fill
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            className="object-cover"
-          />
-        ) : (
-          <span className="absolute inset-0 flex items-center justify-center font-display text-display-l font-light text-iron/30">
-            Á
-          </span>
-        )}
+      <Link href={`/projects/${project.slug}`} className="relative block">
+        <MediaWell
+          src={hero?.url}
+          alt={hero?.alt ?? `${project.name}, ${project.subCommunity}`}
+          label={project.subCommunity}
+          ratio="3/2"
+        />
         {shortlisted ? (
           <span
             title={t("shortlisted")}

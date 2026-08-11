@@ -6,6 +6,7 @@ import { RichText } from "@payloadcms/richtext-lexical/react";
 import { Link } from "@/i18n/navigation";
 import { Eyebrow } from "@/components/primitives/Eyebrow";
 import { CropMarks } from "@/components/primitives/CropMarks";
+import { MediaWell } from "@/components/primitives/MediaWell";
 import { Field } from "@/components/primitives/Field";
 import { Select } from "@/components/primitives/Select";
 import { ProjectCard } from "@/components/project/ProjectCard";
@@ -211,8 +212,19 @@ export default async function ProjectPage({
 
         {/* Gallery (developer-supplied only) or placeholder field */}
         {!declined ? (
-          <div className="relative flex aspect-[21/9] items-center justify-center overflow-hidden bg-linen">
-            <span className="font-display text-display-xl font-light text-iron/25">Á</span>
+          <div className="relative">
+            <MediaWell
+              src={
+                project.media?.hero && typeof project.media.hero === "object"
+                  ? project.media.hero.url
+                  : undefined
+              }
+              alt={`${project.name}, ${project.subCommunity}`}
+              label={`${project.name} · ${project.subCommunity}`}
+              ratio="21/9"
+              priority
+              sizes="100vw"
+            />
             {project.trakheesiPermitNumber ? (
               <span className="type-micro absolute bottom-0 end-0 bg-linen/90 px-3 py-1.5 text-iron/80">
                 {t("legalPermit", { number: project.trakheesiPermitNumber })}
