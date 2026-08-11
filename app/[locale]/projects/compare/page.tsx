@@ -103,7 +103,7 @@ export default async function ComparePage({
                     <Link href={`/projects/${p.slug}`} className="type-display-s text-midnight hover:text-blue">
                       {p.name}
                     </Link>
-                    <p className="type-body-s mt-1 font-normal text-midnight/60">
+                    <p className="type-body-s mt-1 font-normal text-midnight/65">
                       {p.subCommunity}, {p.emirate}
                     </p>
                   </th>
@@ -113,7 +113,7 @@ export default async function ComparePage({
             <tbody>
               {rows.map(([label, render]) => (
                 <tr key={label} className="border-b border-rule/60 align-top">
-                  <th className="type-eyebrow p-4 text-start text-midnight/60">{label}</th>
+                  <th className="type-eyebrow p-4 text-start text-midnight/65">{label}</th>
                   {projects.map((p) => (
                     <td key={p.id} className="type-body-s p-4 text-midnight">
                       {render(p)}
@@ -128,7 +128,7 @@ export default async function ComparePage({
         <p className="type-body text-midnight/70">{t("compareHint")}</p>
       )}
 
-      <Link href="/projects" className="type-eyebrow self-start text-midnight/60 hover:text-blue">
+      <Link href="/projects" className="type-eyebrow self-start text-midnight/65 hover:text-blue">
         ← {t("title")}
       </Link>
     </div>

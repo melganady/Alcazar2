@@ -41,7 +41,7 @@ export function ControlsBar() {
             onClick={() => set("view", v === "grid" ? "" : v)}
             className={cn(
               "type-eyebrow transition-colors duration-fast ease-brand",
-              view === v ? "text-blue" : "text-midnight/50 hover:text-blue",
+              view === v ? "text-blue" : "text-midnight/65 hover:text-blue",
             )}
           >
             {t(v === "grid" ? "viewGrid" : v === "list" ? "viewList" : "viewMap")}
@@ -49,7 +49,7 @@ export function ControlsBar() {
         ))}
       </div>
       <label className="flex items-center gap-2">
-        <span className="type-micro uppercase text-midnight/50">{t("sort")}</span>
+        <span className="type-micro uppercase text-midnight/65">{t("sort")}</span>
         <select
           value={sort}
           onChange={(e) => set("sort", e.target.value === "relevance" ? "" : e.target.value)}

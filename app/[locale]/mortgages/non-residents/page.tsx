@@ -104,7 +104,7 @@ export default async function NonResidentsPage({
             <thead>
               <tr className="border-b border-rule">
                 {["Scenario", "Max LTV", "Deposit from"].map((h) => (
-                  <th key={h} className="type-eyebrow p-3 text-start text-midnight/60">{h}</th>
+                  <th key={h} className="type-eyebrow p-3 text-start text-midnight/65">{h}</th>
                 ))}
               </tr>
             </thead>
@@ -123,7 +123,7 @@ export default async function NonResidentsPage({
             </tbody>
           </table>
         </div>
-        <p className="type-micro max-w-3xl text-midnight/50">
+        <p className="type-micro max-w-3xl text-midnight/65">
           Caps effective {constants.effectiveFrom}. {constants.sourceNote}
         </p>
       </section>
@@ -143,7 +143,7 @@ export default async function NonResidentsPage({
           <ol className="flex flex-col divide-y divide-rule border border-rule bg-white">
             {STEPS.map(([title, body], i) => (
               <li key={title} className="flex gap-4 p-4">
-                <span className="type-display-s text-midnight/40">{i + 1}</span>
+                <span className="type-display-s text-midnight/65">{i + 1}</span>
                 <div>
                   <p className="type-body-s font-medium text-midnight">{title}</p>
                   <p className="type-body-s text-midnight/70">{body}</p>
@@ -162,7 +162,7 @@ export default async function NonResidentsPage({
             <thead>
               <tr className="border-b border-rule">
                 {["Lender", "Max LTV non-resident", "Min income (USD/mo)", "Indicative rate"].map((h) => (
-                  <th key={h} className="type-eyebrow p-3 text-start text-midnight/60">{h}</th>
+                  <th key={h} className="type-eyebrow p-3 text-start text-midnight/65">{h}</th>
                 ))}
               </tr>
             </thead>
@@ -212,7 +212,7 @@ export default async function NonResidentsPage({
         </div>
       </CropMarks>
 
-      <p className="type-micro max-w-3xl text-midnight/50">
+      <p className="type-micro max-w-3xl text-midnight/65">
         Indicative only — not an offer of finance. Lender criteria and rates vary and approval is
         not guaranteed. Alcázar acts as an intermediary and is not a lender.
       </p>

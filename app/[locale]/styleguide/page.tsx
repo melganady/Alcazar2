@@ -101,8 +101,8 @@ export default function StyleguidePage({
               <div className={`h-24 ${s.cls}`} />
               <div className="flex flex-col gap-1">
                 <span className="type-eyebrow text-midnight">{s.token}</span>
-                <span className="type-body-s text-midnight/60">{s.hex}</span>
-                <span className="type-micro text-midnight/60">{s.use}</span>
+                <span className="type-body-s text-midnight/65">{s.hex}</span>
+                <span className="type-micro text-midnight/65">{s.use}</span>
               </div>
             </div>
           ))}
@@ -118,7 +118,7 @@ export default function StyleguidePage({
           {TYPE_SPECIMENS.map((t) => (
             <div key={t.name} className="flex flex-col gap-1.5">
               <p className={`${t.cls} text-midnight`}>The address before it exists</p>
-              <p className="type-micro text-midnight/50">
+              <p className="type-micro text-midnight/65">
                 .{t.cls} — {t.spec}
               </p>
             </div>

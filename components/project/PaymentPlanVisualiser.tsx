@@ -9,6 +9,7 @@ import {
   formatConverted,
 } from "@/lib/currency";
 import { Field } from "@/components/primitives/Field";
+import { track } from "@/lib/analytics";
 
 type Milestone = { label: string; pct: number; trigger: string };
 
@@ -21,10 +22,12 @@ export function PaymentPlanVisualiser({
   milestones,
   defaultPriceAED,
   planLabel,
+  slug,
 }: {
   milestones: Milestone[];
   defaultPriceAED: number;
   planLabel: string;
+  slug: string;
 }) {
   const t = useTranslations("project");
   const locale = useLocale();
@@ -45,7 +48,11 @@ export function PaymentPlanVisualiser({
           min={100000}
           step={50000}
           value={price || ""}
-          onChange={(e) => setPrice(Number(e.target.value))}
+          onChange={(e) => {
+            const next = Number(e.target.value);
+            setPrice(next);
+            track({ name: "payment_plan_interacted", slug, unitPriceAED: next });
+          }}
         />
       </div>
 
@@ -61,7 +68,7 @@ export function PaymentPlanVisualiser({
                 : "flex flex-col justify-center gap-0.5 bg-white px-2"
             }
           >
-            <span className="type-micro truncate uppercase text-midnight/60">{m.label}</span>
+            <span className="type-micro truncate uppercase text-midnight/65">{m.label}</span>
             <span className="type-body-s font-medium text-midnight">{m.pct}%</span>
           </div>
         ))}
@@ -73,10 +80,10 @@ export function PaymentPlanVisualiser({
           <caption className="sr-only">{planLabel}</caption>
           <thead>
             <tr className="border-b border-rule">
-              <th className="type-eyebrow py-2 pe-4 text-start text-midnight/60">{t("milestone")}</th>
-              <th className="type-eyebrow py-2 pe-4 text-start text-midnight/60">{t("trigger")}</th>
-              <th className="type-eyebrow py-2 pe-4 text-end text-midnight/60">{t("share")}</th>
-              <th className="type-eyebrow py-2 text-end text-midnight/60">{t("amount")}</th>
+              <th className="type-eyebrow py-2 pe-4 text-start text-midnight/65">{t("milestone")}</th>
+              <th className="type-eyebrow py-2 pe-4 text-start text-midnight/65">{t("trigger")}</th>
+              <th className="type-eyebrow py-2 pe-4 text-end text-midnight/65">{t("share")}</th>
+              <th className="type-eyebrow py-2 text-end text-midnight/65">{t("amount")}</th>
             </tr>
           </thead>
           <tbody>
@@ -91,7 +98,7 @@ export function PaymentPlanVisualiser({
                   <td className="type-body-s py-2.5 text-end text-midnight">
                     {formatAED(amount, locale)}
                     {converted ? (
-                      <span className="ms-2 text-midnight/50">{converted}</span>
+                      <span className="ms-2 text-midnight/65">{converted}</span>
                     ) : null}
                   </td>
                 </tr>
@@ -100,7 +107,7 @@ export function PaymentPlanVisualiser({
           </tbody>
         </table>
       </div>
-      {note ? <p className="type-micro text-midnight/50">{note}</p> : null}
+      {note ? <p className="type-micro text-midnight/65">{note}</p> : null}
     </div>
   );
 }

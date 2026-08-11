@@ -12,12 +12,38 @@ import {
   queryProjects,
   type ProjectFilters,
 } from "@/lib/projects";
+import { alternates, shouldIndexFilteredView } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Off-plan projects in the UAE",
-  description:
-    "The Alcázar shortlist and watchlist of pre-construction projects — payment plans, handover dates, developers, and financing status.",
-};
+const FACET_KEYS = [
+  "emirate", "community", "developer", "type", "beds", "priceMin", "priceMax",
+  "handover", "postHandover", "status", "mortgageable", "goldenVisa", "shortlisted",
+] as const;
+
+/**
+ * §10 — canonical on every filtered view, and noindex on thin or multi-facet
+ * combinations so filter permutations cannot bloat the index.
+ */
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<ProjectFilters>;
+}): Promise<Metadata> {
+  const filters = await searchParams;
+  const active = FACET_KEYS.filter((k) => filters[k]);
+  const result = await queryProjects(filters);
+  const index = shouldIndexFilteredView(active, result.totalDocs);
+
+  const canonicalPath =
+    active.length === 1 ? `/projects?${active[0]}=${filters[active[0]]}` : "/projects";
+
+  return {
+    title: "Off-plan projects in the UAE",
+    description:
+      "The Alcázar shortlist and watchlist of pre-construction projects — payment plans, handover dates, developers, and financing status.",
+    alternates: alternates(canonicalPath),
+    robots: index ? undefined : { index: false, follow: true },
+  };
+}
 
 export default async function ProjectsPage({
   params,
@@ -60,7 +86,7 @@ export default async function ProjectsPage({
         <FilterBar options={options} />
 
         <div className="flex flex-wrap items-center justify-between gap-4">
-          <p aria-live="polite" className="type-eyebrow text-midnight/60">
+          <p aria-live="polite" className="type-eyebrow text-midnight/65">
             {t("results", { count: result.totalDocs })}
           </p>
           <ControlsBar />
@@ -90,19 +116,19 @@ export default async function ProjectsPage({
               <Link
                 href={pageLink(result.page! - 1)}
                 rel="prev"
-                className="type-eyebrow text-midnight/60 hover:text-blue"
+                className="type-eyebrow text-midnight/65 hover:text-blue"
               >
                 {t("prevPage")}
               </Link>
             ) : null}
-            <span className="type-body-s text-midnight/50">
+            <span className="type-body-s text-midnight/65">
               {result.page} / {result.totalPages}
             </span>
             {result.hasNextPage ? (
               <Link
                 href={pageLink(result.page! + 1)}
                 rel="next"
-                className="type-eyebrow text-midnight/60 hover:text-blue"
+                className="type-eyebrow text-midnight/65 hover:text-blue"
               >
                 {t("nextPage")}
               </Link>

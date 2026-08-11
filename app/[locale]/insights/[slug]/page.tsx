@@ -95,7 +95,7 @@ export default async function ArticlePage({
         <header className="flex max-w-3xl flex-col gap-3">
           <Eyebrow>{article.category}</Eyebrow>
           <h1 className="type-display-l text-midnight">{article.title}</h1>
-          <p className="type-body-s text-midnight/60">
+          <p className="type-body-s text-midnight/65">
             {author ? `${author.name} · ${author.role} · ` : ""}
             {String(article.publishedAt).slice(0, 10)}
           </p>
@@ -134,7 +134,7 @@ export default async function ArticlePage({
           </section>
         ) : null}
 
-        <Link href="/insights" className="type-eyebrow self-start text-midnight/60 hover:text-blue">
+        <Link href="/insights" className="type-eyebrow self-start text-midnight/65 hover:text-blue">
           ← Insights
         </Link>
       </article>

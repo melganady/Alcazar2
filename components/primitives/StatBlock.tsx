@@ -19,7 +19,7 @@ export function StatBlock({
 }) {
   const valueColor =
     tone === "sand" ? "text-sand" : tone === "blue" ? "text-blue" : "text-midnight";
-  const labelColor = tone === "sand" ? "text-sand/70" : "text-midnight/60";
+  const labelColor = tone === "sand" ? "text-sand/80" : "text-midnight/65";
   return (
     <div className={cn("flex flex-col gap-1.5", className)}>
       <span className={cn("type-display-m", valueColor)}>{value}</span>

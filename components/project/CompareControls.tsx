@@ -3,23 +3,27 @@
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { useCompare } from "./CompareProvider";
+import { track } from "@/lib/analytics";
 import { cn } from "@/lib/cn";
 
 export function CompareCheckbox({ slug, name }: { slug: string; name: string }) {
   const t = useTranslations("projects");
-  const { toggle, has } = useCompare();
+  const { toggle, has, items } = useCompare();
   const active = has(slug);
   return (
     <label
       className={cn(
         "type-micro inline-flex cursor-pointer items-center gap-1.5 uppercase transition-colors duration-fast ease-brand",
-        active ? "text-blue" : "text-midnight/50 hover:text-blue",
+        active ? "text-blue" : "text-midnight/65 hover:text-blue",
       )}
     >
       <input
         type="checkbox"
         checked={active}
-        onChange={() => toggle({ slug, name })}
+        onChange={() => {
+          toggle({ slug, name });
+          if (!active) track({ name: "compare_added", slug, count: items.length + 1 });
+        }}
         className="h-3.5 w-3.5 accent-[var(--alcazar-blue)]"
       />
       {t("compare")}
@@ -35,7 +39,7 @@ export function CompareTray() {
     <div className="fixed inset-x-0 bottom-0 z-40 border-t border-rule bg-white">
       <div className="mx-auto flex max-w-container flex-wrap items-center justify-between gap-3 px-4 py-3 md:px-6">
         <div className="flex flex-wrap items-center gap-2">
-          <span className="type-eyebrow text-midnight/60">
+          <span className="type-eyebrow text-midnight/65">
             {t("compareTitle")} · {items.length}/3
           </span>
           {items.map((i) => (
@@ -48,7 +52,7 @@ export function CompareTray() {
           <button
             type="button"
             onClick={clear}
-            className="type-micro uppercase text-midnight/50 hover:text-blue"
+            className="type-micro uppercase text-midnight/65 hover:text-blue"
           >
             {t("clear")}
           </button>

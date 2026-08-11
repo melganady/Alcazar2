@@ -30,7 +30,7 @@ export function Select({ id, label, options, className, ...props }: SelectProps)
         <svg
           aria-hidden
           viewBox="0 0 10 6"
-          className="pointer-events-none absolute end-3.5 top-1/2 h-1.5 w-2.5 -translate-y-1/2 text-midnight/60"
+          className="pointer-events-none absolute end-3.5 top-1/2 h-1.5 w-2.5 -translate-y-1/2 text-midnight/65"
         >
           <path d="M1 1l4 4 4-4" stroke="currentColor" fill="none" />
         </svg>

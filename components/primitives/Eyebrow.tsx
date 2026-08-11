@@ -9,6 +9,6 @@ export function Eyebrow({
   className?: string;
 }) {
   return (
-    <p className={cn("type-eyebrow text-midnight/60", className)}>{children}</p>
+    <p className={cn("type-eyebrow text-midnight/65", className)}>{children}</p>
   );
 }

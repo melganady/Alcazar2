@@ -39,7 +39,7 @@ export default async function CareersPage({
       {/* Blue field hero — the one place the brand is loudest. Headline is sand. */}
       <section className="bg-blue">
         <div className="mx-auto flex max-w-container flex-col items-start gap-6 px-4 py-24 md:px-6 md:py-32">
-          <p className="type-eyebrow text-sand/70">Alcázar · Careers</p>
+          <p className="type-eyebrow text-sand/80">Alcázar · Careers</p>
           <h1 className="type-display-xl max-w-3xl text-sand">{VERBATIM.careersHeadline}</h1>
           <p className="type-body-l max-w-xl text-sand/80">
             We sell buildings that do not exist yet, to people who have never met
@@ -92,7 +92,7 @@ export default async function CareersPage({
           <ol className="flex flex-col divide-y divide-rule border border-rule bg-white">
             {ACADEMY.map(([when, what]) => (
               <li key={when} className="flex flex-col gap-1 p-6 sm:flex-row sm:gap-8">
-                <span className="type-display-s w-32 shrink-0 text-midnight/40">{when}</span>
+                <span className="type-display-s w-32 shrink-0 text-midnight/65">{when}</span>
                 <p className="type-body-s text-midnight/80">{what}</p>
               </li>
             ))}
@@ -106,7 +106,7 @@ export default async function CareersPage({
               <thead>
                 <tr className="border-b border-rule">
                   {["Tier", "Commission split", "What changes"].map((h) => (
-                    <th key={h} className="type-eyebrow p-3 text-start text-midnight/60">
+                    <th key={h} className="type-eyebrow p-3 text-start text-midnight/65">
                       {h}
                     </th>
                   ))}
@@ -123,7 +123,7 @@ export default async function CareersPage({
               </tbody>
             </table>
           </div>
-          <p className="type-micro max-w-3xl text-midnight/50">
+          <p className="type-micro max-w-3xl text-midnight/65">
             Splits are indicative of the current structure and are confirmed in
             your offer letter.
           </p>
@@ -179,7 +179,7 @@ export default async function CareersPage({
                   Send application
                 </button>
               </form>
-              <p className="type-micro max-w-2xl text-midnight/50">
+              <p className="type-micro max-w-2xl text-midnight/65">
                 We reply to every application, including the ones we decline. Your
                 data is held under our privacy policy and deleted on request.
               </p>

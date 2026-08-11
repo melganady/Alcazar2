@@ -13,7 +13,9 @@
     "db:constraints": "node --env-file=.env --import tsx scripts/ingest/apply-constraints.ts",
     "validate:projects": "node --env-file=.env --import tsx scripts/ingest/validate.ts",
     "import:developer": "node --env-file=.env --import tsx scripts/ingest/developer-import.ts",
-    "enrich:dld": "node --env-file=.env --import tsx scripts/ingest/dld-enrich.ts"
+    "enrich:dld": "node --env-file=.env --import tsx scripts/ingest/dld-enrich.ts",
+    "seed:mortgage": "node --env-file=.env --import tsx scripts/seed-mortgage.ts",
+    "check:budgets": "node --import tsx scripts/check-budgets.ts"
   },
   "dependencies": {
     "@payloadcms/db-sqlite": "^3.87.1",

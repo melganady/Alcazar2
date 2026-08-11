@@ -93,7 +93,7 @@ export default async function HomePage({
           <div className="grid gap-x-8 gap-y-5 sm:grid-cols-2 lg:grid-cols-4">
             {EIGHT_TESTS.map((test, i) => (
               <div key={test.key} className="flex flex-col gap-1.5 border-t border-rule pt-4">
-                <span className="type-micro text-midnight/40">
+                <span className="type-micro text-midnight/65">
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 <span className="type-display-s text-midnight">{test.title}</span>
@@ -168,7 +168,7 @@ export default async function HomePage({
           <ol className="grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-5">
             {FIVE_STAGES.map((s) => (
               <li key={s.n} className="flex flex-col gap-2 border-t border-rule pt-4">
-                <span className="type-micro text-midnight/40">{s.n}</span>
+                <span className="type-micro text-midnight/65">{s.n}</span>
                 <span className="type-display-s text-midnight">{s.title}</span>
                 <span className="type-body-s text-midnight/70">{s.line}</span>
               </li>
@@ -194,7 +194,7 @@ export default async function HomePage({
                   href={`/insights/${a.slug}`}
                   className="group flex flex-col gap-2 border border-rule bg-white p-5 transition-colors duration-fast ease-brand hover:border-blue"
                 >
-                  <span className="type-micro uppercase text-midnight/50">{a.category}</span>
+                  <span className="type-micro uppercase text-midnight/65">{a.category}</span>
                   <span className="type-display-s text-midnight group-hover:text-blue">{a.title}</span>
                   {a.excerpt ? (
                     <span className="type-body-s text-midnight/70">{a.excerpt}</span>

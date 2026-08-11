@@ -19,13 +19,13 @@ export function Field({ id, label, hint, error, className, ...props }: FieldProp
         aria-invalid={error ? true : undefined}
         aria-describedby={error ? `${id}-error` : hint ? `${id}-hint` : undefined}
         className={cn(
-          "type-body w-full border bg-white px-3.5 py-2.5 text-midnight placeholder:text-midnight/40 transition-colors duration-fast ease-brand",
+          "type-body w-full border bg-white px-3.5 py-2.5 text-midnight placeholder:text-midnight/65 transition-colors duration-fast ease-brand",
           error ? "border-blue" : "border-rule focus:border-blue",
         )}
         {...props}
       />
       {hint && !error ? (
-        <p id={`${id}-hint`} className="type-micro text-midnight/60">
+        <p id={`${id}-hint`} className="type-micro text-midnight/65">
           {hint}
         </p>
       ) : null}

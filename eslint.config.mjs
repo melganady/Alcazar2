@@ -15,9 +15,17 @@ const eslintConfig = [
     // Brand guardrail: raw colour values are banned outside design/tokens.css.
     // The styleguide is exempt — it prints hex values as documentation text.
     files: ["app/**/*.{ts,tsx}", "components/**/*.{ts,tsx}", "lib/**/*.{ts,tsx}"],
-    // Styleguide prints hex values as documentation text; email templates must
-    // inline literal hex because mail clients do not support CSS variables.
-    ignores: ["app/**/styleguide/**", "lib/email/**"],
+    // Exempt by necessity, not convenience:
+    //   styleguide — prints hex values as documentation text
+    //   lib/email  — mail clients do not support CSS variables
+    //   app/og     — ImageResponse renders in isolation with no stylesheet
+    //   *.test.ts  — contrast tests assert on literal colour values
+    ignores: [
+      "app/**/styleguide/**",
+      "lib/email/**",
+      "app/og/**",
+      "**/*.test.ts",
+    ],
     rules: {
       "no-restricted-syntax": [
         "error",

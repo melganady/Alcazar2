@@ -87,7 +87,7 @@ export default async function MortgagesPage({
             <thead>
               <tr className="border-b border-rule">
                 {["Lender", "Max LTV resident", "Max LTV non-resident", "Finances off-plan", "Indicative fixed rate", "Fixed period"].map((h) => (
-                  <th key={h} className="type-eyebrow p-3 text-start text-midnight/60">{h}</th>
+                  <th key={h} className="type-eyebrow p-3 text-start text-midnight/65">{h}</th>
                 ))}
               </tr>
             </thead>
@@ -105,7 +105,7 @@ export default async function MortgagesPage({
             </tbody>
           </table>
         </div>
-        <p className="type-micro max-w-3xl text-midnight/50">
+        <p className="type-micro max-w-3xl text-midnight/65">
           Rates effective {lenders[0]?.ratesEffectiveFrom?.slice(0, 10) ?? constants.effectiveFrom}.
           Indicative only; lender criteria vary and approval is not guaranteed. Alcázar acts as an
           intermediary and is not a lender.

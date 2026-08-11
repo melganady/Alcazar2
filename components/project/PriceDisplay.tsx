@@ -22,7 +22,7 @@ export function PriceDisplay({
     <span className={className}>
       {formatAED(amountAED, locale)}
       {converted ? (
-        <span className={cn("text-midnight/50", convertedClassName)}> {converted}</span>
+        <span className={cn("text-midnight/65", convertedClassName)}> {converted}</span>
       ) : null}
     </span>
   );

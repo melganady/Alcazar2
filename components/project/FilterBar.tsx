@@ -9,6 +9,7 @@ import { Toggle } from "@/components/primitives/Toggle";
 import { RangeSlider } from "@/components/primitives/RangeSlider";
 import { Sheet } from "@/components/primitives/Sheet";
 import { Button } from "@/components/primitives/Button";
+import { track } from "@/lib/analytics";
 
 export type FilterOptions = {
   communities: Array<{ slug: string; name: string; emirate: string }>;
@@ -44,6 +45,7 @@ export function FilterBar({ options }: { options: FilterOptions }) {
         else next.delete(k);
       }
       next.delete("page"); // any filter change resets pagination
+      track({ name: "filter_applied", facets: Object.fromEntries(next.entries()) });
       startTransition(() => {
         router.replace(`${pathname}?${next.toString()}`, { scroll: false });
       });
@@ -204,7 +206,7 @@ export function FilterBar({ options }: { options: FilterOptions }) {
           <button
             type="button"
             onClick={clear}
-            className="type-micro mt-4 uppercase text-midnight/50 transition-colors duration-fast ease-brand hover:text-blue"
+            className="type-micro mt-4 uppercase text-midnight/65 transition-colors duration-fast ease-brand hover:text-blue"
           >
             {t("clear")} ({activeCount})
           </button>

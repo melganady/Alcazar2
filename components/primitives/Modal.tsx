@@ -46,7 +46,7 @@ export function Modal({
             type="button"
             onClick={onClose}
             aria-label={closeLabel}
-            className="type-eyebrow -m-2 p-2 text-midnight/60 transition-colors duration-fast ease-brand hover:text-blue"
+            className="type-eyebrow -m-2 p-2 text-midnight/65 transition-colors duration-fast ease-brand hover:text-blue"
           >
             <svg aria-hidden viewBox="0 0 12 12" className="h-3 w-3">
               <path d="M1 1l10 10M11 1L1 11" stroke="currentColor" fill="none" />

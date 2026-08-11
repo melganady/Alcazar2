@@ -41,7 +41,7 @@ export function SiteFooter() {
           <p className="type-micro text-sand/60">{t("escrow")}</p>
           <p className="type-micro text-sand/60">{t("investment")}</p>
           <p className="type-micro text-sand/60">{t("mortgage")}</p>
-          <p className="type-micro text-sand/40">{t("rights", { year })}</p>
+          <p className="type-micro text-sand/60">{t("rights", { year })}</p>
         </div>
       </div>
     </footer>

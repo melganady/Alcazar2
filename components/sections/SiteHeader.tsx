@@ -28,7 +28,7 @@ export function SiteHeader() {
       {/* Utility bar: locale, currency, units (§9) */}
       <div className="border-b border-rule">
         <div className="mx-auto flex max-w-container items-center justify-between gap-4 px-4 py-1.5 md:px-6">
-          <p className="type-micro hidden text-midnight/50 sm:block">
+          <p className="type-micro hidden text-midnight/65 sm:block">
             {tBrand("tagline")}
           </p>
           <div className="flex items-center gap-5">

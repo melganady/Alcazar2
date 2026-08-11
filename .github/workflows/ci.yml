@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    env:
+      PAYLOAD_SECRET: ci-only-not-a-real-secret
+      DATABASE_URI: file:./ci.db
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+
+      - name: Lint (includes the raw-hex token guard)
+        run: npm run lint
+
+      # Contrast assertions here fail the build on any palette regression (§12).
+      - name: Test
+        run: npm test
+
+      - name: Seed a database for the build
+        run: npm run seed && npm run seed:mortgage
+
+      - name: Build
+        run: npm run build
+
+      - name: JS budgets (§12, gzipped first-load)
+        run: npm run check:budgets

@@ -56,15 +56,15 @@ export function MiniCalculator({ constants }: { constants: MortgageConstants }) 
       <div className="flex flex-col justify-between gap-4 border border-rule bg-white p-5">
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <p className="type-micro uppercase text-midnight/50">Deposit from</p>
+            <p className="type-micro uppercase text-midnight/65">Deposit from</p>
             <p className="type-display-s text-midnight">{formatAED(Math.round(deposit), locale)}</p>
           </div>
           <div>
-            <p className="type-micro uppercase text-midnight/50">Indicative monthly</p>
+            <p className="type-micro uppercase text-midnight/65">Indicative monthly</p>
             <p className="type-display-s text-midnight">{formatAED(Math.round(monthly), locale)}</p>
           </div>
         </div>
-        <p className="type-micro text-midnight/50">
+        <p className="type-micro text-midnight/65">
           At {pct}% LTV, 25 years, 4.25% indicative. Not an offer of finance.
         </p>
         <Link

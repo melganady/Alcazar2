@@ -25,6 +25,7 @@ import type {
 } from "@/lib/mortgage/types";
 import { conversionNote, formatAED, formatConverted } from "@/lib/currency";
 import { requestCalculatorPdf } from "@/lib/actions";
+import { track } from "@/lib/analytics";
 
 type Milestone = { label: string; pct: number; trigger: string };
 
@@ -45,7 +46,7 @@ function Money({ aed, small = false }: { aed: number; small?: boolean }) {
     <>
       {formatAED(Math.round(aed), locale)}
       {converted ? (
-        <span className={small ? "type-micro ms-1.5 text-midnight/50" : "type-body-s ms-2 text-midnight/50"}>
+        <span className={small ? "type-micro ms-1.5 text-midnight/65" : "type-body-s ms-2 text-midnight/65"}>
           {converted}
         </span>
       ) : null}
@@ -170,6 +171,16 @@ export function Calculator({
 
   const [pdfState, pdfAction] = useActionState(requestCalculatorPdf, null);
 
+  // §12 calculator_used — on the settled scenario, with the binding constraint
+  useEffect(() => {
+    track({
+      name: "calculator_used",
+      residencyStatus: input.residencyStatus,
+      bindingConstraint: borrowing.binding,
+      propertyStatus: input.propertyStatus,
+    });
+  }, [input.residencyStatus, input.propertyStatus, borrowing.binding]);
+
   const downloadCsv = () => {
     const rows = amortisationTable(loan, input.interestRatePct, tenure.years);
     const head = "month,opening_aed,interest_aed,principal_aed,closing_aed";
@@ -267,7 +278,7 @@ export function Calculator({
       {/* Outputs */}
       <div className="flex flex-col gap-6">
         <div className="border border-rule bg-white p-6">
-          <p className="type-eyebrow text-midnight/60">{t("maxBorrowing")}</p>
+          <p className="type-eyebrow text-midnight/65">{t("maxBorrowing")}</p>
           <p className="type-display-m mt-1 text-blue">
             <Money aed={borrowing.loanAED} />
           </p>
@@ -282,17 +293,17 @@ export function Calculator({
           ) : null}
           <div className="mt-5 grid grid-cols-2 gap-5 border-t border-rule pt-5 sm:grid-cols-3">
             <div>
-              <p className="type-micro uppercase text-midnight/50">{t("depositRequired")}</p>
+              <p className="type-micro uppercase text-midnight/65">{t("depositRequired")}</p>
               <p className="type-body font-medium text-midnight"><Money aed={deposit} small /></p>
             </div>
             <div>
-              <p className="type-micro uppercase text-midnight/50">{t("monthly")}</p>
+              <p className="type-micro uppercase text-midnight/65">{t("monthly")}</p>
               <p className="type-body font-medium text-midnight"><Money aed={monthly} small /></p>
             </div>
             <div>
-              <p className="type-micro uppercase text-midnight/50">{t("totalOverTerm", { years: tenure.years })}</p>
+              <p className="type-micro uppercase text-midnight/65">{t("totalOverTerm", { years: tenure.years })}</p>
               <p className="type-body font-medium text-midnight"><Money aed={totalPaidAED} small /></p>
-              <p className="type-micro text-midnight/50">
+              <p className="type-micro text-midnight/65">
                 {t("totalInterest")} <Money aed={totalInterestAED} small />
               </p>
             </div>
@@ -301,10 +312,10 @@ export function Calculator({
 
         {/* Upfront costs */}
         <div className="border border-rule bg-white p-6">
-          <p className="type-eyebrow text-midnight/60">{t("upfront")}</p>
+          <p className="type-eyebrow text-midnight/65">{t("upfront")}</p>
           <p className="type-display-s mt-1 text-midnight">
             <Money aed={costs.totalMinAED} />
-            {costs.totalMaxAED > costs.totalMinAED ? <span className="text-midnight/50"> – <Money aed={costs.totalMaxAED} small /></span> : null}
+            {costs.totalMaxAED > costs.totalMinAED ? <span className="text-midnight/65"> – <Money aed={costs.totalMaxAED} small /></span> : null}
           </p>
           <ul className="mt-4 flex flex-col divide-y divide-rule/60">
             {costs.lines.map((l) => (
@@ -322,7 +333,7 @@ export function Calculator({
               </li>
             ))}
           </ul>
-          <p className="type-micro mt-3 text-midnight/50">
+          <p className="type-micro mt-3 text-midnight/65">
             {t("insuranceNote", { amount: formatAED(Math.round(insuranceAnnual), locale) })}
           </p>
         </div>
@@ -330,7 +341,7 @@ export function Calculator({
         {/* Off-plan two-stage mode */}
         {propertyStatus === "off-plan" ? (
           <div className="border border-rule bg-white p-6">
-            <p className="type-eyebrow text-midnight/60">{t("offplanTitle")}</p>
+            <p className="type-eyebrow text-midnight/65">{t("offplanTitle")}</p>
             <div className="mt-4 grid gap-6 sm:grid-cols-2">
               <div>
                 <p className="type-body-s font-medium text-midnight">{t("offplanDuring")}</p>
@@ -380,7 +391,7 @@ export function Calculator({
 
         {/* Amortisation */}
         <details className="border border-rule bg-white">
-          <summary className="type-eyebrow cursor-pointer p-6 text-midnight/60">
+          <summary className="type-eyebrow cursor-pointer p-6 text-midnight/65">
             {t("amortisation")}
           </summary>
           <div className="px-6 pb-6">
@@ -396,7 +407,7 @@ export function Calculator({
                 <thead className="sticky top-0 bg-white">
                   <tr className="border-b border-rule">
                     {[t("amMonth"), t("amOpening"), t("amInterest"), t("amPrincipal"), t("amClosing")].map((h) => (
-                      <th key={h} className="type-eyebrow py-2 pe-4 text-start text-midnight/60">{h}</th>
+                      <th key={h} className="type-eyebrow py-2 pe-4 text-start text-midnight/65">{h}</th>
                     ))}
                   </tr>
                 </thead>
@@ -422,7 +433,11 @@ export function Calculator({
           {pdfState?.ok ? (
             <p role="status" className="type-body mt-3 text-midnight/80">{t("pdfSent")}</p>
           ) : (
-            <form action={pdfAction} className="mt-4 grid gap-4 sm:grid-cols-3">
+            <form
+              action={pdfAction}
+              onSubmit={() => track({ name: "pdf_gated_submit", residencyStatus: residency })}
+              className="mt-4 grid gap-4 sm:grid-cols-3"
+            >
               <div className="hidden" aria-hidden>
                 <input type="text" name="company" tabIndex={-1} autoComplete="off" />
               </div>
@@ -446,8 +461,8 @@ export function Calculator({
         </div>
 
         <Rule />
-        <p className="type-micro max-w-3xl text-midnight/60">{t("disclaimer")}</p>
-        <p className="type-micro max-w-3xl text-midnight/50">
+        <p className="type-micro max-w-3xl text-midnight/65">{t("disclaimer")}</p>
+        <p className="type-micro max-w-3xl text-midnight/65">
           {t("constantsNote", { date: constants.effectiveFrom, source: constants.sourceNote })}
           {note ? ` · ${note}` : ""}
         </p>

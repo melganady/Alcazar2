@@ -36,7 +36,7 @@ export default async function HowWeWorkPage({
         <div className="grid gap-x-8 gap-y-8 md:grid-cols-2">
           {EIGHT_TESTS.map((test, i) => (
             <div key={test.key} className="flex flex-col gap-2 border-t border-rule pt-5">
-              <span className="type-micro text-midnight/40">{String(i + 1).padStart(2, "0")}</span>
+              <span className="type-micro text-midnight/65">{String(i + 1).padStart(2, "0")}</span>
               <h3 className="type-display-s text-midnight">{test.title}</h3>
               <p className="type-body-s text-midnight/70">{test.body}</p>
             </div>
@@ -55,7 +55,7 @@ export default async function HowWeWorkPage({
         <ol className="flex flex-col divide-y divide-rule border border-rule bg-white">
           {FIVE_STAGES.map((s) => (
             <li key={s.n} className="flex flex-col gap-2 p-6 sm:flex-row sm:gap-8">
-              <span className="type-display-s w-12 shrink-0 text-midnight/40">{s.n}</span>
+              <span className="type-display-s w-12 shrink-0 text-midnight/65">{s.n}</span>
               <div className="flex flex-col gap-1">
                 <h3 className="type-display-s text-midnight">{s.title}</h3>
                 <p className="type-body-s text-midnight/70">{s.line}</p>

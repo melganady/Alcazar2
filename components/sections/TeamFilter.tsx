@@ -62,7 +62,7 @@ export function TeamFilter({ agents }: { agents: TeamMember[] }) {
     <div className="flex flex-col gap-8">
       <div className="flex flex-col gap-4">
         <div className="flex flex-wrap items-center gap-2">
-          <span className="type-eyebrow me-2 text-midnight/50">Language</span>
+          <span className="type-eyebrow me-2 text-midnight/65">Language</span>
           {languages.map((l) => (
             <Chip
               key={l}
@@ -73,7 +73,7 @@ export function TeamFilter({ agents }: { agents: TeamMember[] }) {
           ))}
         </div>
         <div className="flex flex-wrap items-center gap-2">
-          <span className="type-eyebrow me-2 text-midnight/50">Specialism</span>
+          <span className="type-eyebrow me-2 text-midnight/65">Specialism</span>
           {specialisms.map((s) => (
             <Chip
               key={s}
@@ -85,7 +85,7 @@ export function TeamFilter({ agents }: { agents: TeamMember[] }) {
         </div>
       </div>
 
-      <p aria-live="polite" className="type-eyebrow text-midnight/60">
+      <p aria-live="polite" className="type-eyebrow text-midnight/65">
         {visible.length} {visible.length === 1 ? "consultant" : "consultants"}
       </p>
 
@@ -97,10 +97,10 @@ export function TeamFilter({ agents }: { agents: TeamMember[] }) {
             </div>
             <h2 className="type-display-s mt-2 text-midnight">{a.name}</h2>
             <p className="type-body-s text-midnight/70">{a.role}</p>
-            <p className="type-micro text-midnight/50">RERA BRN {a.brn}</p>
+            <p className="type-micro text-midnight/65">RERA BRN {a.brn}</p>
             {a.bio ? <p className="type-body-s mt-1 text-midnight/80">{a.bio}</p> : null}
-            <p className="type-micro mt-1 text-midnight/60">{a.languages.join(" · ")}</p>
-            <p className="type-micro text-midnight/60">{a.specialisms.join(" · ")}</p>
+            <p className="type-micro mt-1 text-midnight/65">{a.languages.join(" · ")}</p>
+            <p className="type-micro text-midnight/65">{a.specialisms.join(" · ")}</p>
             <div className="mt-3 flex flex-wrap gap-3">
               {a.whatsapp ? (
                 <a

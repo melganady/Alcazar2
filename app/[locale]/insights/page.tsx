@@ -48,11 +48,11 @@ export default async function InsightsPage({
               href={`/insights/${a.slug}`}
               className="group flex flex-col gap-2 border border-rule bg-white p-5 transition-colors duration-fast ease-brand hover:border-blue"
             >
-              <span className="type-micro uppercase text-midnight/50">{a.category}</span>
+              <span className="type-micro uppercase text-midnight/65">{a.category}</span>
               <h2 className="type-display-s text-midnight group-hover:text-blue">{a.title}</h2>
               {a.excerpt ? <p className="type-body-s text-midnight/70">{a.excerpt}</p> : null}
               {a.publishedAt ? (
-                <span className="type-micro mt-1 text-midnight/50">
+                <span className="type-micro mt-1 text-midnight/65">
                   {String(a.publishedAt).slice(0, 10)}
                 </span>
               ) : null}

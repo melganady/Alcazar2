@@ -115,20 +115,20 @@ export function StyleguideDemos() {
 
       {/* Currency + units, driven by the live switchers in the header */}
       <div className="flex flex-col gap-2 border border-rule bg-white p-6">
-        <p className="type-eyebrow text-midnight/60">
+        <p className="type-eyebrow text-midnight/65">
           Live price display · currency {currency} · {unit}
         </p>
         <p className="type-display-m text-midnight">
           {formatAED(samplePriceAED)}
           {converted ? (
-            <span className="type-body-l ms-3 text-midnight/60">{converted}</span>
+            <span className="type-body-l ms-3 text-midnight/65">{converted}</span>
           ) : null}
         </p>
         <p className="type-body-s text-midnight/70">
           {formatArea(sampleSqft, unit)}
         </p>
-        {note ? <p className="type-micro text-midnight/50">{note}</p> : null}
-        <p className="type-micro text-midnight/50">
+        {note ? <p className="type-micro text-midnight/65">{note}</p> : null}
+        <p className="type-micro text-midnight/65">
           AED is the contractual currency and is always shown. Seed rates —
           replaced by a daily cached fetch in Phase 5.
         </p>

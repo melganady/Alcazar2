@@ -43,7 +43,7 @@ export function UnitSwitcher() {
           onClick={() => setUnit(u)}
           className={cn(
             "type-micro uppercase transition-colors duration-fast ease-brand",
-            unit === u ? "font-medium text-blue" : "text-midnight/50 hover:text-blue",
+            unit === u ? "font-medium text-blue" : "text-midnight/65 hover:text-blue",
           )}
         >
           {t(u)}

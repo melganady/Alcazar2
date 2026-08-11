@@ -8,16 +8,25 @@ import { PrefsProvider } from "@/components/primitives/PrefsProvider";
 import { ToastProvider } from "@/components/primitives/Toast";
 import { SiteHeader } from "@/components/sections/SiteHeader";
 import { SiteFooter } from "@/components/sections/SiteFooter";
+import { CookieConsent } from "@/components/primitives/CookieConsent";
+import { organizationJsonLd, BASE_URL } from "@/lib/seo";
 import { cn } from "@/lib/cn";
 import "../globals.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(BASE_URL),
   title: {
     default: "Alcázar — The address before it exists",
     template: "%s | Alcázar",
   },
   description:
     "UAE off-plan real estate advisory and mortgage consultancy. A defended shortlist of pre-construction assets, with financing for residents and non-residents.",
+  openGraph: {
+    siteName: "Alcázar",
+    type: "website",
+    locale: "en_AE",
+    alternateLocale: "ar_AE",
+  },
 };
 
 export function generateStaticParams() {
@@ -48,6 +57,10 @@ export default async function LocaleLayout({
       )}
     >
       <body>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd()) }}
+        />
         <NextIntlClientProvider>
           <PrefsProvider>
             <ToastProvider>
@@ -60,6 +73,7 @@ export default async function LocaleLayout({
               <SiteHeader />
               <main id="main">{children}</main>
               <SiteFooter />
+              <CookieConsent />
             </ToastProvider>
           </PrefsProvider>
         </NextIntlClientProvider>

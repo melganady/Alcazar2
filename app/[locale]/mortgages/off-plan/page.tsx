@@ -46,7 +46,7 @@ export default async function OffPlanFinancePage({
 
       <section className="grid gap-5 md:grid-cols-2">
         <div className="flex flex-col gap-3 border border-rule bg-white p-6">
-          <p className="type-eyebrow text-midnight/60">Stage 1 · During construction</p>
+          <p className="type-eyebrow text-midnight/65">Stage 1 · During construction</p>
           <h2 className="type-display-s text-midnight">Developer instalments, self-funded</h2>
           <p className="type-body-s text-midnight/80">
             The payment plan — 60/40, 80/20, whatever the project sets — runs on the
@@ -56,7 +56,7 @@ export default async function OffPlanFinancePage({
           </p>
         </div>
         <div className="flex flex-col gap-3 border border-rule bg-white p-6">
-          <p className="type-eyebrow text-midnight/60">Stage 2 · At handover</p>
+          <p className="type-eyebrow text-midnight/65">Stage 2 · At handover</p>
           <h2 className="type-display-s text-midnight">The mortgage starts — against a valuation</h2>
           <p className="type-body-s text-midnight/80">
             At handover the unit is completed property: residents borrow at their normal caps,
@@ -75,7 +75,7 @@ export default async function OffPlanFinancePage({
             {lendersRes.docs.map((l) => (
               <li key={l.id} className="flex items-baseline justify-between gap-4 p-4">
                 <span className="type-body-s font-medium text-midnight">{l.name}</span>
-                <span className="type-body-s text-midnight/60">
+                <span className="type-body-s text-midnight/65">
                   up to {constants.ltv.offPlanPct}% during construction · {l.indicativeFixedRatePct}%
                 </span>
               </li>
@@ -86,7 +86,7 @@ export default async function OffPlanFinancePage({
             Lender data pending — the panel is confirmed before launch.
           </p>
         )}
-        <p className="type-micro max-w-3xl text-midnight/50">
+        <p className="type-micro max-w-3xl text-midnight/65">
           Caps effective {constants.effectiveFrom}. {constants.sourceNote}
         </p>
       </section>
@@ -106,7 +106,7 @@ export default async function OffPlanFinancePage({
         </Link>
       </div>
 
-      <p className="type-micro max-w-3xl text-midnight/50">
+      <p className="type-micro max-w-3xl text-midnight/65">
         Indicative only — not an offer of finance. Lender criteria and rates vary and approval is
         not guaranteed. Alcázar acts as an intermediary and is not a lender. Off-plan property
         carries construction, delivery, market and liquidity risk; values can fall.

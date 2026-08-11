@@ -25,6 +25,9 @@ import { getPayloadClient } from "@/lib/payload";
 import { depositFor, INDICATIVE_LTV } from "@/lib/mortgage/indicative";
 import { createLead } from "@/lib/actions";
 import { formatBedrooms } from "@/lib/format";
+import { alternates, breadcrumbJsonLd, projectJsonLd, projectTitle } from "@/lib/seo";
+import { TrackProjectView } from "@/components/analytics/TrackProjectView";
+import { WhatsAppLink } from "@/components/analytics/WhatsAppLink";
 import type { Agent, Developer, Lender, Project } from "@/payload-types";
 
 export const revalidate = 3600;
@@ -42,12 +45,19 @@ export async function generateMetadata({
   const { slug } = await params;
   const project = await getProjectBySlug(slug);
   if (!project) return {};
-  // §10 title pattern
+  const title = project.seo?.title ?? projectTitle(project);
+  const description =
+    project.seo?.description ??
+    `${project.name} in ${project.subCommunity}: from AED ${project.priceFromAED.toLocaleString()}, ${project.paymentPlan?.label} payment plan, handover ${project.handoverQuarter} ${project.handoverYear}.`;
   return {
-    title: `${project.name}, ${project.subCommunity} — ${project.paymentPlan?.label} Payment Plan, Handover ${project.handoverQuarter} ${project.handoverYear}`,
-    description:
-      project.seo?.description ??
-      `${project.name} in ${project.subCommunity}: from AED ${project.priceFromAED.toLocaleString()}, ${project.paymentPlan?.label} payment plan, handover ${project.handoverQuarter} ${project.handoverYear}.`,
+    title,
+    description,
+    alternates: alternates(`/projects/${slug}`),
+    openGraph: {
+      title,
+      description,
+      images: [{ url: `/og/${slug}`, width: 1200, height: 630 }],
+    },
   };
 }
 
@@ -144,6 +154,26 @@ export default async function ProjectPage({
 
   return (
     <CompareProvider>
+      <TrackProjectView
+        slug={project.slug}
+        community={community?.name}
+        status={project.alcazarStatus}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(projectJsonLd(project)) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(
+            breadcrumbJsonLd([
+              { name: "Projects", path: "/projects" },
+              { name: project.name, path: `/projects/${project.slug}` },
+            ]),
+          ),
+        }}
+      />
       {/* Sticky sub-nav */}
       <nav className="sticky top-0 z-30 border-b border-rule bg-sand">
         <div className="mx-auto flex max-w-container gap-5 overflow-x-auto px-4 py-3 md:px-6">
@@ -151,7 +181,7 @@ export default async function ProjectPage({
             <a
               key={id}
               href={`#${id}`}
-              className="type-eyebrow whitespace-nowrap text-midnight/60 transition-colors duration-fast ease-brand hover:text-blue"
+              className="type-eyebrow whitespace-nowrap text-midnight/65 transition-colors duration-fast ease-brand hover:text-blue"
             >
               {label}
             </a>
@@ -174,7 +204,7 @@ export default async function ProjectPage({
             <div className="max-w-2xl border border-rule bg-white p-5">
               <p className="type-display-s text-midnight">{t("declinedTitle")}</p>
               <p className="type-body mt-2 text-midnight/80">{project.declineReason}</p>
-              <p className="type-body-s mt-2 text-midnight/60">{t("declinedNote")}</p>
+              <p className="type-body-s mt-2 text-midnight/65">{t("declinedNote")}</p>
             </div>
           ) : null}
         </header>
@@ -184,7 +214,7 @@ export default async function ProjectPage({
           <div className="relative flex aspect-[21/9] items-center justify-center overflow-hidden bg-sand">
             <span className="font-display text-display-xl font-light text-blue/25">Á</span>
             {project.trakheesiPermitNumber ? (
-              <span className="type-micro absolute bottom-0 end-0 bg-white/90 px-3 py-1.5 text-midnight/60">
+              <span className="type-micro absolute bottom-0 end-0 bg-white/90 px-3 py-1.5 text-midnight/65">
                 {t("legalPermit", { number: project.trakheesiPermitNumber })}
                 {developer ? ` · ${developer.name}` : ""}
               </span>
@@ -196,7 +226,7 @@ export default async function ProjectPage({
         <div className="mt-8 grid grid-cols-2 gap-x-6 gap-y-5 border border-rule bg-white p-6 sm:grid-cols-4">
           {facts.map(([label, value]) => (
             <div key={label} className="flex flex-col gap-1">
-              <span className="type-micro uppercase text-midnight/50">{label}</span>
+              <span className="type-micro uppercase text-midnight/65">{label}</span>
               <span className="type-body-s font-medium text-midnight">{value}</span>
             </div>
           ))}
@@ -213,6 +243,7 @@ export default async function ProjectPage({
               }))}
               defaultPriceAED={project.priceFromAED}
               planLabel={project.paymentPlan.label}
+              slug={project.slug}
             />
           ) : (
             <p className="type-body text-midnight/70">{project.paymentPlan?.label}</p>
@@ -228,7 +259,7 @@ export default async function ProjectPage({
                   <tr className="border-b border-rule">
                     {[t("unitLayout"), t("unitBeds"), t("unitSize"), t("unitPriceFrom"), t("unitAvailability")].map(
                       (h) => (
-                        <th key={h} className="type-eyebrow p-3 text-start text-midnight/60">
+                        <th key={h} className="type-eyebrow p-3 text-start text-midnight/65">
                           {h}
                         </th>
                       ),
@@ -290,14 +321,14 @@ export default async function ProjectPage({
                       >
                         {s.name}
                       </Link>
-                      <span className="type-body-s whitespace-nowrap text-midnight/60">
+                      <span className="type-body-s whitespace-nowrap text-midnight/65">
                         {s.handoverQuarter} {s.handoverYear}
                       </span>
                     </li>
                   ))}
                 </ul>
               ) : (
-                <p className="type-body-s text-midnight/60">{t("supplyNone")}</p>
+                <p className="type-body-s text-midnight/65">{t("supplyNone")}</p>
               )}
             </div>
           </div>
@@ -311,7 +342,7 @@ export default async function ProjectPage({
                 <p className="type-display-s text-midnight">{t(mortgageableKey)}</p>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <p className="type-micro uppercase text-midnight/50">{t("depositResident")}</p>
+                    <p className="type-micro uppercase text-midnight/65">{t("depositResident")}</p>
                     <p className="type-body font-medium text-midnight">
                       <PriceDisplay
                         amountAED={depositFor(project.priceFromAED, INDICATIVE_LTV.residentFirstPropertyPct)}
@@ -320,7 +351,7 @@ export default async function ProjectPage({
                     </p>
                   </div>
                   <div>
-                    <p className="type-micro uppercase text-midnight/50">{t("depositNonResident")}</p>
+                    <p className="type-micro uppercase text-midnight/65">{t("depositNonResident")}</p>
                     <p className="type-body font-medium text-midnight">
                       <PriceDisplay
                         amountAED={depositFor(project.priceFromAED, INDICATIVE_LTV.nonResidentPct)}
@@ -329,7 +360,7 @@ export default async function ProjectPage({
                     </p>
                   </div>
                 </div>
-                <p className="type-micro text-midnight/50">
+                <p className="type-micro text-midnight/65">
                   {t("ltvNote", {
                     residentPct: INDICATIVE_LTV.residentFirstPropertyPct,
                     nonResidentPct: INDICATIVE_LTV.nonResidentPct,
@@ -346,12 +377,12 @@ export default async function ProjectPage({
               </div>
               {lenders.length > 0 ? (
                 <div className="border border-rule bg-white p-6">
-                  <p className="type-eyebrow mb-4 text-midnight/60">{t("lendersKnown")}</p>
+                  <p className="type-eyebrow mb-4 text-midnight/65">{t("lendersKnown")}</p>
                   <ul className="flex flex-col divide-y divide-rule">
                     {lenders.map((l) => (
                       <li key={l.id} className="flex items-baseline justify-between gap-4 py-2.5">
                         <span className="type-body-s font-medium text-midnight">{l.name}</span>
-                        <span className="type-body-s text-midnight/60">
+                        <span className="type-body-s text-midnight/65">
                           LTV {l.maxLtvResidentPct}% / {l.maxLtvNonResidentPct}%
                         </span>
                       </li>
@@ -429,17 +460,19 @@ export default async function ProjectPage({
               <div className="flex flex-col gap-4">
                 {agent ? (
                   <div className="flex flex-col gap-1 border border-rule bg-white p-5">
-                    <p className="type-micro uppercase text-midnight/50">{t("consultant")}</p>
+                    <p className="type-micro uppercase text-midnight/65">{t("consultant")}</p>
                     <p className="type-display-s text-midnight">{agent.name}</p>
                     <p className="type-body-s text-midnight/70">{agent.role}</p>
-                    <p className="type-micro text-midnight/50">RERA BRN {agent.brn}</p>
+                    <p className="type-micro text-midnight/65">RERA BRN {agent.brn}</p>
                     {waHref ? (
-                      <a
+                      <WhatsAppLink
                         href={waHref}
-                        className="type-eyebrow mt-3 self-start bg-blue px-4 py-2.5 text-sand transition-colors duration-fast ease-brand hover:bg-midnight"
+                        source="project-detail"
+                        slug={project.slug}
+                        className="mt-3 self-start px-4 py-2.5"
                       >
                         {t("whatsapp")}
-                      </a>
+                      </WhatsAppLink>
                     ) : null}
                   </div>
                 ) : null}
@@ -505,13 +538,13 @@ export default async function ProjectPage({
         {/* Legal strip */}
         <div className="mt-4 flex flex-col gap-2 border-t border-rule pt-6">
           {project.trakheesiPermitNumber ? (
-            <p className="type-micro text-midnight/50">
+            <p className="type-micro text-midnight/65">
               {t("legalPermit", { number: project.trakheesiPermitNumber })}
             </p>
           ) : null}
-          <p className="type-micro text-midnight/50">{t("legalEscrow")}</p>
-          <p className="type-micro text-midnight/50">{t("legalPrices")}</p>
-          <p className="type-micro text-midnight/50">{t("legalProjections")}</p>
+          <p className="type-micro text-midnight/65">{t("legalEscrow")}</p>
+          <p className="type-micro text-midnight/65">{t("legalPrices")}</p>
+          <p className="type-micro text-midnight/65">{t("legalProjections")}</p>
         </div>
       </div>
     </CompareProvider>

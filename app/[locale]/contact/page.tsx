@@ -49,10 +49,10 @@ export default async function ContactPage({
         <aside className="flex flex-col gap-6">
           {agent ? (
             <div className="flex flex-col gap-1 border border-rule bg-white p-5">
-              <p className="type-micro uppercase text-midnight/50">{t("consultant")}</p>
+              <p className="type-micro uppercase text-midnight/65">{t("consultant")}</p>
               <p className="type-display-s text-midnight">{agent.name}</p>
               <p className="type-body-s text-midnight/70">{agent.role}</p>
-              <p className="type-micro text-midnight/50">RERA BRN {agent.brn}</p>
+              <p className="type-micro text-midnight/65">RERA BRN {agent.brn}</p>
               <div className="mt-3 flex flex-wrap gap-3">
                 {waHref ? (
                   <a
@@ -75,10 +75,10 @@ export default async function ContactPage({
           ) : null}
 
           <div className="flex flex-col gap-2 border border-rule bg-white p-5">
-            <p className="type-micro uppercase text-midnight/50">Office</p>
+            <p className="type-micro uppercase text-midnight/65">Office</p>
             <p className="type-body-s text-midnight">{SITE.compliance.legalName}</p>
             <p className="type-body-s text-midnight/70">{SITE.compliance.city}</p>
-            <p className="type-micro mt-2 text-midnight/50">
+            <p className="type-micro mt-2 text-midnight/65">
               {SITE.compliance.orn} · {SITE.compliance.tradeLicence}
             </p>
           </div>
@@ -148,7 +148,7 @@ export default async function ContactPage({
             </button>
           </form>
 
-          <p className="type-micro max-w-2xl text-midnight/50">
+          <p className="type-micro max-w-2xl text-midnight/65">
             We process your details to respond to this enquiry, under our privacy
             policy. Marketing and WhatsApp consent are separate and optional, and
             you can ask us to delete your data at any time.
