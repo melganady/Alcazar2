@@ -262,6 +262,96 @@ export function toProjectDraft(p: ReellyProject, contractRef: string) {
   };
 }
 
+
+/* --------------------------------------------------------------- community */
+
+/**
+ * Resolves (or creates) the Community record a project sits in. Reelly gives
+ * district, sector and coordinates, which is enough for an area page and for
+ * the geo block in RealEstateListing JSON-LD.
+ */
+export async function resolveCommunity(
+  payload: Awaited<ReturnType<typeof getPayload>>,
+  p: ReellyProject,
+): Promise<number | undefined> {
+  const district = str(at(p, "location.district"));
+  const sector = str(at(p, "location.sector"));
+  const name = district ?? sector;
+  if (!name) return undefined;
+
+  const region = str(at(p, "location.region")) ?? "Dubai";
+  const emirate = EMIRATES.find((e) => region.toLowerCase().includes(e.toLowerCase())) ?? "Dubai";
+  const slug = slugify(name);
+
+  const existing = await payload.find({
+    collection: "communities",
+    where: { slug: { equals: slug } },
+    limit: 1,
+  });
+  if (existing.docs[0]) return existing.docs[0].id;
+
+  const lat = at(p, "location.latitude");
+  const lng = at(p, "location.longitude");
+  const created = await payload.create({
+    collection: "communities",
+    data: {
+      slug,
+      name,
+      emirate: emirate as "Dubai",
+      lat: typeof lat === "number" ? lat : undefined,
+      lng: typeof lng === "number" ? lng : undefined,
+    },
+  });
+  return created.id;
+}
+
+/** Re-reads location for already-imported projects and links their community. */
+async function backfillCommunities() {
+  const payload = await getPayload({ config });
+  const projects = await payload.find({
+    collection: "projects",
+    where: { and: [{ isFixture: { not_equals: true } }, { community: { exists: false } }] },
+    limit: 500,
+    depth: 0,
+  });
+  console.log(`\n${projects.totalDocs} projects without a community link.\n`);
+
+  const listing = await api<Envelope<ReellyProject>>("/projects", { limit: 200, offset: 0 });
+  const bySlug = new Map<string, ReellyProject>();
+  for (const r of listing.results) {
+    const name = str(r.name);
+    const sector = str(at(r, "location.sector")) ?? str(at(r, "location.district")) ?? name;
+    if (name && sector) bySlug.set(`${slugify(str(r.slug_name) ?? name)}-${slugify(sector)}`.slice(0, 100), r);
+  }
+
+  let linked = 0;
+  const unmatched: string[] = [];
+  for (const project of projects.docs) {
+    const summary = bySlug.get(project.slug);
+    if (!summary) {
+      unmatched.push(project.slug);
+      continue;
+    }
+    const full = await api<ReellyProject>(`/projects/${summary.id}`).catch(() => summary);
+    const communityId = await resolveCommunity(payload, full);
+    if (!communityId) {
+      unmatched.push(project.slug);
+      continue;
+    }
+    await payload.update({
+      collection: "projects",
+      id: project.id,
+      data: { community: communityId },
+    });
+    linked++;
+  }
+
+  const communities = await payload.count({ collection: "communities" });
+  console.log(`${linked} projects linked, ${communities.totalDocs} communities on file.`);
+  if (unmatched.length) console.log(`${unmatched.length} unmatched: ${unmatched.slice(0, 6).join(", ")}`);
+  process.exit(0);
+}
+
 /* ------------------------------------------------------------------- import */
 
 async function importProjects() {
@@ -336,11 +426,13 @@ async function importProjects() {
         ).id;
     }
 
+    const communityId = await resolveCommunity(payload, full);
+
     const { developerName, ...rest } = draft;
     void developerName; // resolved to a relationship above
     const project = await payload.create({
       collection: "projects",
-      data: { ...rest, developer: developerId },
+      data: { ...rest, developer: developerId, community: communityId },
     });
     created++;
 
@@ -404,7 +496,11 @@ async function importProjects() {
 }
 
 if (process.argv[1]?.includes("reelly-adapter")) {
-  const mode = process.argv.includes("--discover") ? discover : importProjects;
+  const mode = process.argv.includes("--discover")
+    ? discover
+    : process.argv.includes("--backfill-communities")
+      ? backfillCommunities
+      : importProjects;
   mode().catch((err) => {
     console.error(`\n${err instanceof Error ? err.message : String(err)}\n`);
     process.exit(1);
