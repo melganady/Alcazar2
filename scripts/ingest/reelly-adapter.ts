@@ -311,8 +311,11 @@ async function importProjects() {
   process.exit(0);
 }
 
-const mode = process.argv.includes("--discover") ? discover : importProjects;
-mode().catch((err) => {
-  console.error(`\n${err instanceof Error ? err.message : String(err)}\n`);
-  process.exit(1);
-});
+// Only run when invoked directly, so the mapping stays unit-testable.
+if (process.argv[1]?.includes("reelly-adapter")) {
+  const mode = process.argv.includes("--discover") ? discover : importProjects;
+  mode().catch((err) => {
+    console.error(`\n${err instanceof Error ? err.message : String(err)}\n`);
+    process.exit(1);
+  });
+}
