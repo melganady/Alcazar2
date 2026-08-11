@@ -1,5 +1,6 @@
 import { ImageResponse } from "next/og";
 import { getProjectBySlug } from "@/lib/projects";
+import { formatHandoverOrDash } from "@/lib/format";
 import type { Developer } from "@/payload-types";
 
 export const runtime = "nodejs";
@@ -54,7 +55,7 @@ export async function GET(
   const facts = [
     ["From", `AED ${project.priceFromAED.toLocaleString("en-AE")}`],
     ["Plan", project.paymentPlan?.label ?? "—"],
-    ["Handover", `${project.handoverQuarter} ${project.handoverYear}`],
+    ["Handover", formatHandoverOrDash(project.handoverQuarter, project.handoverYear)],
     ["Developer", developer || "—"],
   ];
 

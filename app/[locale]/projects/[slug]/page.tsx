@@ -25,7 +25,7 @@ import {
 import { getPayloadClient } from "@/lib/payload";
 import { depositFor, INDICATIVE_LTV } from "@/lib/mortgage/indicative";
 import { createLead } from "@/lib/actions";
-import { formatBedrooms } from "@/lib/format";
+import { formatBedrooms, formatHandoverOrDash } from "@/lib/format";
 import { alternates, breadcrumbJsonLd, projectJsonLd, projectTitle } from "@/lib/seo";
 import { TrackProjectView } from "@/components/analytics/TrackProjectView";
 import { WhatsAppLink } from "@/components/analytics/WhatsAppLink";
@@ -153,7 +153,7 @@ export default async function ProjectPage({
     [t("sizeFrom"), <AreaDisplay key="s" sqft={project.sizeFromSqft} />],
     [t("pricePerSqft"), project.pricePerSqftFrom?.toLocaleString() ?? "—"],
     [t("bedrooms"), formatBedrooms(project.bedroomsMin, project.bedroomsMax)],
-    [t("handover"), `${project.handoverQuarter} ${project.handoverYear}`],
+    [t("handover"), formatHandoverOrDash(project.handoverQuarter, project.handoverYear)],
     [t("paymentPlan"), project.paymentPlan?.label ?? "—"],
     [t("developer"), developer?.name ?? "—"],
     [t("dldNumber"), project.dldProjectNumber ?? "—"],
@@ -340,7 +340,7 @@ export default async function ProjectPage({
                         {s.name}
                       </Link>
                       <span className="type-body-s whitespace-nowrap text-iron/80">
-                        {s.handoverQuarter} {s.handoverYear}
+                        {formatHandoverOrDash(s.handoverQuarter, s.handoverYear)}
                       </span>
                     </li>
                   ))}

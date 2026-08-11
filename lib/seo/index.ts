@@ -22,8 +22,11 @@ export function alternates(path: string) {
 
 /** §10 title pattern for project pages. */
 export function projectTitle(project: Project): string {
-  const plan = project.paymentPlan?.label ? `${project.paymentPlan.label} Payment Plan, ` : "";
-  return `${project.name}, ${project.subCommunity} — ${plan}Handover ${project.handoverQuarter} ${project.handoverYear}`;
+  const plan = project.paymentPlan?.label ? `${project.paymentPlan.label} Payment Plan` : "";
+  const handover = project.handoverQuarter && project.handoverYear
+    ? `, Handover ${project.handoverQuarter} ${project.handoverYear}`
+    : "";
+  return `${project.name}, ${project.subCommunity}${plan ? ` — ${plan.replace(/, $/, "")}` : ""}${handover}`;
 }
 
 export function organizationJsonLd() {

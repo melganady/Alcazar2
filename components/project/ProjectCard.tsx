@@ -2,7 +2,7 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/cn";
 import { MediaWell } from "@/components/primitives/MediaWell";
-import { formatBedrooms } from "@/lib/format";
+import { formatBedrooms, formatHandoverOrDash } from "@/lib/format";
 import type { Project } from "@/payload-types";
 import { PriceDisplay } from "./PriceDisplay";
 import { CompareCheckbox } from "./CompareControls";
@@ -87,7 +87,7 @@ export function ProjectCard({
           <div>
             <p className="type-micro uppercase text-iron/80">{t("handover")}</p>
             <p className="type-body-s text-iron">
-              {project.handoverQuarter} {project.handoverYear}
+              {formatHandoverOrDash(project.handoverQuarter, project.handoverYear)}
             </p>
           </div>
         </div>

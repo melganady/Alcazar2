@@ -30,3 +30,17 @@ export function formatPaymentPlanLabel(
   }
   return `${duringPct}/${handoverPct}`;
 }
+
+/**
+ * Handover as a display string, or an em dash when the source has no date.
+ * Feed records legitimately arrive without one, and "null null" must never
+ * reach a page, a card, a title or an OG image.
+ */
+export function formatHandoverOrDash(
+  quarter?: string | null,
+  year?: number | null,
+): string {
+  if (quarter && year) return `${quarter} ${year}`;
+  if (year) return String(year);
+  return "—";
+}

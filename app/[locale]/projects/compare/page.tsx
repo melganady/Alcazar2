@@ -3,6 +3,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { Eyebrow } from "@/components/primitives/Eyebrow";
 import { getProjectsBySlugs } from "@/lib/projects";
+import { formatHandoverOrDash } from "@/lib/format";
 import type { Developer } from "@/payload-types";
 
 export const metadata: Metadata = {
@@ -41,7 +42,7 @@ export default async function ComparePage({
     [t("from"), (p) => `AED ${p.priceFromAED.toLocaleString()}`],
     [t("comparePricePerSqft"), (p) => (p.pricePerSqftFrom ? `AED ${p.pricePerSqftFrom.toLocaleString()}` : "—")],
     [t("comparePlan"), (p) => p.paymentPlan?.label ?? "—"],
-    [t("compareHandover"), (p) => `${p.handoverQuarter} ${p.handoverYear}`],
+    [t("compareHandover"), (p) => formatHandoverOrDash(p.handoverQuarter, p.handoverYear)],
     [
       t("compareDeveloper"),
       (p) => {
