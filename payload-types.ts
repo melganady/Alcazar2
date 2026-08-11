@@ -76,6 +76,7 @@ export interface Config {
     leads: Lead;
     media: Media;
     users: User;
+    'internal-project-universe': InternalProjectUniverse;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -92,6 +93,7 @@ export interface Config {
     leads: LeadsSelect<false> | LeadsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
+    'internal-project-universe': InternalProjectUniverseSelect<false> | InternalProjectUniverseSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -549,6 +551,42 @@ export interface User {
   collection: 'users';
 }
 /**
+ * Internal competitive intelligence from the discovery crawl. Never published, never rendered. Facts only — no descriptions, no media.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "internal-project-universe".
+ */
+export interface InternalProjectUniverse {
+  id: number;
+  fingerprint: string;
+  projectName: string;
+  developerName?: string | null;
+  community?: string | null;
+  emirate?: string | null;
+  /**
+   * As published, e.g. 'Q4 2027'
+   */
+  handover?: string | null;
+  paymentPlanLabel?: string | null;
+  priceFromAED?: number | null;
+  propertyTypes?: string[] | null;
+  bedroomsRange?: string | null;
+  sourceUrl: string;
+  sourceHost: string;
+  firstSeen: string;
+  lastSeen: string;
+  /**
+   * Always false. Enforced by hook and database constraint.
+   */
+  publishable?: boolean | null;
+  /**
+   * Sales-floor triage. 'Worth sourcing' means request the developer pack (Track B).
+   */
+  triagedAs?: ('untriaged' | 'worth-sourcing' | 'ignore') | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
@@ -607,6 +645,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'users';
         value: number | User;
+      } | null)
+    | ({
+        relationTo: 'internal-project-universe';
+        value: number | InternalProjectUniverse;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -924,6 +966,30 @@ export interface UsersSelect<T extends boolean = true> {
         createdAt?: T;
         expiresAt?: T;
       };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "internal-project-universe_select".
+ */
+export interface InternalProjectUniverseSelect<T extends boolean = true> {
+  fingerprint?: T;
+  projectName?: T;
+  developerName?: T;
+  community?: T;
+  emirate?: T;
+  handover?: T;
+  paymentPlanLabel?: T;
+  priceFromAED?: T;
+  propertyTypes?: T;
+  bedroomsRange?: T;
+  sourceUrl?: T;
+  sourceHost?: T;
+  firstSeen?: T;
+  lastSeen?: T;
+  publishable?: T;
+  triagedAs?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

@@ -14,6 +14,7 @@ import { Lenders } from "./payload/collections/Lenders";
 import { Agents } from "./payload/collections/Agents";
 import { Articles } from "./payload/collections/Articles";
 import { Leads } from "./payload/collections/Leads";
+import { InternalProjectUniverse } from "./payload/collections/InternalProjectUniverse";
 import { SiteStats } from "./payload/globals/SiteStats";
 import { MortgageConstants } from "./payload/globals/MortgageConstants";
 
@@ -34,6 +35,7 @@ export default buildConfig({
     Leads,
     Media,
     Users,
+    InternalProjectUniverse,
   ],
   globals: [SiteStats, MortgageConstants],
   editor: lexicalEditor(),

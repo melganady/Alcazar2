@@ -1,0 +1,40 @@
+# Track A discovery crawl (§5) — weekly competitive-intelligence survey.
+# Runs on GitHub Actions rather than Vercel: a 2–3s-per-request polite crawl
+# does not fit serverless execution limits.
+#
+# Produces a new-launch alert for the sales floor in the run log. Nothing this
+# workflow writes is publishable — the target table has a DB constraint.
+name: Discovery crawl (internal)
+
+on:
+  schedule:
+    - cron: "0 3 * * 1" # Mondays 03:00 UTC
+  workflow_dispatch:
+    inputs:
+      source:
+        description: "Configured source key"
+        required: true
+        default: "luxuryproperty"
+
+jobs:
+  crawl:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Check robots.txt before anything else
+        env:
+          DATABASE_URI: ${{ secrets.DATABASE_URI }}
+          PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
+          CRAWLER_CONTACT_EMAIL: ${{ secrets.CRAWLER_CONTACT_EMAIL }}
+        run: npm run crawl -- --source=${{ inputs.source || 'luxuryproperty' }} --check-robots
+      - name: Survey
+        env:
+          DATABASE_URI: ${{ secrets.DATABASE_URI }}
+          PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
+          CRAWLER_CONTACT_EMAIL: ${{ secrets.CRAWLER_CONTACT_EMAIL }}
+        run: npm run crawl -- --source=${{ inputs.source || 'luxuryproperty' }} --confirm
