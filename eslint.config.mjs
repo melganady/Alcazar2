@@ -15,7 +15,9 @@ const eslintConfig = [
     // Brand guardrail: raw colour values are banned outside design/tokens.css.
     // The styleguide is exempt — it prints hex values as documentation text.
     files: ["app/**/*.{ts,tsx}", "components/**/*.{ts,tsx}", "lib/**/*.{ts,tsx}"],
-    ignores: ["app/**/styleguide/**"],
+    // Styleguide prints hex values as documentation text; email templates must
+    // inline literal hex because mail clients do not support CSS variables.
+    ignores: ["app/**/styleguide/**", "lib/email/**"],
     rules: {
       "no-restricted-syntax": [
         "error",

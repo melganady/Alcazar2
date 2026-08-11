@@ -1,7 +1,29 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { headers } from "next/headers";
 import { getPayloadClient } from "./payload";
+import { rateLimit } from "./rateLimit";
+
+async function clientKey(): Promise<string> {
+  const h = await headers();
+  return h.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "local";
+}
+
+/** Cloudflare Turnstile — active only when the secret is configured (§13). */
+async function turnstileOk(formData: FormData): Promise<boolean> {
+  const secret = process.env.TURNSTILE_SECRET_KEY;
+  if (!secret) return true;
+  const token = String(formData.get("cf-turnstile-response") || "");
+  if (!token) return false;
+  const res = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: new URLSearchParams({ secret, response: token }),
+  });
+  const json = (await res.json()) as { success?: boolean };
+  return Boolean(json.success);
+}
 
 /**
  * §13 lead capture — minimal Phase 3 version. Phase 5 adds the CRM webhook,
@@ -11,11 +33,19 @@ import { getPayloadClient } from "./payload";
 export async function createLead(formData: FormData) {
   const returnTo = String(formData.get("returnTo") || "/");
   const honeypot = String(formData.get("company") || "");
+  const allowed =
+    !honeypot && rateLimit(await clientKey()) && (await turnstileOk(formData));
 
-  if (!honeypot) {
+  if (allowed) {
     const payload = await getPayloadClient();
     const residency = String(formData.get("residencyStatus") || "");
     const purpose = String(formData.get("purpose") || "");
+    const videoUrl = String(formData.get("videoUrl") || "").slice(0, 300);
+    const kind = String(formData.get("leadKind") || "");
+    let message = String(formData.get("message") || "").slice(0, 2000);
+    if (kind === "career") {
+      message = `Career application — video: ${videoUrl || "not provided"}${message ? `\n${message}` : ""}`;
+    }
     await payload.create({
       collection: "leads",
       data: {
@@ -23,6 +53,7 @@ export async function createLead(formData: FormData) {
         email: String(formData.get("email") || "").slice(0, 200) || undefined,
         phone: String(formData.get("phone") || "").slice(0, 50) || undefined,
         whatsappConsent: formData.get("whatsappConsent") === "on",
+        marketingConsent: formData.get("marketingConsent") === "on",
         residencyStatus: ["uae-resident", "non-resident", "uae-national"].includes(residency)
           ? (residency as "uae-resident" | "non-resident" | "uae-national")
           : undefined,
@@ -34,11 +65,12 @@ export async function createLead(formData: FormData) {
         sourceProject: Number(formData.get("sourceProject")) || undefined,
         sourcePage: String(formData.get("sourcePage") || "").slice(0, 300),
         locale: String(formData.get("locale") || "en"),
-        message: String(formData.get("message") || "").slice(0, 2000) || undefined,
+        message: message || undefined,
       },
     });
   }
 
+  // Bots and rate-limited callers get the same redirect — nothing to probe.
   redirect(`${returnTo}?sent=1#enquire`);
 }
 
@@ -52,7 +84,9 @@ export async function requestCalculatorPdf(
   formData: FormData,
 ): Promise<{ ok: boolean }> {
   const honeypot = String(formData.get("company") || "");
-  if (honeypot) return { ok: true };
+  if (honeypot || !rateLimit(await clientKey()) || !(await turnstileOk(formData))) {
+    return { ok: true }; // indistinguishable from success — nothing to probe
+  }
 
   const residency = String(formData.get("residencyStatus") || "");
   const payload = await getPayloadClient();

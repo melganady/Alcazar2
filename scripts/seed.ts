@@ -286,6 +286,63 @@ const seed = async () => {
     created++;
   }
 
+  const ARTICLES = [
+    {
+      slug: "non-resident-mortgage-what-actually-binds",
+      title: "Non-resident borrowing: the cap is rarely what stops you",
+      category: "mortgage" as const,
+      excerpt:
+        "Most non-resident buyers plan around the 60% LTV ceiling. In practice the debt-burden ratio binds first more often than not.",
+      faq: [
+        { q: "Do I need UAE residency to borrow?", a: "No. Several banks lend to non-residents against completed property." },
+        { q: "What deposit should I plan for?", a: "40–50% of price plus roughly 8% in fees." },
+      ],
+    },
+    {
+      slug: "supply-in-window-the-test-nobody-runs",
+      title: "Supply in window: the test nobody runs",
+      category: "market" as const,
+      excerpt:
+        "Your exit competes with every unit completing in the same community within a year either side of handover. Here is how we count it.",
+      faq: [],
+    },
+    {
+      slug: "reading-a-payment-plan-properly",
+      title: "How to read a payment plan properly",
+      category: "guide" as const,
+      excerpt:
+        "40/60 and 80/20 are not variations on a theme. They are different risk products. What each one does to your capital.",
+      faq: [],
+    },
+  ];
+
+  const agentDocs = await payload.find({ collection: "agents", limit: 1, sort: "slug" });
+  const shortlisted = await payload.find({
+    collection: "projects",
+    where: { alcazarStatus: { equals: "shortlisted" } },
+    limit: 3,
+    depth: 0,
+  });
+
+  for (const [i, a] of ARTICLES.entries()) {
+    await payload.create({
+      collection: "articles",
+      data: {
+        slug: a.slug,
+        title: a.title,
+        category: a.category,
+        excerpt: a.excerpt,
+        body: rt(
+          `${a.excerpt} Fixture article body — replaced with real editorial before launch. Every word we publish is written by the desk, never generated from a competitor's text.`,
+        ),
+        author: agentDocs.docs[0]?.id,
+        publishedAt: new Date(2026, 6, 10 + i * 5).toISOString(),
+        relatedProjects: shortlisted.docs.map((p) => p.id),
+        faq: a.faq,
+      },
+    });
+  }
+
   await payload.updateGlobal({
     slug: "site-stats",
     data: {
@@ -300,7 +357,9 @@ const seed = async () => {
     },
   });
 
-  console.log(`Seeded: ${COMMUNITIES.length} communities, ${DEVELOPERS.length} developers, ${LENDERS.length} lenders, ${AGENTS.length} agents, ${created} projects.`);
+  console.log(
+    `Seeded: ${COMMUNITIES.length} communities, ${DEVELOPERS.length} developers, ${LENDERS.length} lenders, ${AGENTS.length} agents, ${created} projects, ${ARTICLES.length} articles.`,
+  );
   process.exit(0);
 };
 
