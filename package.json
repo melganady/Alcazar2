@@ -15,7 +15,8 @@
     "import:developer": "node --env-file=.env --import tsx scripts/ingest/developer-import.ts",
     "enrich:dld": "node --env-file=.env --import tsx scripts/ingest/dld-enrich.ts",
     "seed:mortgage": "node --env-file=.env --import tsx scripts/seed-mortgage.ts",
-    "check:budgets": "node --import tsx scripts/check-budgets.ts"
+    "check:budgets": "node --import tsx scripts/check-budgets.ts",
+    "sourcing:list": "node --env-file=.env --import tsx scripts/ingest/sourcing-list.ts"
   },
   "dependencies": {
     "@payloadcms/db-sqlite": "^3.87.1",
