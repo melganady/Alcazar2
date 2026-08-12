@@ -149,6 +149,10 @@ export interface UserAuthOperations {
  */
 export interface Project {
   id: number;
+  /**
+   * Decides which fields below apply, which index the listing appears in, and what the page shows. Off-plan carries a payment plan and a handover date; secondary carries tenancy, yield and comparable sales.
+   */
+  listingType?: ('offplan' | 'secondary') | null;
   slug: string;
   name: string;
   subCommunity: string;
@@ -219,7 +223,7 @@ export interface Project {
    * Computed from price/size when left empty; override if needed.
    */
   pricePerSqftFrom?: number | null;
-  paymentPlan: {
+  paymentPlan?: {
     /**
      * "60/40", "80/20", "50/50 post-handover"
      */
@@ -260,9 +264,16 @@ export interface Project {
    */
   amenities?: string[] | null;
   /**
-   * e.g. "Semi-furnished", as stated by the developer.
+   * e.g. "Unfurnished", "Semi-furnished".
    */
   furnishing?: string | null;
+  bathrooms?: number | null;
+  parkingSpaces?: number | null;
+  /**
+   * Townhouses and villas. Leave blank for apartments.
+   */
+  plotSizeSqft?: number | null;
+  maidsRoom?: boolean | null;
   /**
    * Construction progress, where the source reports it.
    */
@@ -281,6 +292,53 @@ export interface Project {
   assignmentAllowed?: boolean | null;
   assignmentMinPaidPct?: number | null;
   developerNocFeeAED?: number | null;
+  /**
+   * Applies to completed property only.
+   */
+  resale?: {
+    tenancy?: ('vacant' | 'tenanted' | 'owner-occupied') | null;
+    /**
+     * When the buyer can occupy. For a tenanted unit this is the end of the current contract, and it is the first thing an end-user asks.
+     */
+    availableFrom?: string | null;
+    /**
+     * The contracted rent, not an estimate.
+     */
+    currentAnnualRentAED?: number | null;
+    /**
+     * Computed from rent ÷ price. Blank until both are known.
+     */
+    grossYieldPct?: number | null;
+    yearBuilt?: number | null;
+    /**
+     * Apartments — e.g. "12", "Ground", "Penthouse".
+     */
+    floor?: string | null;
+    /**
+     * e.g. "Marina", "Park".
+     */
+    view?: string | null;
+    /**
+     * The DLD title deed for the unit. Held for verification — never rendered on the page.
+     */
+    titleDeedNumber?: string | null;
+    /**
+     * Recorded sales and lettings in the same building or community, from DLD data. Shown on the listing as the evidence for the asking price.
+     */
+    comparables?:
+      | {
+          kind: 'sold' | 'let';
+          date: string;
+          /**
+           * Sale price, or annual rent for a letting.
+           */
+          amountAED: number;
+          sizeSqft?: number | null;
+          bedrooms?: number | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
   alcazarStatus: 'shortlisted' | 'monitoring' | 'declined';
   /**
    * Our own written view, 80–150 words. Never sourced from a competitor's text. This is the product.
@@ -834,6 +892,7 @@ export interface PayloadMigration {
  * via the `definition` "projects_select".
  */
 export interface ProjectsSelect<T extends boolean = true> {
+  listingType?: T;
   slug?: T;
   name?: T;
   subCommunity?: T;
@@ -878,6 +937,10 @@ export interface ProjectsSelect<T extends boolean = true> {
   serviceChargeEstimateAEDPerSqft?: T;
   amenities?: T;
   furnishing?: T;
+  bathrooms?: T;
+  parkingSpaces?: T;
+  plotSizeSqft?: T;
+  maidsRoom?: T;
   readinessPct?: T;
   nearbyPlaces?:
     | T
@@ -890,6 +953,28 @@ export interface ProjectsSelect<T extends boolean = true> {
   assignmentAllowed?: T;
   assignmentMinPaidPct?: T;
   developerNocFeeAED?: T;
+  resale?:
+    | T
+    | {
+        tenancy?: T;
+        availableFrom?: T;
+        currentAnnualRentAED?: T;
+        grossYieldPct?: T;
+        yearBuilt?: T;
+        floor?: T;
+        view?: T;
+        titleDeedNumber?: T;
+        comparables?:
+          | T
+          | {
+              kind?: T;
+              date?: T;
+              amountAED?: T;
+              sizeSqft?: T;
+              bedrooms?: T;
+              id?: T;
+            };
+      };
   alcazarStatus?: T;
   alcazarVerdict?: T;
   alcazarFilterScores?:

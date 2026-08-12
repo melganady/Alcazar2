@@ -296,6 +296,8 @@ export function toProjectDraft(p: ReellyProject, contractRef: string) {
     name,
     subCommunity,
     country: "AE" as const,
+    // The feed carries off-plan stock only; resale is entered by hand.
+    listingType: "offplan" as const,
     region: emirate as "Dubai",
     status: status as "launched",
     propertyTypes: mapPropertyTypes(p.available_unit_types_display) as "Apartment"[],

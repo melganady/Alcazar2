@@ -278,6 +278,7 @@
     "marketsLabel": "Markets you are interested in",
     "submit": "Register interest",
     "sent": "Received. {consultant} will be in touch about your markets.",
-    "note": "Figures are indicative. Rental income, service charges and yields vary by unit and tenancy, and past performance in a building is not a guarantee of future return."
+    "note": "Figures are indicative. Rental income, service charges and yields vary by unit and tenancy, and past performance in a building is not a guarantee of future return.",
+    "liveTitle": "Available now"
   }
 }

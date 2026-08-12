@@ -31,8 +31,17 @@ const SORTS: Record<string, string> = {
   newest: "-publishedAt",
 };
 
-/** Base visibility: published, not declined, fixtures excluded in production builds when flagged. */
-export function baseWhere(): Where[] {
+export type ListingType = "offplan" | "secondary";
+
+/**
+ * Base visibility: published, not declined, fixtures excluded in production
+ * builds when flagged.
+ *
+ * `listingType` keeps the two indexes apart. Records written before the field
+ * existed have no value, so an off-plan query has to treat "missing" as
+ * off-plan — otherwise the 49 imported listings would silently vanish.
+ */
+export function baseWhere(listingType?: ListingType): Where[] {
   const and: Where[] = [
     { publishedAt: { exists: true } },
     { alcazarStatus: { not_equals: "declined" } },
@@ -40,12 +49,20 @@ export function baseWhere(): Where[] {
   if (process.env.EXCLUDE_FIXTURES === "true") {
     and.push({ isFixture: { not_equals: true } });
   }
+  if (listingType === "secondary") {
+    and.push({ listingType: { equals: "secondary" } });
+  } else if (listingType === "offplan") {
+    and.push({ listingType: { not_equals: "secondary" } });
+  }
   return and;
 }
 
-export async function queryProjects(filters: ProjectFilters) {
+export async function queryProjects(
+  filters: ProjectFilters,
+  listingType: ListingType = "offplan",
+) {
   const payload = await getPayloadClient();
-  const and: Where[] = baseWhere();
+  const and: Where[] = baseWhere(listingType);
 
   if (filters.region) and.push({ region: { equals: filters.region } });
 
@@ -135,7 +152,7 @@ export async function getSimilarProjects(project: Project): Promise<Project[]> {
     collection: "projects",
     where: {
       and: [
-        ...baseWhere(),
+        ...baseWhere(project.listingType === "secondary" ? "secondary" : "offplan"),
         { id: { not_equals: project.id } },
         {
           or: [

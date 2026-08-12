@@ -130,6 +130,8 @@ async function run() {
         subCommunity: r.subCommunity,
         community: community?.docs[0]?.id,
         country: "AE" as const,
+      // Both importers carry off-plan stock; resale is entered by hand.
+      listingType: "offplan" as const,
         region: (r.emirate || "Dubai") as "Dubai",
         developer: dev?.docs[0]?.id,
         status: "launched",

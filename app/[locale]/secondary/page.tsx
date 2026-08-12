@@ -6,6 +6,9 @@ import { CropMarks } from "@/components/primitives/CropMarks";
 import { Field } from "@/components/primitives/Field";
 import { SentBanner } from "@/components/project/SentBanner";
 import { getPayloadClient } from "@/lib/payload";
+import { baseWhere } from "@/lib/projects";
+import { ProjectCard } from "@/components/project/ProjectCard";
+import { CompareProvider } from "@/components/project/CompareProvider";
 import { createLead } from "@/lib/actions";
 import { alternates } from "@/lib/seo";
 import { SECONDARY, VERBATIM } from "@/lib/content";
@@ -36,12 +39,24 @@ export default async function SecondaryPage({
   const t = await getTranslations("secondary");
 
   const payload = await getPayloadClient();
-  const agents = await payload.find({ collection: "agents", limit: 1, sort: "slug" });
+  const [agents, listings] = await Promise.all([
+    payload.find({ collection: "agents", limit: 1, sort: "slug" }),
+    // Real stock leads the page the moment any exists; the explanatory
+    // sections below it stay, because a resale buyer still needs to know how
+    // the desk works.
+    payload.find({
+      collection: "projects",
+      where: { and: baseWhere("secondary") },
+      sort: "-publishedAt",
+      limit: 12,
+      depth: 1,
+    }),
+  ]);
   const agent = agents.docs[0];
 
   return (
     <div className="flex flex-col">
-      {/* Header — the coming-soon status is stated up front, not buried */}
+      {/* Header */}
       <section className="mx-auto flex max-w-container flex-col items-start gap-6 px-4 py-20 md:px-6 md:py-24">
         <div className="flex flex-wrap items-center gap-4">
           <Eyebrow>{t("eyebrow")}</Eyebrow>
@@ -52,6 +67,27 @@ export default async function SecondaryPage({
         <h1 className="type-display-xl max-w-3xl text-iron">{t("title")}</h1>
         <p className="type-body-l max-w-2xl text-iron/80">{t("support")}</p>
       </section>
+
+      {/* Live resale stock, when there is any */}
+      {listings.docs.length > 0 ? (
+        <section className="border-t border-rule">
+          <div className="mx-auto flex max-w-container flex-col gap-8 px-4 py-16 md:px-6">
+            <div className="flex flex-wrap items-baseline justify-between gap-4">
+              <h2 className="type-display-m text-iron">{t("liveTitle")}</h2>
+              <span className="type-eyebrow text-iron/80">
+                {listings.totalDocs} {listings.totalDocs === 1 ? "listing" : "listings"}
+              </span>
+            </div>
+            <CompareProvider>
+              <div className="grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+                {listings.docs.map((p) => (
+                  <ProjectCard key={p.id} project={p} />
+                ))}
+              </div>
+            </CompareProvider>
+          </div>
+        </section>
+      ) : null}
 
       {/* How resale differs */}
       <section className="border-t border-rule bg-pine/8">

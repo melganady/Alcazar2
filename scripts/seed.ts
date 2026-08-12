@@ -222,6 +222,7 @@ const seed = async () => {
         subCommunity: community.name,
         community: communityIds[community.slug],
         country: "AE" as const,
+        listingType: "offplan" as const,
         region: community.emirate,
         developer: developerIds[devIdx],
         status: (["pre-launch", "launched", "under-construction"] as const)[i % 3],
