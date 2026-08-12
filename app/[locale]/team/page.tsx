@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
 import { Eyebrow } from "@/components/primitives/Eyebrow";
 import { TeamFilter } from "@/components/sections/TeamFilter";
 import { getPayloadClient } from "@/lib/payload";
@@ -33,6 +34,19 @@ export default async function TeamPage({
           Filter by the language you want to be sold in.
         </p>
       </header>
+      {/* Filters over nothing read as a broken page. Until consultants are
+          entered, the enquiry route is the desk itself. */}
+      {agents.docs.length === 0 ? (
+        <p className="type-body max-w-2xl text-iron/80">
+          Consultant profiles publish once each broker card is current — we will
+          not put a name and a BRN on the site before we can stand behind both.
+          In the meantime an enquiry reaches the desk directly through{" "}
+          <Link href="/contact" className="underline underline-offset-4 hover:text-iron">
+            the contact form
+          </Link>
+          .
+        </p>
+      ) : (
       <TeamFilter
         agents={agents.docs.map((a) => ({
           id: String(a.id),
@@ -48,6 +62,7 @@ export default async function TeamPage({
           email: a.email ?? null,
         }))}
       />
+      )}
     </div>
   );
 }

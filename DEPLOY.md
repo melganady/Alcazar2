@@ -4,13 +4,34 @@ Everything below is a one-time setup. After it, `git push` deploys.
 
 ## What goes live today
 
-Brand pages, the mortgage calculator and guides, insights, careers, contact
-and the legal pages.
+Brand pages, the mortgage calculator and guides, careers, contact and the
+legal pages. **Everything data-backed is empty**, for two separate reasons.
 
 **No property adverts go live.** All 49 imported projects are drafts, and the
 publish gate holds them there until each carries a Trakheesi permit number.
-`/projects`, `/developers` and `/communities` will render their empty states
-until then. That is the gate working, not a misconfiguration.
+`/projects`, `/developers` and `/communities` render their empty states until
+then, and the homepage carries no photography because its imagery is drawn
+from published projects. That is the gate working, not a misconfiguration.
+
+**No demo content goes live.** The development database is seeded with content
+that reads as real and is not: five invented banks quoting LTVs and rates,
+eight invented developers with delivery statistics, four named consultants
+with BRNs, three placeholder articles, and price-per-sqft figures on ten real
+communities. On a licensed brokerage's site any of it would be a
+misrepresentation. Every seeded record carries `isFixture`, a read-time hook
+withholds them from the public site whenever `EXCLUDE_FIXTURES=true`, the
+seeder refuses to run against a Postgres database, and `npm run preflight`
+blocks a deploy that would serve them. **Set `EXCLUDE_FIXTURES=true`.**
+
+A production database starts empty in any case, so what reaches the live site
+is only what you import or write there. To populate it:
+
+```bash
+npm run reelly:all -- --contract-ref <your Reelly agreement ref>
+```
+
+Real lenders, consultants and editorial have to be entered at `/admin`. There
+is no seed for them, deliberately.
 
 The footer shows "ORN pending · Trade licence pending" — the licence numbers
 on file have lapsed and the site suppresses expired credentials rather than
@@ -52,7 +73,10 @@ NEXT_PUBLIC_SITE_URL=https://alcazar.ae
 EXCLUDE_FIXTURES=true
 ```
 
-`EXCLUDE_FIXTURES=true` keeps the 40 seeded demo projects out of production.
+`EXCLUDE_FIXTURES=true` keeps every seeded demo record — projects, lenders,
+developers, consultants, articles and community statistics — off the public
+site. Preflight treats a missing flag on a database holding demo content as a
+blocking fault.
 
 Run `npm run preflight` to see what is still missing before deploying.
 
@@ -81,6 +105,11 @@ Resend also needs DNS records on the sending domain.
 npm run seed:legal        # address, phone, licence record
 npm run seed:mortgage     # LTV caps and fees — VERIFY BEFORE RELYING ON THEM
 ```
+
+Do **not** run `npm run seed` — that is the demo-content seeder, and it now
+refuses to run against a Postgres database for the reasons above. If demo
+content ever does reach production, `npm run mark:fixtures` flags it and
+`EXCLUDE_FIXTURES=true` withholds it.
 
 Then create an admin user at `/admin` on first visit, and **rotate the dev
 password** — `alcazar-dev-2026` must not reach production.

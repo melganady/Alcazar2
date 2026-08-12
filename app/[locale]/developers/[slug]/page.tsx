@@ -32,12 +32,17 @@ export async function generateMetadata({
   const found = await getDeveloperBySlug(slug);
   if (!found) return {};
   const { developer, projects } = found;
+  // The feed names hundreds of developers we hold only as a relationship
+  // target. Until one has stock on our books or a record we have verified,
+  // the page says so honestly — and asks not to be indexed for saying it.
+  const thin = projects.length === 0 && developer.projectsDelivered == null;
   return {
     title: `${developer.name} — delivery record and projects`,
     description: `${developer.name}: ${projects.length} projects on the Alcázar books${
       developer.projectsDelivered ? `, ${developer.projectsDelivered} delivered to date` : ""
     }.`,
     alternates: alternates(`/developers/${slug}`),
+    ...(thin ? { robots: { index: false, follow: true } } : {}),
   };
 }
 

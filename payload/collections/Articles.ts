@@ -1,10 +1,13 @@
 import type { CollectionConfig } from "payload";
+import { fixtureField, hideFixtures } from "./shared";
 
 export const Articles: CollectionConfig = {
   slug: "articles",
   admin: { useAsTitle: "title", defaultColumns: ["title", "category", "publishedAt"] },
   access: { read: () => true },
+  hooks: { beforeOperation: [hideFixtures] },
   fields: [
+    fixtureField,
     { name: "slug", type: "text", required: true, unique: true, index: true },
     { name: "title", type: "text", required: true },
     {

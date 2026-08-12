@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p ${PORT:-3100}",
     "lint": "eslint",
     "seed": "node --env-file=.env --import tsx scripts/seed.ts",
     "test": "vitest run",
@@ -24,6 +24,7 @@
     "reelly:media": "node --env-file=.env --import tsx scripts/ingest/reelly-adapter.ts --backfill-media",
     "reelly:all": "node --env-file=.env --import tsx scripts/ingest/reelly-adapter.ts --backfill-all",
     "seed:legal": "node --env-file=.env --import tsx scripts/seed-legal-entity.ts",
+    "mark:fixtures": "node --env-file=.env --import tsx scripts/mark-fixtures.ts",
     "preflight": "node --env-file-if-exists=.env --import tsx scripts/preflight.ts"
   },
   "dependencies": {

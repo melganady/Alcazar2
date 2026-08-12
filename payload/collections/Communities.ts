@@ -1,11 +1,14 @@
 import type { CollectionConfig } from "payload";
 import { COUNTRY_OPTIONS, REGION_OPTIONS } from "./markets";
+import { fixtureField, hideFixtures } from "./shared";
 
 export const Communities: CollectionConfig = {
   slug: "communities",
   admin: { useAsTitle: "name", defaultColumns: ["name", "region", "country"] },
   access: { read: () => true },
+  hooks: { beforeOperation: [hideFixtures] },
   fields: [
+    fixtureField,
     { name: "slug", type: "text", required: true, unique: true, index: true },
     { name: "name", type: "text", required: true },
     { name: "country", type: "select", required: true, options: COUNTRY_OPTIONS, defaultValue: "AE" },

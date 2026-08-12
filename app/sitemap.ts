@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { getPayloadClient } from "@/lib/payload";
 import { baseWhere } from "@/lib/projects";
+import { getCommunities, getDevelopers } from "@/lib/directory";
 import { absolute } from "@/lib/seo";
 
 /** §10 — sitemaps split by type, regenerated on publish via ISR. */
@@ -37,24 +38,17 @@ export default async function sitemap({
     return res.docs.map((p) => withAlternates(`/projects/${p.slug}`, p.updatedAt));
   }
 
+  // Directory queries rather than the raw collections: a developer or area
+  // with nothing publishable has no page worth crawling, and the feed carries
+  // hundreds of names we hold only as a relationship target.
   if (id === "developers") {
-    const res = await payload.find({
-      collection: "developers",
-      limit: 500,
-      depth: 0,
-      select: { slug: true, updatedAt: true },
-    });
-    return res.docs.map((d) => withAlternates(`/developers/${d.slug}`, d.updatedAt));
+    const developers = await getDevelopers();
+    return developers.map((d) => withAlternates(`/developers/${d.slug}`));
   }
 
   if (id === "communities") {
-    const res = await payload.find({
-      collection: "communities",
-      limit: 500,
-      depth: 0,
-      select: { slug: true, updatedAt: true },
-    });
-    return res.docs.map((c) => withAlternates(`/communities/${c.slug}`, c.updatedAt));
+    const communities = await getCommunities();
+    return communities.map((c) => withAlternates(`/communities/${c.slug}`));
   }
 
   if (id === "articles") {

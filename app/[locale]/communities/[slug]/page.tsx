@@ -41,6 +41,10 @@ export async function generateMetadata({
       floor ? `, from AED ${floor.toLocaleString("en-AE")}` : ""
     }. What is available and what completes nearby.`,
     alternates: alternates(`/communities/${slug}`),
+    // An area with no stock and no written guide is a name, not a page.
+    ...(projects.length === 0 && !community.description
+      ? { robots: { index: false, follow: true } }
+      : {}),
   };
 }
 

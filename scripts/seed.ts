@@ -74,6 +74,19 @@ const PLANS = [
 ] as const;
 
 const seed = async () => {
+  // These rows read as real — invented lenders quoting LTVs, developers with
+  // delivery statistics, named consultants. That is fine in development and a
+  // misrepresentation on a licensed brokerage's live site, so the seeder will
+  // not run against anything that looks like production.
+  const uri = process.env.DATABASE_URI ?? "";
+  if (uri.startsWith("postgres") || process.env.EXCLUDE_FIXTURES === "true") {
+    console.error(
+      "Refusing to seed: this looks like a production database.\n" +
+        "The fixtures invent lenders, developers and consultants — none of it can go live.",
+    );
+    process.exit(1);
+  }
+
   const payload = await getPayload({ config });
 
   const existing = await payload.count({ collection: "projects" });
@@ -105,6 +118,7 @@ const seed = async () => {
         avgPricePerSqft: c.ppsf,
         avgRentalYieldPct: c.yield,
         description: rt(`${c.name} area guide placeholder — written in Phase 5.`),
+        isFixture: true,
       },
     });
     communityIds[c.slug] = doc.id;
@@ -123,6 +137,7 @@ const seed = async () => {
         averageHandoverSlippageMonths: d.slippage,
         deliveryTrackRecord: rt(`${d.name}: ${d.delivered} projects delivered since ${d.founded}, average handover slippage ${d.slippage} months. Fixture data.`),
         alcazarPanelStatus: d.slippage <= 5 ? "active" : d.slippage <= 9 ? "selective" : "not-on-panel",
+        isFixture: true,
       },
     });
     developerIds.push(doc.id);
@@ -144,6 +159,7 @@ const seed = async () => {
         onPanel: true,
         ratesEffectiveFrom: "2026-07-01",
         sourceNote: "Fixture data — not real lender terms.",
+        isFixture: true,
       },
     });
     lenderIds.push(doc.id);
@@ -162,6 +178,7 @@ const seed = async () => {
         whatsapp: "+971500000000",
         email: `${a.slug.split("-")[0]}@alcazar.ae`,
         bio: "Fixture profile — replaced with real consultant data before launch.",
+        isFixture: true,
       },
     });
   }
@@ -338,6 +355,7 @@ const seed = async () => {
           `${a.excerpt} Fixture article body — replaced with real editorial before launch. Every word we publish is written by the desk, never generated from a competitor's text.`,
         ),
         author: agentDocs.docs[0]?.id,
+        isFixture: true,
         publishedAt: new Date(2026, 6, 10 + i * 5).toISOString(),
         relatedProjects: shortlisted.docs.map((p) => p.id),
         faq: a.faq,

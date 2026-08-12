@@ -1,6 +1,6 @@
 import type { CollectionConfig } from "payload";
 import { ValidationError } from "payload";
-import { PROPERTY_TYPES } from "./shared";
+import { PROPERTY_TYPES, hideFixtures } from "./shared";
 import { COUNTRY_OPTIONS, REGION_OPTIONS, requiresTrakheesi } from "./markets";
 
 const FILTER_TESTS = [
@@ -24,6 +24,7 @@ export const Projects: CollectionConfig = {
   },
   access: { read: () => true },
   hooks: {
+    beforeOperation: [hideFixtures],
     beforeChange: [
       ({ data }) => {
         // Computed, overridable (§4): price/sqft and Golden Visa eligibility

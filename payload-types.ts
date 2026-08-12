@@ -380,6 +380,10 @@ export interface Project {
  */
 export interface Community {
   id: number;
+  /**
+   * Development seed data — excluded from production builds.
+   */
+  isFixture?: boolean | null;
   slug: string;
   name: string;
   country: 'AE' | 'OM' | 'GE' | 'TH' | 'ID' | 'EG' | 'US' | 'CY';
@@ -478,6 +482,10 @@ export interface Media {
  */
 export interface Developer {
   id: number;
+  /**
+   * Development seed data — excluded from production builds.
+   */
+  isFixture?: boolean | null;
   slug: string;
   name: string;
   logo?: (number | null) | Media;
@@ -514,6 +522,10 @@ export interface Developer {
  */
 export interface Lender {
   id: number;
+  /**
+   * Development seed data — excluded from production builds.
+   */
+  isFixture?: boolean | null;
   name: string;
   logo?: (number | null) | Media;
   maxLtvResidentPct?: number | null;
@@ -539,6 +551,10 @@ export interface Lender {
  */
 export interface Agent {
   id: number;
+  /**
+   * Development seed data — excluded from production builds.
+   */
+  isFixture?: boolean | null;
   slug: string;
   name: string;
   role: string;
@@ -569,6 +585,10 @@ export interface Agent {
  */
 export interface Article {
   id: number;
+  /**
+   * Development seed data — excluded from production builds.
+   */
+  isFixture?: boolean | null;
   slug: string;
   title: string;
   category: 'market' | 'mortgage' | 'community' | 'developer' | 'guide';
@@ -933,6 +953,7 @@ export interface ProjectsSelect<T extends boolean = true> {
  * via the `definition` "developers_select".
  */
 export interface DevelopersSelect<T extends boolean = true> {
+  isFixture?: T;
   slug?: T;
   name?: T;
   logo?: T;
@@ -951,6 +972,7 @@ export interface DevelopersSelect<T extends boolean = true> {
  * via the `definition` "communities_select".
  */
 export interface CommunitiesSelect<T extends boolean = true> {
+  isFixture?: T;
   slug?: T;
   name?: T;
   country?: T;
@@ -971,6 +993,7 @@ export interface CommunitiesSelect<T extends boolean = true> {
  * via the `definition` "lenders_select".
  */
 export interface LendersSelect<T extends boolean = true> {
+  isFixture?: T;
   name?: T;
   logo?: T;
   maxLtvResidentPct?: T;
@@ -992,6 +1015,7 @@ export interface LendersSelect<T extends boolean = true> {
  * via the `definition` "agents_select".
  */
 export interface AgentsSelect<T extends boolean = true> {
+  isFixture?: T;
   slug?: T;
   name?: T;
   role?: T;
@@ -1012,6 +1036,7 @@ export interface AgentsSelect<T extends boolean = true> {
  * via the `definition` "articles_select".
  */
 export interface ArticlesSelect<T extends boolean = true> {
+  isFixture?: T;
   slug?: T;
   title?: T;
   category?: T;

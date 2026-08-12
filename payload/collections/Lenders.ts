@@ -1,10 +1,13 @@
 import type { CollectionConfig } from "payload";
+import { fixtureField, hideFixtures } from "./shared";
 
 export const Lenders: CollectionConfig = {
   slug: "lenders",
   admin: { useAsTitle: "name", defaultColumns: ["name", "onPanel", "financesOffplan"] },
   access: { read: () => true },
+  hooks: { beforeOperation: [hideFixtures] },
   fields: [
+    fixtureField,
     { name: "name", type: "text", required: true },
     { name: "logo", type: "upload", relationTo: "media" },
     { name: "maxLtvResidentPct", type: "number", min: 0, max: 100 },

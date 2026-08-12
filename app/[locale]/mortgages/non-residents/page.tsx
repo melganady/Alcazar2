@@ -154,7 +154,9 @@ export default async function NonResidentsPage({
         </div>
       </section>
 
-      {/* Lender comparison */}
+      {/* Lender comparison — omitted entirely rather than shown as an empty
+          table, which would read as "no bank lends to non-residents". */}
+      {lendersRes.docs.length > 0 ? (
       <section className="flex flex-col gap-5">
         <h2 className="type-display-m text-iron">Lenders that take non-residents</h2>
         <div className="overflow-x-auto border border-rule bg-linen">
@@ -181,6 +183,7 @@ export default async function NonResidentsPage({
           </table>
         </div>
       </section>
+      ) : null}
 
       {/* FAQ */}
       <section className="flex flex-col gap-5">
