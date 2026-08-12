@@ -15,9 +15,15 @@
 import { getPayload } from "payload";
 import config from "../payload.config";
 
+let failures = 0;
+
 const ok = (label: string) => console.log(`  ok    ${label}`);
-const bad = (label: string, why: unknown) =>
+const bad = (label: string, why: unknown) => {
+  failures++;
   console.log(`  FAIL  ${label} — ${why instanceof Error ? why.message : String(why)}`);
+};
+const check = (passed: boolean, label: string, why: string) =>
+  passed ? ok(label) : bad(label, why);
 
 const run = async () => {
   const payload = await getPayload({ config });
@@ -93,43 +99,56 @@ const run = async () => {
     depth: 1,
   });
   const rel = withDev.docs[0]?.developer;
-  typeof rel === "object" && rel !== null
-    ? ok("relationship populated across the join table")
-    : bad("relationship population", `got ${typeof rel}`);
+  check(
+    typeof rel === "object" && rel !== null,
+    "relationship populated across the join table",
+    `got ${typeof rel}`,
+  );
 
-  // Fixture guard: a flagged record must be invisible to an anonymous read.
-  await payload.update({
-    collection: "developers",
-    id: dev.id,
-    data: { isFixture: true },
-  });
-  const anon = await payload.find({
-    collection: "developers",
-    where: { slug: { equals: "probe-developer" } },
-    overrideAccess: true,
-  });
-  anon.totalDocs === 0
-    ? ok("fixture guard hid the flagged developer from a public read")
-    : bad("fixture guard", `returned ${anon.totalDocs} doc(s)`);
+  // The fixture guard is deliberately inactive without the production flag —
+  // development wants to see the seed data. Asserting it here regardless
+  // would report a failure for correct behaviour.
+  if (process.env.EXCLUDE_FIXTURES !== "true") {
+    console.log("  skip  fixture guard — EXCLUDE_FIXTURES is not set (development default)");
+  } else {
+    await payload.update({
+      collection: "developers",
+      id: dev.id,
+      data: { isFixture: true },
+    });
+    const anon = await payload.find({
+      collection: "developers",
+      where: { slug: { equals: "probe-developer" } },
+      overrideAccess: true,
+    });
+    check(
+      anon.totalDocs === 0,
+      "fixture guard hid the flagged developer from a public read",
+      `returned ${anon.totalDocs} doc(s)`,
+    );
 
-  // …and the guard reaches relationship population too, so a flagged
-  // developer degrades to a bare id rather than surfacing on a project page.
-  const afterFlag = await payload.find({
-    collection: "projects",
-    where: { slug: { equals: "probe-project" } },
-    depth: 1,
-  });
-  typeof afterFlag.docs[0]?.developer === "number"
-    ? ok("flagged relation degraded to an id, not rendered")
-    : bad("fixture guard on relations", "the flagged developer still populated");
+    // …and the guard reaches relationship population too, so a flagged
+    // developer degrades to a bare id rather than surfacing on a page.
+    const afterFlag = await payload.find({
+      collection: "projects",
+      where: { slug: { equals: "probe-project" } },
+      depth: 1,
+    });
+    check(
+      typeof afterFlag.docs[0]?.developer === "number",
+      "flagged relation degraded to an id, not rendered",
+      "the flagged developer still populated",
+    );
+  }
 
   // Clean up so the probe database matches a fresh deploy.
   await payload.delete({ collection: "projects", id: draft.id });
   await payload.delete({ collection: "developers", id: dev.id });
   ok("probe records deleted");
 
-  console.log("");
-  process.exit(0);
+  // Non-zero exit so this can gate a deploy rather than just print.
+  console.log(failures === 0 ? "\nDatabase clear.\n" : `\n${failures} check(s) failed.\n`);
+  process.exit(failures === 0 ? 0 : 1);
 };
 
 run().catch((err: unknown) => {
