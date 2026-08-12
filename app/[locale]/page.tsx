@@ -9,7 +9,9 @@ import { CompareProvider } from "@/components/project/CompareProvider";
 import { ProjectSlider } from "@/components/sections/ProjectSlider";
 import { MiniCalculator } from "@/components/sections/MiniCalculator";
 import { getPayloadClient } from "@/lib/payload";
-import { brokerNumber } from "@/lib/legalEntity";
+import { brokerNumber, getComplianceIdentity } from "@/lib/legalEntity";
+import { whatsappHref } from "@/lib/credentials";
+import { WhatsAppLink } from "@/components/analytics/WhatsAppLink";
 import { baseWhere } from "@/lib/projects";
 import { getShowcaseImages, getSlides } from "@/lib/showcase";
 import { loadMortgageConstants } from "@/lib/mortgage/loadConstants";
@@ -34,7 +36,7 @@ export default async function HomePage({
   const t = await getTranslations("home");
 
   const payload = await getPayloadClient();
-  const [slides, showcase, shortlist, stats, constants, articles, agents] = await Promise.all([
+  const [slides, showcase, shortlist, stats, constants, articles, agents, identity] = await Promise.all([
     getSlides(6),
     getShowcaseImages(2),
     payload.find({
@@ -54,6 +56,7 @@ export default async function HomePage({
       depth: 0,
     }),
     payload.find({ collection: "agents", limit: 1, sort: "slug" }),
+    getComplianceIdentity(),
   ]);
 
   const agent = agents.docs[0];
@@ -64,9 +67,8 @@ export default async function HomePage({
   const marketStats = stats?.marketStats ?? [];
   const liveMarkets = MARKETS.filter((m) => m.live);
 
-  const waHref = agent?.whatsapp
-    ? `https://wa.me/${agent.whatsapp.replace(/[^\d]/g, "")}?text=${encodeURIComponent("Enquiry from alcazar.ae")}`
-    : null;
+  // The consultant's own number when there is one, the desk's otherwise.
+  const waHref = whatsappHref(agent?.whatsapp ?? identity.whatsapp);
 
   return (
     <CompareProvider>
@@ -302,12 +304,9 @@ export default async function HomePage({
                 ) : null}
                 <div className="mt-3 flex flex-wrap gap-4">
                   {waHref ? (
-                    <a
-                      href={waHref}
-                      className="type-eyebrow bg-iron px-6 py-3.5 text-ash transition-colors duration-fast ease-brand hover:bg-iron/85"
-                    >
+                    <WhatsAppLink href={waHref} source="home-contact">
                       WhatsApp
-                    </a>
+                    </WhatsAppLink>
                   ) : null}
                   <Link
                     href="/contact"

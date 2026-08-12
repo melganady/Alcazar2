@@ -42,7 +42,7 @@ const run = async () => {
 
   const dev = await payload.create({
     collection: "developers",
-    data: { slug: "probe-developer", name: "Probe Developer" },
+    data: { slug: "probe-developer", name: "Probe Developer" } as never,
   });
   ok(`created developer #${dev.id}`);
 
@@ -50,7 +50,7 @@ const run = async () => {
     slug: "probe-project",
     name: "Probe Project",
     country: "AE" as const,
-    region: "Dubai",
+    region: "Dubai" as const,
     subCommunity: "Business Bay",
     developer: dev.id,
     priceFromAED: 1_500_000,
@@ -64,7 +64,7 @@ const run = async () => {
     paymentPlan: { label: "60/40" },
   };
 
-  const draft = await payload.create({ collection: "projects", data: base });
+  const draft = await payload.create({ collection: "projects", data: base as never });
   ok(`created project draft #${draft.id}`);
 
   // Gate must refuse an incomplete publish when the override is off.

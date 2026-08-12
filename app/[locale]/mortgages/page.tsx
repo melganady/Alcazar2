@@ -80,17 +80,12 @@ export default async function MortgagesPage({
         ))}
       </div>
 
-      {/* An empty table with a "rates effective" date under it claims to hold
-          terms it does not hold. Until real lenders are entered, say so. */}
+      {/* The whole panel is omitted when there are no lenders on it. A heading
+          over an empty table, or a note explaining the absence, both read as an
+          unfinished page. */}
+      {lenders.length > 0 ? (
       <section className="flex flex-col gap-5">
         <h2 className="type-display-m text-iron">Lender panel</h2>
-        {lenders.length === 0 ? (
-          <p className="type-body max-w-3xl text-iron/80">
-            Our panel is being confirmed with each lender before we publish their
-            terms. We will not list an LTV or a rate we have not verified. For what
-            a specific bank will do on your file today, ask the desk.
-          </p>
-        ) : (
         <div className="overflow-x-auto border border-rule bg-linen">
           <table className="w-full min-w-[44rem] border-collapse">
             <thead>
@@ -114,15 +109,14 @@ export default async function MortgagesPage({
             </tbody>
           </table>
         </div>
-        )}
         <p className="type-micro max-w-3xl text-iron/80">
-          {lenders.length > 0
-            ? `Rates effective ${lenders[0]?.ratesEffectiveFrom?.slice(0, 10) ?? constants.effectiveFrom}. `
-            : ""}
-          Indicative only; lender criteria vary and approval is not guaranteed. Alcázar acts as an
+          Rates effective{" "}
+          {lenders[0]?.ratesEffectiveFrom?.slice(0, 10) ?? constants.effectiveFrom}. Indicative
+          only; lender criteria vary and approval is not guaranteed. Alcázar acts as an
           intermediary and is not a lender.
         </p>
       </section>
+      ) : null}
     </div>
   );
 }

@@ -24,15 +24,15 @@ import {
   getSimilarProjects,
   getSupplyInWindow,
 } from "@/lib/projects";
-import { getPayloadClient } from "@/lib/payload";
-import { brokerNumber } from "@/lib/legalEntity";
+import { getComplianceIdentity } from "@/lib/legalEntity";
+import { whatsappHref } from "@/lib/credentials";
 import { depositFor, INDICATIVE_LTV } from "@/lib/mortgage/indicative";
 import { createLead } from "@/lib/actions";
 import { formatBedrooms, formatHandoverOrDash } from "@/lib/format";
 import { alternates, breadcrumbJsonLd, planPhrase, projectJsonLd, projectTitle } from "@/lib/seo";
 import { TrackProjectView } from "@/components/analytics/TrackProjectView";
 import { WhatsAppLink } from "@/components/analytics/WhatsAppLink";
-import type { Agent, Developer, Lender, Project } from "@/payload-types";
+import type { Developer, Lender, Project } from "@/payload-types";
 
 export const revalidate = 3600;
 
@@ -149,20 +149,16 @@ export default async function ProjectPage({
     (l): l is Lender => typeof l === "object" && l !== null,
   );
 
-  const payload = await getPayloadClient();
-  const [similar, supply, agentRes] = await Promise.all([
+  const [similar, supply, identity] = await Promise.all([
     declined ? Promise.resolve([]) : getSimilarProjects(project),
     getSupplyInWindow(project),
-    payload.find({ collection: "agents", limit: 1, sort: "slug" }),
+    getComplianceIdentity(),
   ]);
-  const agent = agentRes.docs[0] as Agent | undefined;
 
-  const waText = encodeURIComponent(
+  const waHref = whatsappHref(
+    identity.whatsapp,
     `Enquiry from alcazar.ae — ${project.name}, ${project.subCommunity}. Ref ${project.slug}.`,
   );
-  const waHref = agent?.whatsapp
-    ? `https://wa.me/${agent.whatsapp.replace(/[^\d]/g, "")}?text=${waText}`
-    : null;
 
   const mortgageableKey =
     project.mortgageable === "yes"
@@ -171,17 +167,37 @@ export default async function ProjectPage({
         ? "mortgageableAtHandover"
         : project.mortgageable === "no"
           ? "mortgageableNo"
-          : "mortgageableUnknown";
+          : null;
 
-  const NAV = [
-    ["overview", t("navOverview")],
-    ["plan", t("navPlan")],
-    ["units", t("navUnits")],
-    ["location", t("navLocation")],
-    ["financing", t("navFinancing")],
-    ["our-view", t("navView")],
-    ["enquire", t("navEnquire")],
-  ] as const;
+  // Sections drop out when the feed has nothing for them, so the jump nav is
+  // built from the same conditions. A link that scrolls nowhere is the kind of
+  // thing a visitor notices and a page audit does not.
+  const hasPlan = Boolean(project.paymentPlan?.milestones?.length || project.paymentPlan?.label);
+  const hasView = Boolean(project.alcazarVerdict || project.alcazarFilterScores);
+  const developerStats = developer
+    ? [
+        developer.foundedYear ? t("developerFounded", { year: developer.foundedYear }) : null,
+        developer.projectsDelivered != null
+          ? t("developerDelivered", { count: developer.projectsDelivered })
+          : null,
+        developer.averageHandoverSlippageMonths != null
+          ? t("developerSlippage", { months: developer.averageHandoverSlippageMonths })
+          : null,
+      ]
+        .filter(Boolean)
+        .join(" · ")
+    : "";
+  const NAV = (
+    [
+      ["overview", t("navOverview"), true],
+      ["plan", t("navPlan"), hasPlan],
+      ["units", t("navUnits"), !declined && Boolean(project.unitTypes?.length)],
+      ["location", t("navLocation"), true],
+      ["financing", t("navFinancing"), !declined],
+      ["our-view", t("navView"), hasView],
+      ["enquire", t("navEnquire"), !declined],
+    ] as const
+  ).filter(([, , shown]) => shown);
 
   const facts: Array<[string, React.ReactNode]> = [
     [
@@ -295,7 +311,8 @@ export default async function ProjectPage({
           ))}
         </div>
 
-        {/* Payment plan */}
+        {/* Payment plan. Shown only when there is a plan to show. */}
+        {hasPlan ? (
         <Section id="plan" title={t("planTitle")}>
           {project.paymentPlan?.milestones?.length ? (
             <PaymentPlanVisualiser
@@ -309,12 +326,10 @@ export default async function ProjectPage({
               slug={project.slug}
             />
           ) : (
-            <p className="type-body text-iron/80">
-              {project.paymentPlan?.label ||
-                "The developer has not published a milestone schedule for this project. Ask the desk for the current terms before you commit to a plan."}
-            </p>
+            <p className="type-body text-iron/80">{project.paymentPlan?.label}</p>
           )}
         </Section>
+        ) : null}
 
         {/* Units */}
         {!declined && project.unitTypes?.length ? (
@@ -500,7 +515,9 @@ export default async function ProjectPage({
           <Section id="financing" title={t("financingTitle")}>
             <div className="grid gap-6 md:grid-cols-2">
               <div className="flex flex-col gap-4 border border-rule bg-linen p-6">
-                <p className="type-display-s text-iron">{t(mortgageableKey)}</p>
+                {mortgageableKey ? (
+                  <p className="type-display-s text-iron">{t(mortgageableKey)}</p>
+                ) : null}
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <p className="type-micro uppercase text-iron/80">{t("depositResident")}</p>
@@ -555,7 +572,9 @@ export default async function ProjectPage({
           </Section>
         ) : null}
 
-        {/* Our view — the verdict panel, framed in ash wood */}
+        {/* Our view. Omitted entirely rather than shown empty — a heading with
+            nothing under it is worse than no heading. */}
+        {hasView ? (
         <Section id="our-view" title={t("viewTitle")} titleBlue>
           <CropMarks>
             <div className="flex flex-col gap-8 border-s-2 border-pine bg-pine/18 p-6 md:p-8">
@@ -563,38 +582,27 @@ export default async function ProjectPage({
                 <div className="type-body-l max-w-2xl text-iron [&_p]:mb-3">
                   <RichText data={project.alcazarVerdict} />
                 </div>
-              ) : (
-                // Never auto-written. A verdict is the desk's own opinion, and
-                // an empty panel is more honest than a generated one.
-                <p className="type-body-l max-w-2xl text-iron">
-                  {t("viewPending")}
-                </p>
-              )}
+              ) : null}
               {project.alcazarFilterScores ? (
                 <FilterScoreRow scores={project.alcazarFilterScores} />
               ) : null}
             </div>
           </CropMarks>
         </Section>
+        ) : null}
 
         {/* Developer */}
         {developer ? (
           <Section id="developer" title={t("developerTitle")}>
             <div className="flex max-w-2xl flex-col gap-3 border border-rule bg-linen p-6">
               <p className="type-display-s text-iron">{developer.name}</p>
+              {/* Empty for a developer we hold only a name for — an empty
+                  paragraph still renders as a gap, so it is omitted. */}
+              {developerStats ? (
               <p className="type-body-s text-iron/80">
-                {[
-                  developer.foundedYear ? t("developerFounded", { year: developer.foundedYear }) : null,
-                  developer.projectsDelivered != null
-                    ? t("developerDelivered", { count: developer.projectsDelivered })
-                    : null,
-                  developer.averageHandoverSlippageMonths != null
-                    ? t("developerSlippage", { months: developer.averageHandoverSlippageMonths })
-                    : null,
-                ]
-                  .filter(Boolean)
-                  .join(" · ")}
+                {developerStats}
               </p>
+              ) : null}
               {developer.deliveryTrackRecord ? (
                 <div className="type-body text-iron/80">
                   <RichText data={developer.deliveryTrackRecord} />
@@ -620,31 +628,36 @@ export default async function ProjectPage({
           <Section id="enquire" title={t("enquireTitle", { name: project.name })}>
             <div className="mb-6">
               <Suspense fallback={null}>
-                <SentBanner consultant={agent?.name ?? "Alcázar"} />
+                <SentBanner consultant={identity.brandName} />
               </Suspense>
             </div>
             <div className="grid gap-8 md:grid-cols-[minmax(0,20rem)_1fr]">
               <div className="flex flex-col gap-4">
-                {agent ? (
-                  <div className="flex flex-col gap-1 border border-rule bg-linen p-5">
-                    <p className="type-micro uppercase text-iron/80">{t("consultant")}</p>
-                    <p className="type-display-s text-iron">{agent.name}</p>
-                    <p className="type-body-s text-iron/80">{agent.role}</p>
-                    {brokerNumber(agent.brn, agent.brnExpiry) ? (
-                      <p className="type-micro text-iron/80">{brokerNumber(agent.brn, agent.brnExpiry)}</p>
-                    ) : null}
-                    {waHref ? (
-                      <WhatsAppLink
-                        href={waHref}
-                        source="project-detail"
-                        slug={project.slug}
-                        className="mt-3 self-start px-4 py-2.5"
-                      >
-                        {t("whatsapp")}
-                      </WhatsAppLink>
-                    ) : null}
-                  </div>
-                ) : null}
+                {/* No named consultant on a listing. Enquiries arrive by
+                    WhatsApp, phone or the form, and get routed by the desk —
+                    so a broker card here would only be decoration. */}
+                <div className="flex flex-col gap-1 border border-rule bg-linen p-5">
+                  <p className="type-micro uppercase text-iron/80">{t("contactDesk")}</p>
+                  <p className="type-display-s text-iron">{identity.brandName}</p>
+                  {identity.phone ? (
+                    <a
+                      href={`tel:${identity.phone.replace(/\s/g, "")}`}
+                      className="type-body-s text-iron underline-offset-4 hover:underline"
+                    >
+                      {identity.phone}
+                    </a>
+                  ) : null}
+                  {waHref ? (
+                    <WhatsAppLink
+                      href={waHref}
+                      source="project-detail"
+                      slug={project.slug}
+                      className="mt-3 self-start px-4 py-2.5"
+                    >
+                      {t("whatsapp")}
+                    </WhatsAppLink>
+                  ) : null}
+                </div>
               </div>
               <form action={createLead} className="grid gap-4 sm:grid-cols-2">
                 <input type="hidden" name="returnTo" value={`/${locale === "en" ? "" : `${locale}/`}projects/${project.slug}`.replace("//", "/")} />

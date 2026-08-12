@@ -81,11 +81,7 @@ export default async function OffPlanFinancePage({
               </li>
             ))}
           </ul>
-        ) : (
-          <p className="type-body text-iron/80">
-            Lender data pending — the panel is confirmed before launch.
-          </p>
-        )}
+        ) : null}
         <p className="type-micro max-w-3xl text-iron/80">
           Caps effective {constants.effectiveFrom}. {constants.sourceNote}
         </p>

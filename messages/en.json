@@ -168,6 +168,7 @@
     "similarTitle": "Similar projects",
     "enquireTitle": "Enquire about {name}",
     "consultant": "Your consultant",
+    "contactDesk": "Talk to us",
     "whatsapp": "WhatsApp",
     "formName": "Full name",
     "formEmail": "Email",
@@ -264,19 +265,19 @@
   },
   "secondary": {
     "eyebrow": "Alcázar · Secondary market",
-    "badge": "Coming soon",
+    "badge": "Secondary market",
     "title": "Resale, worldwide",
-    "support": "A second desk, for completed property rather than off-plan — income-producing, financeable at full LTV, and priced against what actually sold. Opening across the markets below.",
+    "support": "A second desk, for completed property rather than off-plan — income-producing, financeable at full LTV, and priced against what actually sold.",
     "differsTitle": "How resale differs from off-plan",
-    "marketsTitle": "Where the desk will operate",
-    "marketsSupport": "We open a market once the licence and the inventory are both in place, not before. Register and we will tell you when yours does.",
+    "marketsTitle": "Where the desk operates",
+    "marketsSupport": "We open a market once the licence and the inventory are both in place. Tell us which one matters to you and we will bring you what clears the filter.",
     "filterTitle": "The same eight tests",
     "filterBody": "Nothing about the method changes. A resale unit runs the same filter as a launch — developer record becomes building record, supply in window becomes what else is listed, and if we cannot write the exit we do not write the entry.",
-    "registerTitle": "Register your interest",
-    "registerBody": "No listings yet, so nothing to browse. Tell us which markets matter to you and you will hear from a named consultant when that desk opens.",
+    "registerTitle": "Tell us what you are looking for",
+    "registerBody": "Resale stock moves before it reaches a portal. Tell us the markets that matter to you and the desk will bring you what clears the filter.",
     "marketsLabel": "Markets you are interested in",
     "submit": "Register interest",
-    "sent": "Registered. {consultant} will be in touch when a desk opens in your markets.",
-    "note": "This page describes a service that is not yet trading. No property is being advertised or offered for sale here."
+    "sent": "Received. {consultant} will be in touch about your markets.",
+    "note": "Figures are indicative. Rental income, service charges and yields vary by unit and tenancy, and past performance in a building is not a guarantee of future return."
   }
 }

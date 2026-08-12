@@ -2,6 +2,8 @@ import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { Logo } from "@/components/primitives/Logo";
 import { getComplianceIdentity } from "@/lib/legalEntity";
+import { whatsappHref } from "@/lib/credentials";
+import { WhatsAppLink } from "@/components/analytics/WhatsAppLink";
 
 const LEGAL_LINKS = [
   { href: "/legal/privacy", label: "Privacy" },
@@ -13,13 +15,50 @@ const LEGAL_LINKS = [
 export async function SiteFooter() {
   const t = await getTranslations("footer");
   const identity = await getComplianceIdentity();
+  const waHref = whatsappHref(identity.whatsapp);
   const year = new Date().getFullYear();
 
   return (
     <footer className="bg-iron text-ash">
       <div className="mx-auto flex max-w-container flex-col gap-10 px-4 py-12 md:px-6">
         <div className="flex flex-col justify-between gap-8 md:flex-row md:items-start">
-          <Logo reversed className="-m-2" />
+          <div className="flex flex-col gap-4">
+            <Logo reversed className="-m-2" />
+            {/* Reachable from any page, rather than only from /contact. */}
+            <address className="type-body-s not-italic text-ash/80">
+              {identity.address ? (
+                <span className="block whitespace-pre-line">{identity.address}</span>
+              ) : null}
+              <span className="block">{identity.city}</span>
+              <span className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1">
+                {identity.phone ? (
+                  <a
+                    href={`tel:${identity.phone.replace(/\s/g, "")}`}
+                    className="text-ash underline-offset-4 hover:underline"
+                  >
+                    {identity.phone}
+                  </a>
+                ) : null}
+                {waHref ? (
+                  <WhatsAppLink
+                    href={waHref}
+                    source="footer"
+                    className="bg-transparent p-0 text-ash underline-offset-4 hover:bg-transparent hover:underline"
+                  >
+                    WhatsApp
+                  </WhatsAppLink>
+                ) : null}
+                {identity.email ? (
+                  <a
+                    href={`mailto:${identity.email}`}
+                    className="text-ash underline-offset-4 hover:underline"
+                  >
+                    {identity.email}
+                  </a>
+                ) : null}
+              </span>
+            </address>
+          </div>
           <nav aria-label="Legal" className="flex flex-wrap gap-x-6 gap-y-2">
             {LEGAL_LINKS.map((l) => (
               <Link

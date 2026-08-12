@@ -94,5 +94,13 @@ export const LegalEntity: GlobalConfig = {
         { name: "email", type: "email" },
       ],
     },
+    {
+      name: "whatsapp",
+      type: "text",
+      admin: {
+        description:
+          "E.164, e.g. +9715xxxxxxxx. The desk's number, used wherever no consultant is assigned — which is every page until consultants are added.",
+      },
+    },
   ],
 };

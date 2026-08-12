@@ -97,7 +97,7 @@ export const FIVE_STAGES = [
  * and `launched` gates whether the site claims it is trading.
  */
 export const SECONDARY = {
-  launched: false,
+  launched: true,
   /** Where the desk will operate. Order is the order shown. */
   markets: [
     { key: "uae", name: "United Arab Emirates", note: "Dubai, Abu Dhabi, Ras Al Khaimah" },

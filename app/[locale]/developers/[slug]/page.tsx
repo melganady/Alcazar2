@@ -108,13 +108,7 @@ export default async function DeveloperPage({
               <RichText data={developer.deliveryTrackRecord} />
             </div>
           </section>
-        ) : (
-          <p className="type-body-s max-w-2xl text-iron/80">
-            Delivery record under review. We publish a track record once we have
-            verified it against completed projects, not from the developer&rsquo;s
-            own marketing.
-          </p>
-        )}
+        ) : null}
 
         {projects.length > 0 ? (
           <section className="flex flex-col gap-6 border-t border-rule pt-10">

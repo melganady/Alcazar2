@@ -62,7 +62,11 @@ export default async function ProjectsPage({
     getFilterOptions(),
   ]);
 
-  const view = filters.view === "list" || filters.view === "map" ? filters.view : "grid";
+  // ?view=map only resolves when a token exists; otherwise it falls back to the
+  // grid rather than landing the visitor on a placeholder.
+  const mapEnabled = Boolean(process.env.NEXT_PUBLIC_MAPBOX_TOKEN);
+  const view =
+    filters.view === "list" || (filters.view === "map" && mapEnabled) ? filters.view : "grid";
 
   const pageLink = (page: number) => {
     const next = new URLSearchParams(

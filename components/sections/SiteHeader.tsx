@@ -10,7 +10,7 @@ import { MobileNav } from "./MobileNav";
 
 const NAV_KEYS: ReadonlyArray<{ key: string; href: string; soon?: boolean }> = [
   { key: "projects", href: "/projects" },
-  { key: "secondary", href: "/secondary", soon: true },
+  { key: "secondary", href: "/secondary" },
   { key: "developers", href: "/developers" },
   { key: "communities", href: "/communities" },
   { key: "mortgages", href: "/mortgages" },

@@ -1296,6 +1296,10 @@ export interface LegalEntity {
   city?: string | null;
   phone?: string | null;
   email?: string | null;
+  /**
+   * E.164, e.g. +9715xxxxxxxx. The desk's number, used wherever no consultant is assigned — which is every page until consultants are added.
+   */
+  whatsapp?: string | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1390,6 +1394,7 @@ export interface LegalEntitySelect<T extends boolean = true> {
   city?: T;
   phone?: T;
   email?: T;
+  whatsapp?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

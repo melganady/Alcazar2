@@ -47,7 +47,7 @@ export default async function CommunitiesPage({
         </>
       ) : (
         <p className="type-body text-iron/80">
-          Community guides publish alongside their first listed project.
+          We publish an area once we have stock in it and a view worth reading.
         </p>
       )}
     </div>

@@ -20,6 +20,8 @@ export type ComplianceIdentity = {
   city?: string;
   phone?: string;
   email?: string;
+  /** The desk's WhatsApp, used wherever no consultant is assigned. */
+  whatsapp?: string;
   /** True when licence numbers are published without naming the holder. */
   entityNameHidden: boolean;
   /** True when the trade licence on file has lapsed. */
@@ -40,11 +42,12 @@ export async function getComplianceIdentity(): Promise<ComplianceIdentity> {
   const expiry = e?.tradeLicenceExpiry ? new Date(e.tradeLicenceExpiry) : null;
   const licenceExpired = hasLapsed(expiry);
 
+  // A number we hold is shown; one we do not is omitted. Printing "pending"
+  // announces a gap to every visitor on every page, which reads as an
+  // unfinished site rather than a discreet one.
   const registrations = [
-    e?.orn ? `ORN ${e.orn}` : "ORN pending",
-    e?.tradeLicence && !licenceExpired
-      ? `Trade licence ${e.tradeLicence}`
-      : "Trade licence pending",
+    e?.orn ? `ORN ${e.orn}` : null,
+    e?.tradeLicence && !licenceExpired ? `Trade licence ${e.tradeLicence}` : null,
     e?.dldBrokerRegistration && !licenceExpired ? `DLD ${e.dldBrokerRegistration}` : null,
   ].filter((v): v is string => Boolean(v));
 
@@ -61,6 +64,9 @@ export async function getComplianceIdentity(): Promise<ComplianceIdentity> {
     city: e?.city ?? "Dubai, United Arab Emirates",
     phone: e?.phone ?? undefined,
     email: e?.email ?? undefined,
+    // Falls back to the switchboard number, so a WhatsApp button exists even
+    // with no consultants in the CMS — which is the state the site launches in.
+    whatsapp: e?.whatsapp || e?.phone || undefined,
     entityNameHidden: hidden,
     licenceExpired,
     licenceExpiry: expiry ? expiry.toISOString().slice(0, 10) : undefined,

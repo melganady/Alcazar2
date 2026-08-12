@@ -26,6 +26,7 @@ const run = async () => {
       address: "Office 733, Tamani Arts Offices\nAl Asayel St, Business Bay",
       city: "Dubai, United Arab Emirates",
       phone: "+971 58 582 7070",
+      whatsapp: "+971585827070",
       email: "hello@alcazar.ae",
     },
   });

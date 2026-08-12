@@ -33,7 +33,12 @@ export function ControlsBar() {
   return (
     <div className="flex flex-wrap items-center justify-between gap-4">
       <div role="group" aria-label={t("viewGrid")} className="flex items-center gap-4">
-        {(["grid", "list", "map"] as const).map((v) => (
+        {/* Map is offered only when it can actually draw one. Advertising a
+            view that opens onto an explanation is worse than not offering it. */}
+        {(process.env.NEXT_PUBLIC_MAPBOX_TOKEN
+          ? (["grid", "list", "map"] as const)
+          : (["grid", "list"] as const)
+        ).map((v) => (
           <button
             key={v}
             type="button"

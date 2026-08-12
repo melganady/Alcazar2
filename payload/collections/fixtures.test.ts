@@ -1,5 +1,5 @@
 import { describe, expect, it, afterEach } from "vitest";
-import type { CollectionBeforeOperationHook } from "payload";
+import type { CollectionBeforeOperationHook, Where } from "payload";
 import { hideFixtures } from "./shared";
 
 /**
@@ -11,7 +11,10 @@ import { hideFixtures } from "./shared";
 
 type HookArgs = Parameters<CollectionBeforeOperationHook>[0];
 
-const call = (overrides: Partial<HookArgs> = {}) =>
+// The hook's return type is a union across every Payload operation. The
+// tests only ever read `where`, so it is narrowed here rather than at each
+// assertion.
+const call = (overrides: Partial<HookArgs> = {}): { where?: Where } =>
   hideFixtures({
     args: {},
     operation: "read",
@@ -19,7 +22,7 @@ const call = (overrides: Partial<HookArgs> = {}) =>
     context: {} as never,
     req: {} as never,
     ...overrides,
-  } as HookArgs);
+  } as HookArgs) as unknown as { where?: Where };
 
 const original = process.env.EXCLUDE_FIXTURES;
 afterEach(() => {
@@ -41,7 +44,7 @@ describe("hideFixtures", () => {
   it("preserves the caller's own filter rather than replacing it", () => {
     process.env.EXCLUDE_FIXTURES = "true";
     const where = { slug: { equals: "one-crescent-palm" } };
-    expect(call({ args: { where } }).where).toEqual({
+    expect(call({ args: { where } as unknown as HookArgs["args"] }).where).toEqual({
       and: [where, { isFixture: { not_equals: true } }],
     });
   });

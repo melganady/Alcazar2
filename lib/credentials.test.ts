@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { brokerNumber } from "./credentials";
+import { brokerNumber, whatsappHref } from "./credentials";
 
 /*
  * A lapsed broker card does not authorise anyone to act, so publishing its
@@ -22,5 +22,37 @@ describe("brokerNumber", () => {
   it("renders nothing without a number", () => {
     expect(brokerNumber(null, future)).toBeNull();
     expect(brokerNumber("", future)).toBeNull();
+  });
+});
+
+describe("whatsappHref — the CMS holds the number in whatever shape it was typed", () => {
+  const expected = "https://wa.me/971585827070?text=Enquiry%20from%20alcazar.ae";
+
+  it("normalises spacing, plus signs and 00 prefixes to the same link", () => {
+    for (const input of [
+      "+971585827070",
+      "+971 58 582 7070",
+      "00971585827070",
+      "971 58 582 70 70",
+    ]) {
+      expect(whatsappHref(input)).toBe(expected);
+    }
+  });
+
+  it("returns null rather than a dead button when there is no number", () => {
+    expect(whatsappHref(null)).toBeNull();
+    expect(whatsappHref("")).toBeNull();
+    expect(whatsappHref("   ")).toBeNull();
+  });
+
+  it("rejects a number too short to dial instead of linking to a stub", () => {
+    expect(whatsappHref("+971")).toBeNull();
+    expect(whatsappHref("1234567")).toBeNull();
+  });
+
+  it("carries the project reference into the message when one is given", () => {
+    const href = whatsappHref("+971585827070", "Enquiry — One Crescent Palm. Ref abc.");
+    expect(href).toContain("One%20Crescent%20Palm");
+    expect(href).toContain("wa.me/971585827070");
   });
 });

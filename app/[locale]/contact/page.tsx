@@ -8,6 +8,8 @@ import { SentBanner } from "@/components/project/SentBanner";
 import { getPayloadClient } from "@/lib/payload";
 import { createLead } from "@/lib/actions";
 import { brokerNumber, getComplianceIdentity } from "@/lib/legalEntity";
+import { whatsappHref } from "@/lib/credentials";
+import { WhatsAppLink } from "@/components/analytics/WhatsAppLink";
 
 export const revalidate = 3600;
 
@@ -31,9 +33,8 @@ export default async function ContactPage({
   const agents = await payload.find({ collection: "agents", limit: 3, sort: "slug" });
   const agent = agents.docs[0];
 
-  const waHref = agent?.whatsapp
-    ? `https://wa.me/${agent.whatsapp.replace(/[^\d]/g, "")}?text=${encodeURIComponent("Enquiry from alcazar.ae")}`
-    : null;
+  // The consultant's own number when there is one, the desk's otherwise.
+  const waHref = whatsappHref(agent?.whatsapp ?? identity.whatsapp);
 
   return (
     <div className="mx-auto flex max-w-container flex-col gap-10 px-4 py-12 md:px-6">
@@ -88,6 +89,25 @@ export default async function ContactPage({
               <a href={`tel:${identity.phone.replace(/\s/g, "")}`} className="type-body-s text-iron underline-offset-4 hover:underline">
                 {identity.phone}
               </a>
+            ) : null}
+            {identity.email ? (
+              <a
+                href={`mailto:${identity.email}`}
+                className="type-body-s text-iron underline-offset-4 hover:underline"
+              >
+                {identity.email}
+              </a>
+            ) : null}
+            {/* The desk's WhatsApp. Suppressed when a consultant is assigned,
+                since their card already carries a personal one. */}
+            {!agent && waHref ? (
+              <WhatsAppLink
+                href={waHref}
+                source="contact-office"
+                className="type-eyebrow mt-3 self-start bg-iron px-4 py-2.5 text-ash transition-colors duration-fast ease-brand hover:bg-iron/85"
+              >
+                WhatsApp
+              </WhatsAppLink>
             ) : null}
             <p className="type-micro mt-2 text-iron/80">
               {identity.registrations.join(" · ")}

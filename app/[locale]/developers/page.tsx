@@ -47,7 +47,7 @@ export default async function DevelopersPage({
         </>
       ) : (
         <p className="type-body text-iron/80">
-          Developer profiles publish alongside their first listed project.
+          We publish a developer once we hold a delivery record we have checked ourselves.
         </p>
       )}
     </div>

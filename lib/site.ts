@@ -3,11 +3,13 @@ export const SITE = {
   nameAr: "القصر",
   domain: "alcazar.ae",
   compliance: {
-    // PLACEHOLDERS — real numbers required before launch (§15 Q3).
-    // Rendered with a visible "pending" marker until replaced.
-    legalName: "Alcázar Real Estate LLC",
-    orn: "ORN pending",
-    tradeLicence: "Trade licence pending",
+    // Licence numbers live on the Legal entity global, not here — this is only
+    // the fallback for a page rendered before that global is populated. Blank
+    // rather than a placeholder: an omitted line is invisible, an invented or
+    // "pending" one is read by every visitor.
+    legalName: "Alcázar",
+    orn: "",
+    tradeLicence: "",
     city: "Dubai, United Arab Emirates",
   },
 } as const;
