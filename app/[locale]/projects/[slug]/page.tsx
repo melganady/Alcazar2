@@ -7,6 +7,7 @@ import { Link } from "@/i18n/navigation";
 import { Eyebrow } from "@/components/primitives/Eyebrow";
 import { CropMarks } from "@/components/primitives/CropMarks";
 import { MediaWell } from "@/components/primitives/MediaWell";
+import { ProjectGallery, type GalleryImage } from "@/components/project/ProjectGallery";
 import { Field } from "@/components/primitives/Field";
 import { Select } from "@/components/primitives/Select";
 import { ProjectCard } from "@/components/project/ProjectCard";
@@ -110,6 +111,19 @@ export default async function ProjectPage({
       : null;
   const community =
     project.community && typeof project.community === "object" ? project.community : null;
+  // Hero first, then every gallery image. 335 of these were stored but never
+  // rendered until the gallery existed.
+  const galleryImages: GalleryImage[] = [
+    project.media?.hero,
+    ...(project.media?.gallery ?? []),
+  ]
+    .filter((m): m is NonNullable<typeof m> => Boolean(m) && typeof m === "object")
+    .map((m) => ({
+      url: (m as { url?: string }).url ?? "",
+      alt: (m as { alt?: string }).alt ?? `${project.name}, ${project.subCommunity}`,
+    }))
+    .filter((m) => m.url);
+
   const lenders = (project.lendersFinancing ?? []).filter(
     (l): l is Lender => typeof l === "object" && l !== null,
   );
@@ -216,28 +230,31 @@ export default async function ProjectPage({
           ) : null}
         </header>
 
-        {/* Gallery (developer-supplied only) or placeholder field */}
+        {/* Gallery (developer-supplied only), or a composed field while imagery is pending */}
         {!declined ? (
-          <div className="relative">
-            <MediaWell
-              src={
-                project.media?.hero && typeof project.media.hero === "object"
-                  ? project.media.hero.url
-                  : undefined
-              }
-              alt={`${project.name}, ${project.subCommunity}`}
-              label={`${project.name} · ${project.subCommunity}`}
-              ratio="21/9"
-              priority
-              sizes="100vw"
+          galleryImages.length > 0 ? (
+            <ProjectGallery
+              images={galleryImages}
+              permitNumber={project.trakheesiPermitNumber}
+              developer={developer?.name}
             />
-            {project.trakheesiPermitNumber ? (
-              <span className="type-micro absolute bottom-0 end-0 bg-linen/90 px-3 py-1.5 text-iron/80">
-                {t("legalPermit", { number: project.trakheesiPermitNumber })}
-                {developer ? ` · ${developer.name}` : ""}
-              </span>
-            ) : null}
-          </div>
+          ) : (
+            <div className="relative">
+              <MediaWell
+                alt={`${project.name}, ${project.subCommunity}`}
+                label={`${project.name} · ${project.subCommunity}`}
+                ratio="21/9"
+                priority
+                sizes="100vw"
+              />
+              {project.trakheesiPermitNumber ? (
+                <span className="type-micro absolute bottom-0 end-0 bg-linen/90 px-3 py-1.5 text-iron/80">
+                  {t("legalPermit", { number: project.trakheesiPermitNumber })}
+                  {developer ? ` · ${developer.name}` : ""}
+                </span>
+              ) : null}
+            </div>
+          )
         ) : null}
 
         {/* Fact bar */}
