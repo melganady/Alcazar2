@@ -1,6 +1,90 @@
 # Deploying Alcázar
 
-Everything below is a one-time setup. After it, `git push` deploys.
+Everything below is a one-time setup.
+
+## The short version
+
+Three accounts, then four commands. Each account step needs a browser and a
+password, so they are yours to do; everything after is scripted.
+
+**1. Neon** — neon.tech, create a project, copy the *pooled* connection string.
+
+**2. Cloudflare R2** — create a bucket named `alcazar-media`, then an API token
+with Object Read & Write. Note the bucket name, account endpoint, access key
+and secret. R2 has no egress fees, which matters for 1.2 GB of renders.
+
+**3. Vercel** — an account is enough; the CLI creates the project. No GitHub
+repository is needed, the CLI uploads the working directory directly.
+
+Then, from `~/Projects/alcazar-site`:
+
+```bash
+npx vercel login
+```
+
+```bash
+npx vercel link
+```
+
+Add the environment below in the Vercel dashboard (Settings → Environment
+Variables), or with `npx vercel env add <NAME> production` for each. The
+`PAYLOAD_SECRET` has already been generated for you — it is in
+`.env.production.local`, which is gitignored and never committed.
+
+```
+PAYLOAD_SECRET=<from .env.production.local>
+DATABASE_URI=<Neon pooled connection string>
+NEXT_PUBLIC_SITE_URL=https://<your domain>
+EXCLUDE_FIXTURES=true
+ALLOW_INCOMPLETE_PUBLISH=true
+S3_BUCKET=alcazar-media
+S3_ENDPOINT=https://<account>.r2.cloudflarestorage.com
+S3_REGION=auto
+S3_ACCESS_KEY_ID=<R2 key>
+S3_SECRET_ACCESS_KEY=<R2 secret>
+```
+
+Fill the bucket and the database, then ship:
+
+```bash
+S3_BUCKET=alcazar-media S3_ENDPOINT=https://<account>.r2.cloudflarestorage.com S3_ACCESS_KEY_ID=<key> S3_SECRET_ACCESS_KEY=<secret> npm run upload:media
+```
+
+```bash
+DATABASE_URI=<Neon string> PAYLOAD_SECRET=<secret> npm run seed:legal && DATABASE_URI=<Neon string> PAYLOAD_SECRET=<secret> npm run seed:mortgage
+```
+
+```bash
+DATABASE_URI=<Neon string> PAYLOAD_SECRET=<secret> npm run reelly:all -- --contract-ref <your Reelly agreement ref>
+```
+
+```bash
+DATABASE_URI=<Neon string> PAYLOAD_SECRET=<secret> ALLOW_INCOMPLETE_PUBLISH=true npm run publish:all
+```
+
+```bash
+npx vercel --prod
+```
+
+Run `npm run preflight` with the production environment first — it refuses to
+pass on a missing secret, a non-Postgres URI, or demo content that would be
+served, and reports how many live listings still lack a Trakheesi permit.
+
+### Two things worth knowing before you start
+
+**Postgres is untested.** Every run of this app so far has been on SQLite. The
+adapter is selected by URI scheme and Payload creates the schema on first
+boot, but that path has not been exercised against a real Postgres — I tried
+with an in-process stand-in and it could not complete drizzle's schema
+introspection, which tells us about the stand-in rather than about Neon. Watch
+the first boot.
+
+**Media is no longer in the repository.** It was 2013 files and 1.2 GB, which
+is past what a deployment bundle should carry. The files are still on disk
+locally and `npm run upload:media` puts them in the bucket. The 1.2 GB is
+still in git *history*; if you ever push this to GitHub it goes too. Say the
+word and I will rewrite the history to drop it — that is destructive, so I
+have not done it.
 
 ## What goes live today
 

@@ -43,5 +43,10 @@ next-env.d.ts
 # local sqlite db
 *.db
 
+# Uploaded media. 1.2 GB of developer renders that belong in object storage,
+# not in a deployment bundle — production serves them from S3/R2, and they are
+# re-fetchable from the licensed feed with `npm run reelly:all`.
+/media
+
 # allow env template
 !.env.example
