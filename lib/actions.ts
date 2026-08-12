@@ -43,6 +43,11 @@ export async function createLead(formData: FormData) {
     const videoUrl = String(formData.get("videoUrl") || "").slice(0, 300);
     const kind = String(formData.get("leadKind") || "");
     let message = String(formData.get("message") || "").slice(0, 2000);
+    // Secondary desk: which markets they want, so demand is measurable per market.
+    const markets = formData.getAll("markets").map(String).filter(Boolean);
+    if (markets.length > 0) {
+      message = `Secondary interest — ${markets.join(", ")}${message ? `\n${message}` : ""}`;
+    }
     if (kind === "career") {
       message = `Career application — video: ${videoUrl || "not provided"}${message ? `\n${message}` : ""}`;
     }

@@ -92,6 +92,45 @@ export const FIVE_STAGES = [
 ] as const;
 
 /**
+ * The secondary desk — resale and income-producing stock, as opposed to the
+ * off-plan primary market. Not live yet: this drives a register-interest page,
+ * and `launched` gates whether the site claims it is trading.
+ */
+export const SECONDARY = {
+  launched: false,
+  /** Where the desk will operate. Order is the order shown. */
+  markets: [
+    { key: "uae", name: "United Arab Emirates", note: "Dubai, Abu Dhabi, Ras Al Khaimah" },
+    { key: "uk", name: "United Kingdom", note: "London, Manchester" },
+    { key: "usa", name: "United States", note: "Florida, Texas" },
+    { key: "egypt", name: "Egypt", note: "North Coast, Cairo" },
+    { key: "georgia", name: "Georgia", note: "Tbilisi, Batumi" },
+    { key: "thailand", name: "Thailand", note: "Phuket, Bangkok" },
+    { key: "indonesia", name: "Indonesia", note: "Bali" },
+    { key: "oman", name: "Oman", note: "Muscat" },
+  ],
+  /** How a resale purchase differs from buying off-plan. */
+  differences: [
+    {
+      title: "Income from day one",
+      body: "A tenanted unit pays from the month you complete. No construction window, no handover risk, and a yield you can verify against an existing lease rather than a projection.",
+    },
+    {
+      title: "Financeable at full LTV",
+      body: "Completed property borrows at the standard ceilings rather than the reduced off-plan cap, so the same equity reaches a larger asset.",
+    },
+    {
+      title: "Priced against evidence",
+      body: "Resale has transaction history. We price against what actually sold in the building, not against a developer's launch list.",
+    },
+    {
+      title: "The exit is already liquid",
+      body: "A completed unit can be sold the day after you buy it. Off-plan exits depend on assignment terms and how much you have paid in.",
+    },
+  ],
+} as const;
+
+/**
  * Markets we place capital into. `live` gates what the site claims today —
  * never advertise a market before the licence and the inventory exist.
  */

@@ -71,6 +71,7 @@ export default async function sitemap({
   return [
     "/",
     "/projects",
+    "/secondary",
     "/developers",
     "/communities",
     "/mortgages",

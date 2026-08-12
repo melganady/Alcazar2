@@ -8,20 +8,21 @@ import {
 } from "@/components/primitives/Switchers";
 import { MobileNav } from "./MobileNav";
 
-const NAV_KEYS = [
+const NAV_KEYS: ReadonlyArray<{ key: string; href: string; soon?: boolean }> = [
   { key: "projects", href: "/projects" },
+  { key: "secondary", href: "/secondary", soon: true },
   { key: "developers", href: "/developers" },
   { key: "communities", href: "/communities" },
   { key: "mortgages", href: "/mortgages" },
   { key: "howWeWork", href: "/how-we-work" },
   { key: "insights", href: "/insights" },
   { key: "careers", href: "/careers" },
-] as const;
+];
 
 export function SiteHeader() {
   const t = useTranslations("nav");
   const tBrand = useTranslations("brand");
-  const links = NAV_KEYS.map(({ key, href }) => ({ href, label: t(key) }));
+  const links = NAV_KEYS.map(({ key, href, soon }) => ({ href, label: t(key), soon }));
 
   return (
     <header className="border-b border-rule bg-frost">

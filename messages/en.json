@@ -10,7 +10,8 @@
     "contact": "Contact",
     "menu": "Menu",
     "close": "Close",
-    "enquire": "Enquire"
+    "enquire": "Enquire",
+    "secondary": "Secondary"
   },
   "home": {
     "eyebrow": "Real estate investment · UAE and beyond",
@@ -259,5 +260,22 @@
     "investment": "Projections are not guarantees. Off-plan property carries construction, delivery, market and liquidity risk. Values can fall.",
     "mortgage": "Alcázar acts as an intermediary and is not a lender. Financing figures are indicative only and approval is not guaranteed.",
     "rights": "© {year} Alcázar. All rights reserved."
+  },
+  "secondary": {
+    "eyebrow": "Alcázar · Secondary market",
+    "badge": "Coming soon",
+    "title": "Resale, worldwide",
+    "support": "A second desk, for completed property rather than off-plan — income-producing, financeable at full LTV, and priced against what actually sold. Opening across the markets below.",
+    "differsTitle": "How resale differs from off-plan",
+    "marketsTitle": "Where the desk will operate",
+    "marketsSupport": "We open a market once the licence and the inventory are both in place, not before. Register and we will tell you when yours does.",
+    "filterTitle": "The same eight tests",
+    "filterBody": "Nothing about the method changes. A resale unit runs the same filter as a launch — developer record becomes building record, supply in window becomes what else is listed, and if we cannot write the exit we do not write the entry.",
+    "registerTitle": "Register your interest",
+    "registerBody": "No listings yet, so nothing to browse. Tell us which markets matter to you and you will hear from a named consultant when that desk opens.",
+    "marketsLabel": "Markets you are interested in",
+    "submit": "Register interest",
+    "sent": "Registered. {consultant} will be in touch when a desk opens in your markets.",
+    "note": "This page describes a service that is not yet trading. No property is being advertised or offered for sale here."
   }
 }
