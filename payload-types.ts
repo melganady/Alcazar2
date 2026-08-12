@@ -253,6 +253,29 @@ export interface Project {
    */
   goldenVisaEligible?: boolean | null;
   serviceChargeEstimateAEDPerSqft?: number | null;
+  /**
+   * Supplied by the feed or the developer pack.
+   */
+  amenities?: string[] | null;
+  /**
+   * e.g. "Semi-furnished", as stated by the developer.
+   */
+  furnishing?: string | null;
+  /**
+   * Construction progress, where the source reports it.
+   */
+  readinessPct?: number | null;
+  /**
+   * Walk/drive times used by the location section (§6.6).
+   */
+  nearbyPlaces?:
+    | {
+        name: string;
+        distanceKm?: number | null;
+        minutes?: number | null;
+        id?: string | null;
+      }[]
+    | null;
   assignmentAllowed?: boolean | null;
   assignmentMinPaidPct?: number | null;
   developerNocFeeAED?: number | null;
@@ -827,6 +850,17 @@ export interface ProjectsSelect<T extends boolean = true> {
   freehold?: T;
   goldenVisaEligible?: T;
   serviceChargeEstimateAEDPerSqft?: T;
+  amenities?: T;
+  furnishing?: T;
+  readinessPct?: T;
+  nearbyPlaces?:
+    | T
+    | {
+        name?: T;
+        distanceKm?: T;
+        minutes?: T;
+        id?: T;
+      };
   assignmentAllowed?: T;
   assignmentMinPaidPct?: T;
   developerNocFeeAED?: T;

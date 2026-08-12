@@ -186,7 +186,15 @@
     "legalPermit": "Trakheesi permit no. {number}",
     "legalEscrow": "Purchase payments are made to the developer's DLD-registered escrow account. Alcázar does not hold client funds.",
     "legalPrices": "Prices, availability and handover dates are set by the developer and subject to change.",
-    "legalProjections": "Projections are not guarantees. Off-plan property carries construction, delivery, market and liquidity risk. Values can fall."
+    "legalProjections": "Projections are not guarantees. Off-plan property carries construction, delivery, market and liquidity risk. Values can fall.",
+    "amenitiesTitle": "Amenities",
+    "readiness": "Construction {pct}% complete at last report.",
+    "downloadsTitle": "Floor plans and brochure",
+    "floorPlanN": "Floor plans {n}",
+    "brochure": "Brochure",
+    "downloadsNote": "Supplied by the developer under licence. Layouts and finishes are indicative and subject to change.",
+    "nearbyTitle": "What is nearby",
+    "minutesAway": "{n} min"
   },
   "mortgage": {
     "calcTitle": "Mortgage calculator",

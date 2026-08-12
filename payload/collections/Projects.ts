@@ -205,6 +205,34 @@ export const Projects: CollectionConfig = {
     },
     { name: "serviceChargeEstimateAEDPerSqft", type: "number" },
     {
+      name: "amenities",
+      type: "text",
+      hasMany: true,
+      admin: { description: "Supplied by the feed or the developer pack." },
+    },
+    {
+      name: "furnishing",
+      type: "text",
+      admin: { description: 'e.g. "Semi-furnished", as stated by the developer.' },
+    },
+    {
+      name: "readinessPct",
+      type: "number",
+      min: 0,
+      max: 100,
+      admin: { description: "Construction progress, where the source reports it." },
+    },
+    {
+      name: "nearbyPlaces",
+      type: "array",
+      admin: { description: "Walk/drive times used by the location section (§6.6)." },
+      fields: [
+        { name: "name", type: "text", required: true },
+        { name: "distanceKm", type: "number" },
+        { name: "minutes", type: "number" },
+      ],
+    },
+    {
       type: "row",
       fields: [
         { name: "assignmentAllowed", type: "checkbox" },

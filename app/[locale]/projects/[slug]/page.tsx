@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
@@ -123,6 +124,15 @@ export default async function ProjectPage({
       alt: (m as { alt?: string }).alt ?? `${project.name}, ${project.subCommunity}`,
     }))
     .filter((m) => m.url);
+
+  const floorPlans = (project.media?.floorPlans ?? [])
+    .filter((f): f is NonNullable<typeof f> => Boolean(f) && typeof f === "object")
+    .map((f) => ({ url: (f as { url?: string }).url ?? "" }))
+    .filter((f) => f.url);
+  const brochureUrl =
+    project.media?.brochure && typeof project.media.brochure === "object"
+      ? project.media.brochure.url
+      : undefined;
 
   const lenders = (project.lendersFinancing ?? []).filter(
     (l): l is Lender => typeof l === "object" && l !== null,
@@ -304,7 +314,27 @@ export default async function ProjectPage({
                 <tbody>
                   {project.unitTypes.map((u) => (
                     <tr key={u.id} className="border-b border-rule/60">
-                      <td className="type-body-s p-3 font-medium text-iron">{u.label}</td>
+                      <td className="type-body-s p-3 font-medium text-iron">
+                        <span className="flex items-center gap-3">
+                          {u.floorPlan && typeof u.floorPlan === "object" && u.floorPlan.url ? (
+                            <a
+                              href={u.floorPlan.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="relative block h-12 w-12 shrink-0 overflow-hidden border border-rule bg-linen"
+                            >
+                              <Image
+                                src={u.floorPlan.url}
+                                alt={u.floorPlan.alt ?? `${u.label} layout`}
+                                fill
+                                sizes="48px"
+                                className="object-contain"
+                              />
+                            </a>
+                          ) : null}
+                          {u.label}
+                        </span>
+                      </td>
                       <td className="type-body-s p-3 text-iron">
                         {u.bedrooms === 0 ? tps("studio") : u.bedrooms}
                       </td>
@@ -337,6 +367,61 @@ export default async function ProjectPage({
           </Section>
         ) : null}
 
+        {/* Amenities — what the developer is actually building in */}
+        {!declined && (project.amenities ?? []).length > 0 ? (
+          <Section id="amenities" title={t("amenitiesTitle")}>
+            <ul className="grid gap-x-8 gap-y-2 sm:grid-cols-2 lg:grid-cols-3">
+              {(project.amenities ?? []).map((a) => (
+                <li key={a} className="type-body-s flex items-baseline gap-2.5 text-iron/80">
+                  <span aria-hidden className="mt-1.5 h-px w-4 shrink-0 bg-pine" />
+                  {a}
+                </li>
+              ))}
+            </ul>
+            {project.furnishing || project.readinessPct != null ? (
+              <p className="type-body-s mt-6 text-iron/80">
+                {project.furnishing ? `${project.furnishing}.` : ""}
+                {project.readinessPct != null
+                  ? ` ${t("readiness", { pct: project.readinessPct })}`
+                  : ""}
+              </p>
+            ) : null}
+          </Section>
+        ) : null}
+
+        {/* Downloads — floor plans and the brochure, licensed with the feed */}
+        {!declined && (floorPlans.length > 0 || brochureUrl) ? (
+          <Section id="downloads" title={t("downloadsTitle")}>
+            <ul className="flex flex-wrap gap-4">
+              {floorPlans.map((f, i) => (
+                <li key={f.url}>
+                  <a
+                    href={f.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="type-eyebrow flex items-center gap-2 border border-pine px-5 py-3 text-iron transition-colors duration-fast ease-brand hover:bg-pine/25"
+                  >
+                    {t("floorPlanN", { n: i + 1 })}
+                  </a>
+                </li>
+              ))}
+              {brochureUrl ? (
+                <li>
+                  <a
+                    href={brochureUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="type-eyebrow flex items-center gap-2 bg-iron px-5 py-3 text-ash transition-colors duration-fast ease-brand hover:bg-iron/85"
+                  >
+                    {t("brochure")}
+                  </a>
+                </li>
+              ) : null}
+            </ul>
+            <p className="type-micro mt-4 text-iron/80">{t("downloadsNote")}</p>
+          </Section>
+        ) : null}
+
         {/* Location + supply in window */}
         <Section id="location" title={t("locationTitle")}>
           <div className="flex flex-col gap-6">
@@ -344,6 +429,26 @@ export default async function ProjectPage({
               {community?.name ?? project.subCommunity}, {project.region}
               {community?.transportNotes ? ` — ${community.transportNotes}` : ""}
             </p>
+            {(project.nearbyPlaces ?? []).length > 0 ? (
+              <div>
+                <h3 className="type-display-s mb-3 text-iron">{t("nearbyTitle")}</h3>
+                <ul className="grid gap-x-8 gap-y-2 sm:grid-cols-2 lg:grid-cols-3">
+                  {(project.nearbyPlaces ?? []).map((n) => (
+                    <li
+                      key={n.id ?? n.name}
+                      className="type-body-s flex items-baseline justify-between gap-3 border-b border-rule py-1.5 text-iron"
+                    >
+                      <span>{n.name}</span>
+                      <span className="whitespace-nowrap text-iron/80">
+                        {n.minutes != null ? t("minutesAway", { n: n.minutes }) : ""}
+                        {n.minutes != null && n.distanceKm != null ? " · " : ""}
+                        {n.distanceKm != null ? `${n.distanceKm} km` : ""}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
             <div>
               <h3 className="type-display-s mb-3 text-iron">{t("supplyTitle")}</h3>
               {supply.length > 0 ? (

@@ -156,6 +156,7 @@ export function extractMedia(p: ReellyProject): string[] {
   push(p.architecture);
   push(p.interior);
   push(p.lobby);
+  push(p.buildings);
   push(p.general_plan);
   return [...new Set(urls)].filter((u) => /^https?:\/\//.test(u));
 }
@@ -212,6 +213,64 @@ export function mapUnitTypes(p: ReellyProject) {
 
 const EMIRATES = ["Dubai", "Abu Dhabi", "Ras Al Khaimah", "Sharjah", "Ajman", "UAQ", "Fujairah"];
 
+/** project_amenities[].amenity.name -> flat list. */
+export function mapAmenities(p: ReellyProject): string[] {
+  const raw = Array.isArray(p.project_amenities) ? (p.project_amenities as ReellyProject[]) : [];
+  const names = raw
+    .map((a) => {
+      const am = a.amenity;
+      if (typeof am === "string") return am;
+      if (am && typeof am === "object") {
+        const o = am as Record<string, unknown>;
+        return str(o.name) ?? str(o.title) ?? str(o.label);
+      }
+      return str(a.name);
+    })
+    .filter((n): n is string => Boolean(n));
+  return [...new Set(names)];
+}
+
+/** project_map_points[] -> the walk/drive times the location section wants. */
+export function mapNearbyPlaces(p: ReellyProject) {
+  const raw = Array.isArray(p.project_map_points) ? (p.project_map_points as ReellyProject[]) : [];
+  return raw
+    .map((m) => ({
+      name: str(m.map_point_name) ?? "",
+      distanceKm: typeof m.distance === "number" ? m.distance : undefined,
+      minutes: typeof m.time === "number" ? m.time : undefined,
+    }))
+    .filter((m) => m.name);
+}
+
+/** Every downloadable on the record: floor-plan PDFs and the brochure. */
+export function extractDocuments(p: ReellyProject): Array<{ url: string; kind: "floor-plan" | "brochure"; name?: string }> {
+  const out: Array<{ url: string; kind: "floor-plan" | "brochure"; name?: string }> = [];
+  const plans = Array.isArray(p.floor_plans) ? (p.floor_plans as ReellyProject[]) : [];
+  for (const fp of plans) {
+    const url = str(fp.file);
+    if (url) out.push({ url, kind: "floor-plan", name: str(fp.name) });
+  }
+  const brochure = str(p.marketing_brochure);
+  if (brochure && /^https?:\/\//.test(brochure)) out.push({ url: brochure, kind: "brochure" });
+  return out;
+}
+
+/** typical_units[].layout -> a per-unit layout image URL. */
+export function unitLayoutUrl(unit: ReellyProject): string | undefined {
+  const layout = unit.layout;
+  const first = Array.isArray(layout) ? layout[0] : layout;
+  if (typeof first === "string") return first;
+  if (!first || typeof first !== "object") return undefined;
+  const o = first as Record<string, unknown>;
+  // Reelly nests it: layout[] -> { image: { url }, order }
+  const image = o.image;
+  if (image && typeof image === "object") {
+    const u = (image as Media).url;
+    if (typeof u === "string") return u;
+  }
+  return (o.url as string | undefined) ?? str(o.file);
+}
+
 export function toProjectDraft(p: ReellyProject, contractRef: string) {
   const name = str(p.name);
   if (!name) return null;
@@ -254,6 +313,11 @@ export function toProjectDraft(p: ReellyProject, contractRef: string) {
     escrowAccountConfirmed: Boolean(str(p.escrow_number)),
     dldProjectNumber: str(p.escrow_number),
     unitTypes: mapUnitTypes(p),
+    amenities: mapAmenities(p),
+    furnishing: str(p.furnishing_display) ?? str(p.furnishing),
+    readinessPct:
+      typeof p.readiness_progress === "number" ? Math.round(p.readiness_progress) : undefined,
+    nearbyPlaces: mapNearbyPlaces(p),
     developerName: str(p.developer),
     mediaLicence: "developer-supplied" as const,
     mediaLicenceNote: `Licensed feed: Reelly, contract ${contractRef}`,
@@ -351,6 +415,294 @@ async function backfillCommunities() {
   const communities = await payload.count({ collection: "communities" });
   console.log(`${linked} projects linked, ${communities.totalDocs} communities on file.`);
   if (unmatched.length) console.log(`${unmatched.length} unmatched: ${unmatched.slice(0, 6).join(", ")}`);
+  process.exit(0);
+}
+
+
+/* ----------------------------------------------------------- media backfill */
+
+/**
+ * Tops up projects imported under a lower image cap.
+ *
+ * extractMedia returns a deterministic order (cover, architecture, interior,
+ * lobby, master plan), so a project already holding N images needs the tail
+ * from index N onward — no dedupe lookup and no re-downloading what we have.
+ */
+async function backfillMedia() {
+  const args = process.argv.slice(2);
+  const get = (k: string) => args.find((a) => a.startsWith(`--${k}=`))?.split("=").slice(1).join("=");
+  const contractRef = get("contract-ref");
+  const cap = Number(get("max-images") ?? 30);
+
+  if (!contractRef) {
+    console.error('Refusing to import media without --contract-ref="…" (§11.9).');
+    process.exit(1);
+  }
+
+  const payload = await getPayload({ config });
+  const projects = await payload.find({
+    collection: "projects",
+    where: { isFixture: { not_equals: true } },
+    limit: 500,
+    depth: 1,
+  });
+
+  const listing = await api<Envelope<ReellyProject>>("/projects", { limit: 200, offset: 0 });
+  const bySlug = new Map<string, ReellyProject>();
+  for (const r of listing.results) {
+    const name = str(r.name);
+    const sector = str(at(r, "location.sector")) ?? str(at(r, "location.district")) ?? name;
+    if (name && sector) {
+      bySlug.set(`${slugify(str(r.slug_name) ?? name)}-${slugify(sector)}`.slice(0, 100), r);
+    }
+  }
+
+  let added = 0;
+  let toppedUp = 0;
+  const unmatched: string[] = [];
+
+  for (const project of projects.docs) {
+    const summary = bySlug.get(project.slug);
+    if (!summary) {
+      unmatched.push(project.slug);
+      continue;
+    }
+    const full = await api<ReellyProject>(`/projects/${summary.id}`).catch(() => summary);
+    const urls = extractMedia(full).slice(0, cap);
+
+    const existingGalleryIds = (project.media?.gallery ?? [])
+      .map((g) => (typeof g === "object" && g !== null ? g.id : g))
+      .filter((id): id is number => typeof id === "number");
+    const have = (project.media?.hero ? 1 : 0) + existingGalleryIds.length;
+    if (urls.length <= have) continue;
+
+    const newIds: number[] = [];
+    for (let i = have; i < urls.length; i++) {
+      try {
+        const res = await fetch(urls[i]);
+        if (!res.ok) continue;
+        const buf = Buffer.from(await res.arrayBuffer());
+        const mime = res.headers.get("content-type") ?? "image/jpeg";
+        const ext = mime.includes("png") ? "png" : mime.includes("webp") ? "webp" : "jpg";
+        const doc = await payload.create({
+          collection: "media",
+          data: {
+            alt: `${project.name}, ${project.subCommunity} — render ${i + 1}`,
+            credit: `Licensed via Reelly · contract ${contractRef}`,
+          },
+          file: {
+            data: buf,
+            name: `${project.slug}-${String(i + 1).padStart(3, "0")}.${ext}`,
+            mimetype: mime,
+            size: buf.byteLength,
+          },
+        });
+        newIds.push(doc.id);
+        added++;
+      } catch {
+        /* one bad asset never fails the run */
+      }
+    }
+
+    if (newIds.length > 0) {
+      await payload.update({
+        collection: "projects",
+        id: project.id,
+        data: {
+          media: {
+            hero:
+              project.media?.hero && typeof project.media.hero === "object"
+                ? project.media.hero.id
+                : project.media?.hero,
+            gallery: [...existingGalleryIds, ...newIds],
+          },
+        },
+      });
+      toppedUp++;
+      console.log(`  ${project.slug}: ${have} -> ${have + newIds.length} images`);
+    }
+  }
+
+  console.log(`\n${added} images added across ${toppedUp} projects.`);
+  if (unmatched.length) console.log(`${unmatched.length} unmatched: ${unmatched.slice(0, 5).join(", ")}`);
+  process.exit(0);
+}
+
+
+/* --------------------------------------------------------- full backfill */
+
+/**
+ * Pulls everything the feed holds for projects already imported: remaining
+ * renders (no cap), floor-plan PDFs, the marketing brochure, per-unit layout
+ * images, amenities, nearby places, furnishing and construction progress.
+ *
+ * Every asset is credited to the contract, because the licence is what makes
+ * any of it publishable.
+ */
+async function backfillEverything() {
+  const args = process.argv.slice(2);
+  const get = (k: string) => args.find((a) => a.startsWith(`--${k}=`))?.split("=").slice(1).join("=");
+  const contractRef = get("contract-ref");
+  if (!contractRef) {
+    console.error('Refusing to import without --contract-ref="…" (§11.9).');
+    process.exit(1);
+  }
+
+  const payload = await getPayload({ config });
+  const projects = await payload.find({
+    collection: "projects",
+    where: { isFixture: { not_equals: true } },
+    limit: 500,
+    depth: 1,
+  });
+
+  const listing = await api<Envelope<ReellyProject>>("/projects", { limit: 200, offset: 0 });
+  const bySlug = new Map<string, ReellyProject>();
+  for (const r of listing.results) {
+    const name = str(r.name);
+    const sector = str(at(r, "location.sector")) ?? str(at(r, "location.district")) ?? name;
+    if (name && sector) {
+      bySlug.set(`${slugify(str(r.slug_name) ?? name)}-${slugify(sector)}`.slice(0, 100), r);
+    }
+  }
+
+  const upload = async (
+    url: string,
+    name: string,
+    alt: string,
+  ): Promise<number | null> => {
+    try {
+      const res = await fetch(url);
+      if (!res.ok) return null;
+      const buf = Buffer.from(await res.arrayBuffer());
+      const mime = res.headers.get("content-type") ?? "application/octet-stream";
+      const doc = await payload.create({
+        collection: "media",
+        data: { alt, credit: `Licensed via Reelly · contract ${contractRef}` },
+        file: { data: buf, name, mimetype: mime, size: buf.byteLength },
+      });
+      return doc.id;
+    } catch {
+      return null;
+    }
+  };
+
+  let images = 0;
+  let plans = 0;
+  let brochures = 0;
+  let layouts = 0;
+  let enriched = 0;
+
+  for (const project of projects.docs) {
+    const summary = bySlug.get(project.slug);
+    if (!summary) continue;
+    const full = await api<ReellyProject>(`/projects/${summary.id}`).catch(() => null);
+    if (!full) continue;
+
+    // --- remaining renders, uncapped ---
+    const urls = extractMedia(full);
+    const existingGalleryIds = (project.media?.gallery ?? [])
+      .map((g) => (typeof g === "object" && g !== null ? g.id : g))
+      .filter((id): id is number => typeof id === "number");
+    const have = (project.media?.hero ? 1 : 0) + existingGalleryIds.length;
+    const newImageIds: number[] = [];
+    for (let i = have; i < urls.length; i++) {
+      const ext = urls[i].split("?")[0].split(".").pop()?.slice(0, 4) ?? "jpg";
+      const id = await upload(
+        urls[i],
+        `${project.slug}-${String(i + 1).padStart(3, "0")}.${ext}`,
+        `${project.name}, ${project.subCommunity} — render ${i + 1}`,
+      );
+      if (id) {
+        newImageIds.push(id);
+        images++;
+      }
+    }
+
+    // --- floor plans and the brochure ---
+    const existingPlanIds = (project.media?.floorPlans ?? [])
+      .map((g) => (typeof g === "object" && g !== null ? g.id : g))
+      .filter((id): id is number => typeof id === "number");
+    const newPlanIds: number[] = [];
+    let brochureId: number | undefined;
+
+    if (existingPlanIds.length === 0 || !project.media?.brochure) {
+      for (const [i, doc] of extractDocuments(full).entries()) {
+        const ext = doc.url.split("?")[0].split(".").pop()?.slice(0, 4) ?? "pdf";
+        if (doc.kind === "floor-plan" && existingPlanIds.length === 0) {
+          const id = await upload(
+            doc.url,
+            `${project.slug}-floorplan-${String(i + 1).padStart(2, "0")}.${ext}`,
+            `${project.name} — floor plans`,
+          );
+          if (id) {
+            newPlanIds.push(id);
+            plans++;
+          }
+        }
+        if (doc.kind === "brochure" && !project.media?.brochure) {
+          const id = await upload(doc.url, `${project.slug}-brochure.${ext}`, `${project.name} — brochure`);
+          if (id) {
+            brochureId = id;
+            brochures++;
+          }
+        }
+      }
+    }
+
+    // --- per-unit layout images ---
+    const feedUnits = Array.isArray(full.typical_units) ? (full.typical_units as ReellyProject[]) : [];
+    const unitTypes = await Promise.all(
+      (project.unitTypes ?? []).map(async (u, i) => {
+        if (u.floorPlan) return u;
+        const layoutUrl = feedUnits[i] ? unitLayoutUrl(feedUnits[i]) : undefined;
+        if (!layoutUrl) return u;
+        const ext = layoutUrl.split("?")[0].split(".").pop()?.slice(0, 4) ?? "webp";
+        const id = await upload(
+          layoutUrl,
+          `${project.slug}-layout-${String(i + 1).padStart(2, "0")}.${ext}`,
+          `${project.name} — ${u.label} layout`,
+        );
+        if (!id) return u;
+        layouts++;
+        return { ...u, floorPlan: id };
+      }),
+    );
+
+    await payload.update({
+      collection: "projects",
+      id: project.id,
+      data: {
+        media: {
+          hero:
+            project.media?.hero && typeof project.media.hero === "object"
+              ? project.media.hero.id
+              : project.media?.hero,
+          gallery: [...existingGalleryIds, ...newImageIds],
+          floorPlans: [...existingPlanIds, ...newPlanIds],
+          brochure: brochureId ?? project.media?.brochure,
+        },
+        unitTypes,
+        amenities: mapAmenities(full),
+        furnishing: str(full.furnishing_display) ?? str(full.furnishing),
+        readinessPct:
+          typeof full.readiness_progress === "number"
+            ? Math.round(full.readiness_progress)
+            : undefined,
+        nearbyPlaces: mapNearbyPlaces(full),
+      },
+    });
+    enriched++;
+    if (newImageIds.length || newPlanIds.length || brochureId) {
+      console.log(
+        `  ${project.slug}: +${newImageIds.length} renders, +${newPlanIds.length} plans${brochureId ? ", +brochure" : ""}`,
+      );
+    }
+  }
+
+  console.log(
+    `\n${enriched} projects enriched · ${images} renders · ${plans} floor plans · ${brochures} brochures · ${layouts} unit layouts.`,
+  );
   process.exit(0);
 }
 
@@ -500,9 +852,13 @@ async function importProjects() {
 if (process.argv[1]?.includes("reelly-adapter")) {
   const mode = process.argv.includes("--discover")
     ? discover
-    : process.argv.includes("--backfill-communities")
-      ? backfillCommunities
-      : importProjects;
+    : process.argv.includes("--backfill-all")
+      ? backfillEverything
+      : process.argv.includes("--backfill-communities")
+        ? backfillCommunities
+        : process.argv.includes("--backfill-media")
+          ? backfillMedia
+          : importProjects;
   mode().catch((err) => {
     console.error(`\n${err instanceof Error ? err.message : String(err)}\n`);
     process.exit(1);
