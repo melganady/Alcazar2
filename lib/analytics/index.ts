@@ -16,6 +16,7 @@ export type AnalyticsEvent =
     }
   | { name: "pdf_gated_submit"; residencyStatus: string }
   | { name: "whatsapp_click"; source: string; slug?: string }
+  | { name: "call_click"; source: string; slug?: string }
   | { name: "lead_submit"; sourcePage: string; residencyStatus?: string }
   | { name: "career_apply" };
 

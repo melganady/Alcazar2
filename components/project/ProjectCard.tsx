@@ -34,7 +34,7 @@ export function ProjectCard({
   return (
     <article
       className={cn(
-        "group border border-rule bg-linen",
+        "group border border-rule bg-linen transition-colors duration-fast ease-brand hover:border-pine",
         layout === "list" && "sm:grid sm:grid-cols-[minmax(0,16rem)_1fr]",
       )}
     >

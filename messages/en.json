@@ -11,12 +11,14 @@
     "menu": "Menu",
     "close": "Close",
     "enquire": "Enquire",
-    "secondary": "Secondary"
+    "secondary": "Secondary",
+    "call": "Call the desk",
+    "whatsapp": "Message on WhatsApp"
   },
   "home": {
-    "eyebrow": "Real estate investment · UAE and beyond",
-    "title": "Put capital where the numbers hold",
-    "support": "We select, underwrite and place property for private investors — off-plan, ready or repositioned, in cash or on finance. Every asset survives the same eight tests before you see it.",
+    "eyebrow": "Overseas real estate · seven markets",
+    "title": "Overseas property, {low}% to {high}% returns",
+    "support": "We select, underwrite and place property for private investors across seven markets — rental income in the Gulf, short-let yield in Georgia and Bali, fix-and-flip in the United States. Every asset survives the same eight tests before you see it.",
     "ctaShortlist": "See live inventory",
     "ctaBorrow": "Check what you can borrow",
     "liveTitle": "Live inventory",
@@ -40,7 +42,10 @@
     "allInsights": "All insights",
     "contactTitle": "Start with a brief",
     "contactSupport": "Twenty minutes, no deck. Capital, residency status, model, exit horizon.",
-    "contactCta": "Contact"
+    "contactCta": "Contact",
+    "returnsNote": "Ranges are observed returns by market, not a forecast or a guarantee. Each market's basis is stated below — a rental yield and a return on a completed flip are not the same measure. Property values can fall.",
+    "mapTitle": "Where we place capital",
+    "mapSupport": "Seven markets, each with its own regime, its own currency and its own reason to be on the list."
   },
   "brand": {
     "tagline": "The address before it exists."

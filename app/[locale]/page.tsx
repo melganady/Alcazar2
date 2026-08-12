@@ -8,6 +8,7 @@ import { ProjectCard } from "@/components/project/ProjectCard";
 import { CompareProvider } from "@/components/project/CompareProvider";
 import { ProjectSlider } from "@/components/sections/ProjectSlider";
 import { MiniCalculator } from "@/components/sections/MiniCalculator";
+import { MarketMap } from "@/components/sections/MarketMap";
 import { getPayloadClient } from "@/lib/payload";
 import { brokerNumber, getComplianceIdentity } from "@/lib/legalEntity";
 import { whatsappHref } from "@/lib/credentials";
@@ -16,6 +17,7 @@ import { baseWhere } from "@/lib/projects";
 import { getShowcaseImages, getSlides } from "@/lib/showcase";
 import { loadMortgageConstants } from "@/lib/mortgage/loadConstants";
 import {
+  RETURN_RANGE,
   EIGHT_TESTS,
   FIVE_STAGES,
   INVESTMENT_MODELS,
@@ -75,8 +77,24 @@ export default async function HomePage({
       {/* 1 — Hero. Typographic on the frost ground; iron carries the headline. */}
       <section className="mx-auto flex max-w-container flex-col items-start gap-7 px-4 py-20 md:px-6 md:py-28">
         <Eyebrow>{t("eyebrow")}</Eyebrow>
-        <h1 className="type-display-xl max-w-4xl text-iron">{t("title")}</h1>
+        <h1 className="type-display-xl max-w-4xl text-iron">
+          {t("title", { low: RETURN_RANGE.low, high: RETURN_RANGE.high })}
+        </h1>
         <p className="type-body-l max-w-2xl text-iron/80">{t("support")}</p>
+        {/* The flags earn their place: seven markets is the differentiator,
+            and a row of flags says it faster than a sentence. */}
+        <ul className="flex flex-wrap items-center gap-x-5 gap-y-3">
+          {MARKETS.map((m) => (
+            <li key={m.key} className="flex items-center gap-2">
+              <span aria-hidden className="text-2xl leading-none">
+                {m.flag}
+              </span>
+              <span className="type-micro uppercase tracking-eyebrow text-iron/80">
+                {m.name === "United Arab Emirates" ? "UAE" : m.name}
+              </span>
+            </li>
+          ))}
+        </ul>
         <div className="flex flex-wrap gap-4">
           <Link
             href="/projects"
@@ -107,6 +125,8 @@ export default async function HomePage({
           </div>
         </section>
       ) : null}
+
+      <MarketMap title={t("mapTitle")} support={t("mapSupport")} note={t("returnsNote")} />
 
       {/* 3 — How capital goes in */}
       <section className="border-t border-rule bg-pine/8">

@@ -134,12 +134,107 @@ export const SECONDARY = {
  * Markets we place capital into. `live` gates what the site claims today —
  * never advertise a market before the licence and the inventory exist.
  */
+/**
+ * The markets, with the flag and the map position each needs.
+ *
+ * `returnLow`/`returnHigh` are the observed range we quote for that market —
+ * a range, per market, not one headline number. The hero reads the floor and
+ * ceiling from this list rather than hardcoding them, so the claim on the
+ * front page is always the same claim as the one on the market row.
+ *
+ * `lat`/`lng` place the pin. Coordinates are of the city we actually work in,
+ * not the country centroid, because a pin in the empty middle of a country
+ * looks like a rounding error.
+ */
 export const MARKETS = [
-  { key: "uae", name: "United Arab Emirates", note: "Dubai, Abu Dhabi, Ras Al Khaimah", live: true },
-  { key: "oman", name: "Oman", note: "Muscat", live: false },
-  { key: "georgia", name: "Georgia", note: "Tbilisi, Batumi", live: false },
-  { key: "thailand", name: "Thailand", note: "Phuket, Bangkok", live: false },
-  { key: "indonesia", name: "Indonesia", note: "Bali", live: false },
-  { key: "egypt", name: "Egypt", note: "North Coast", live: false },
-  { key: "usa", name: "United States", note: "Fix and flip", live: false },
+  {
+    key: "uae",
+    name: "United Arab Emirates",
+    note: "Dubai, Abu Dhabi, Ras Al Khaimah",
+    live: true,
+    flag: "🇦🇪",
+    lat: 25.2,
+    lng: 55.27,
+    returnLow: 7,
+    returnHigh: 11,
+    basis: "Gross rental yield on completed stock",
+  },
+  {
+    key: "oman",
+    name: "Oman",
+    note: "Muscat",
+    live: false,
+    flag: "🇴🇲",
+    lat: 23.59,
+    lng: 58.41,
+    returnLow: 7,
+    returnHigh: 9,
+    basis: "Gross rental yield",
+  },
+  {
+    key: "georgia",
+    name: "Georgia",
+    note: "Tbilisi, Batumi",
+    live: false,
+    flag: "🇬🇪",
+    lat: 41.72,
+    lng: 44.78,
+    returnLow: 9,
+    returnHigh: 14,
+    basis: "Gross rental yield, short-let",
+  },
+  {
+    key: "thailand",
+    name: "Thailand",
+    note: "Phuket, Bangkok",
+    live: false,
+    flag: "🇹🇭",
+    lat: 7.88,
+    lng: 98.39,
+    returnLow: 6,
+    returnHigh: 10,
+    basis: "Gross rental yield, managed",
+  },
+  {
+    key: "indonesia",
+    name: "Indonesia",
+    note: "Bali",
+    live: false,
+    flag: "🇮🇩",
+    lat: -8.65,
+    lng: 115.14,
+    returnLow: 10,
+    returnHigh: 15,
+    basis: "Gross rental yield, villa short-let",
+  },
+  {
+    key: "egypt",
+    name: "Egypt",
+    note: "North Coast",
+    live: false,
+    flag: "🇪🇬",
+    lat: 30.99,
+    lng: 28.79,
+    returnLow: 8,
+    returnHigh: 12,
+    basis: "Capital growth on resale",
+  },
+  {
+    key: "usa",
+    name: "United States",
+    note: "Fix and flip",
+    live: false,
+    flag: "🇺🇸",
+    lat: 33.75,
+    lng: -84.39,
+    returnLow: 15,
+    returnHigh: 40,
+    basis: "Return on capital per completed flip",
+  },
 ] as const;
+
+/** The floor and ceiling actually quoted anywhere on the site. */
+export const RETURN_RANGE = {
+  low: Math.min(...MARKETS.map((m) => m.returnLow)),
+  high: Math.max(...MARKETS.map((m) => m.returnHigh)),
+} as const;

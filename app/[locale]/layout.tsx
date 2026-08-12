@@ -1,13 +1,16 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
-import { setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { routing } from "@/i18n/routing";
 import { jost, montserrat, plexArabic } from "@/lib/fonts";
 import { PrefsProvider } from "@/components/primitives/PrefsProvider";
 import { ToastProvider } from "@/components/primitives/Toast";
 import { SiteHeader } from "@/components/sections/SiteHeader";
 import { SiteFooter } from "@/components/sections/SiteFooter";
+import { FloatingContact } from "@/components/sections/FloatingContact";
+import { getComplianceIdentity } from "@/lib/legalEntity";
+import { whatsappHref } from "@/lib/credentials";
 import { CookieConsent } from "@/components/primitives/CookieConsent";
 import { organizationJsonLd, BASE_URL } from "@/lib/seo";
 import { cn } from "@/lib/cn";
@@ -45,6 +48,8 @@ export default async function LocaleLayout({
   setRequestLocale(locale);
 
   const isAr = locale === "ar";
+  const identity = await getComplianceIdentity();
+  const t = await getTranslations("nav");
 
   return (
     <html
@@ -73,6 +78,12 @@ export default async function LocaleLayout({
               <SiteHeader />
               <main id="main">{children}</main>
               <SiteFooter />
+              <FloatingContact
+                phone={identity.phone}
+                waHref={whatsappHref(identity.whatsapp)}
+                callLabel={t("call")}
+                whatsappLabel={t("whatsapp")}
+              />
               <CookieConsent />
             </ToastProvider>
           </PrefsProvider>

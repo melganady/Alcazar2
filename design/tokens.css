@@ -13,8 +13,10 @@
   --nordic-linen: #edeae3; /* digital surfaces. */
   --frost-white: #f7f7f5; /* the primary page ground. */
 
-  /* Derived hairline — ash wood carrying the rule role on light grounds. */
-  --rule: #d7d1c6;
+  /* Derived hairline. Ash wood pulled toward pine smoke, so every divider on
+     the site carries a trace of the accent rather than reading as plain sand.
+     Non-text, so it sits outside the contrast floors. */
+  --rule: #cfcdbf;
 
   /* RGB triplets so Tailwind alpha modifiers (text-iron/80) work */
   --iron-grey-rgb: 63 66 68;
@@ -22,7 +24,7 @@
   --pine-smoke-rgb: 138 147 127;
   --nordic-linen-rgb: 237 234 227;
   --frost-white-rgb: 247 247 245;
-  --rule-rgb: 215 209 198;
+  --rule-rgb: 207 205 191;
 
   /* ---- Type scale (fluid, 375px -> 1440px viewport) ---- */
   --text-display-xl: clamp(2.125rem, 1.465rem + 2.817vw, 4rem);    /* 34 -> 64 */
