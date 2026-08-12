@@ -21,7 +21,7 @@ export function StatBlock({
     tone === "reversed" ? "text-ash" : "text-iron";
   const labelColor = tone === "reversed" ? "text-ash/80" : "text-iron/80";
   return (
-    <div className={cn("flex flex-col gap-1.5", className)}>
+    <div className={cn("flex flex-col gap-1.5 border-t-2 border-pine pt-3", className)}>
       <span className={cn("type-display-m", valueColor)}>{value}</span>
       <span className={cn("type-eyebrow", labelColor)}>{label}</span>
       {source ? (

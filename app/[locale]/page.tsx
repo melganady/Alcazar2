@@ -106,7 +106,7 @@ export default async function HomePage({
       ) : null}
 
       {/* 3 — How capital goes in */}
-      <section className="border-t border-rule">
+      <section className="border-t border-rule bg-pine/8">
         <div className="mx-auto flex max-w-container flex-col gap-8 px-4 py-16 md:px-6">
           <div className="flex flex-col gap-3">
             <Eyebrow>{t("modelsEyebrow")}</Eyebrow>
@@ -141,12 +141,12 @@ export default async function HomePage({
             <div className="grid gap-x-8 gap-y-5 sm:grid-cols-2">
               {EIGHT_TESTS.map((test, i) => (
                 <div key={test.key} className="flex flex-col gap-1.5 border-t border-rule pt-4">
-                  <span className="type-micro text-iron/80">{String(i + 1).padStart(2, "0")}</span>
+                  <span aria-hidden className="type-micro text-pine">{String(i + 1).padStart(2, "0")}</span>
                   <span className="type-display-s text-iron">{test.title}</span>
                 </div>
               ))}
             </div>
-            <Link href="/how-we-work" className="type-eyebrow self-start text-iron/80 hover:text-iron">
+            <Link href="/how-we-work" className="type-eyebrow mt-2 self-start text-iron/80 hover:text-iron">
               {t("howWeWork")} →
             </Link>
           </div>
@@ -210,7 +210,7 @@ export default async function HomePage({
       ) : null}
 
       {/* 7 — Where we place capital */}
-      <section className="border-t border-rule">
+      <section className="border-t border-rule bg-pine/8">
         <div className="mx-auto flex max-w-container flex-col gap-8 px-4 py-16 md:px-6">
           <div className="flex flex-col gap-3">
             <Eyebrow>{t("marketsEyebrow")}</Eyebrow>
@@ -242,13 +242,13 @@ export default async function HomePage({
       </section>
 
       {/* 9 — How we work */}
-      <section className="border-t border-rule">
+      <section className="border-t border-rule bg-pine/8">
         <div className="mx-auto flex max-w-container flex-col gap-8 px-4 py-16 md:px-6">
           <h2 className="type-display-m text-iron">{t("stagesTitle")}</h2>
           <ol className="grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-5">
             {FIVE_STAGES.map((s) => (
-              <li key={s.n} className="flex flex-col gap-2 border-t border-rule pt-4">
-                <span className="type-micro text-iron/80">{s.n}</span>
+              <li key={s.n} className="flex flex-col gap-2 border-t-2 border-pine pt-4">
+                <span aria-hidden className="type-micro text-pine">{s.n}</span>
                 <span className="type-display-s text-iron">{s.title}</span>
                 <span className="type-body-s text-iron/80">{s.line}</span>
               </li>

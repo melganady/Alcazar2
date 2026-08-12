@@ -173,7 +173,14 @@ export default async function ProjectPage({
   ] as const;
 
   const facts: Array<[string, React.ReactNode]> = [
-    [t("priceFrom"), <PriceDisplay key="p" amountAED={project.priceFromAED} convertedClassName="type-micro" />],
+    [
+      t("priceFrom"),
+      project.priceFromAED > 0 ? (
+        <PriceDisplay key="p" amountAED={project.priceFromAED} convertedClassName="type-micro" />
+      ) : (
+        tps("priceOnApplication")
+      ),
+    ],
     [t("sizeFrom"), <AreaDisplay key="s" sqft={project.sizeFromSqft} />],
     [t("pricePerSqft"), project.pricePerSqftFrom?.toLocaleString() ?? "—"],
     [t("bedrooms"), formatBedrooms(project.bedroomsMin, project.bedroomsMax)],
@@ -301,7 +308,7 @@ export default async function ProjectPage({
             <div className="overflow-x-auto border border-rule bg-linen">
               <table className="w-full min-w-[38rem] border-collapse">
                 <thead>
-                  <tr className="border-b border-rule">
+                  <tr className="border-b-2 border-pine">
                     {[t("unitLayout"), t("unitBeds"), t("unitSize"), t("unitPriceFrom"), t("unitAvailability")].map(
                       (h) => (
                         <th key={h} className="type-eyebrow p-3 text-start text-iron/80">
@@ -537,7 +544,7 @@ export default async function ProjectPage({
         {/* Our view — the verdict panel, framed in ash wood */}
         <Section id="our-view" title={t("viewTitle")} titleBlue>
           <CropMarks>
-            <div className="flex flex-col gap-8 bg-pine/18 p-6 md:p-8">
+            <div className="flex flex-col gap-8 border-s-2 border-pine bg-pine/18 p-6 md:p-8">
               {project.alcazarVerdict ? (
                 <div className="type-body-l max-w-2xl text-iron [&_p]:mb-3">
                   <RichText data={project.alcazarVerdict} />

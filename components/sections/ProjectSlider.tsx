@@ -187,8 +187,14 @@ function SlideCard({ slide, large = false }: { slide: Slide; large?: boolean }) 
           </Link>
         </h3>
         <p className={cn("text-iron", large ? "type-display-s" : "type-body")}>
-          <span className="type-micro me-2 uppercase text-iron/80">From</span>
-          {slide.priceLabel}
+          {slide.priceFromAED > 0 ? (
+            <>
+              <span className="type-micro me-2 uppercase text-iron/80">From</span>
+              {slide.priceLabel}
+            </>
+          ) : (
+            <span className="type-body text-iron/80">Price on application</span>
+          )}
         </p>
         <div className="mt-1 grid grid-cols-3 gap-3 border-t border-rule pt-3">
           {[

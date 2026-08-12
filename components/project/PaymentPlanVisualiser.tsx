@@ -64,7 +64,7 @@ export function PaymentPlanVisualiser({
             style={{ width: `${(m.pct / total) * 100}%` }}
             className={
               i % 2 === 0
-                ? "flex flex-col justify-center gap-0.5 bg-ash px-2"
+                ? "flex flex-col justify-center gap-0.5 bg-pine/18 px-2"
                 : "flex flex-col justify-center gap-0.5 bg-linen px-2"
             }
           >

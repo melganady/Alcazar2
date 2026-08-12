@@ -127,3 +127,19 @@ describe("pine smoke used as a wash stays accessible", () => {
     expect(contrastRatio(IRON, PINE)).toBeLessThan(AA_NORMAL);
   });
 });
+
+/*
+ * Pine numerals ("01"–"08" beside the eight tests) sit at 2.98 and would fail
+ * AA if they carried meaning. They do not: they duplicate DOM order, the
+ * adjacent iron-grey title is the content, and they are marked aria-hidden so
+ * the decorative claim holds for assistive tech too. This test exists so that
+ * reasoning is on the record rather than assumed.
+ */
+describe("pine numerals are decorative, not informational", () => {
+  it("would fail AA as text, which is why they are aria-hidden ordinals", () => {
+    expect(contrastRatio(PINE, FROST)).toBeLessThan(AA_NORMAL);
+  });
+  it("their iron-grey companion text passes comfortably", () => {
+    expect(contrastRatio(IRON, FROST)).toBeGreaterThanOrEqual(AA_NORMAL);
+  });
+});

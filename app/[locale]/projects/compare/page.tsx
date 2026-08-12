@@ -97,7 +97,7 @@ export default async function ComparePage({
         <div className="overflow-x-auto border border-rule bg-linen">
           <table className="w-full min-w-[44rem] border-collapse">
             <thead>
-              <tr className="border-b border-rule">
+              <tr className="border-b-2 border-pine">
                 <th className="w-44 p-4" />
                 {projects.map((p) => (
                   <th key={p.id} className="p-4 text-start">

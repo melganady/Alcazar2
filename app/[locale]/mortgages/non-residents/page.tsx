@@ -102,7 +102,7 @@ export default async function NonResidentsPage({
         <div className="overflow-x-auto border border-rule bg-linen">
           <table className="w-full min-w-[36rem] border-collapse">
             <thead>
-              <tr className="border-b border-rule">
+              <tr className="border-b-2 border-pine">
                 {["Scenario", "Max LTV", "Deposit from"].map((h) => (
                   <th key={h} className="type-eyebrow p-3 text-start text-iron/80">{h}</th>
                 ))}
@@ -160,7 +160,7 @@ export default async function NonResidentsPage({
         <div className="overflow-x-auto border border-rule bg-linen">
           <table className="w-full min-w-[36rem] border-collapse">
             <thead>
-              <tr className="border-b border-rule">
+              <tr className="border-b-2 border-pine">
                 {["Lender", "Max LTV non-resident", "Min income (USD/mo)", "Indicative rate"].map((h) => (
                   <th key={h} className="type-eyebrow p-3 text-start text-iron/80">{h}</th>
                 ))}

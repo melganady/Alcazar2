@@ -85,7 +85,7 @@ export default async function MortgagesPage({
         <div className="overflow-x-auto border border-rule bg-linen">
           <table className="w-full min-w-[44rem] border-collapse">
             <thead>
-              <tr className="border-b border-rule">
+              <tr className="border-b-2 border-pine">
                 {["Lender", "Max LTV resident", "Max LTV non-resident", "Finances off-plan", "Indicative fixed rate", "Fixed period"].map((h) => (
                   <th key={h} className="type-eyebrow p-3 text-start text-iron/80">{h}</th>
                 ))}

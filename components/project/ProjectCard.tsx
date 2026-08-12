@@ -48,7 +48,7 @@ export function ProjectCard({
         {shortlisted ? (
           <span
             title={t("shortlisted")}
-            className="absolute end-3 top-3 flex h-7 w-7 items-center justify-center bg-iron font-display text-body-s text-ash"
+            className="absolute end-3 top-3 flex h-7 w-7 items-center justify-center border border-pine bg-frost font-display text-body-s text-iron"
           >
             Á
           </span>
@@ -72,8 +72,14 @@ export function ProjectCard({
           {rel(project, "community")}, {project.region}
         </p>
         <p className="type-display-s text-iron">
-          <span className="type-micro me-2 uppercase text-iron/80">{t("from")}</span>
-          <PriceDisplay amountAED={project.priceFromAED} convertedClassName="type-body-s" />
+          {project.priceFromAED > 0 ? (
+            <>
+              <span className="type-micro me-2 uppercase text-iron/80">{t("from")}</span>
+              <PriceDisplay amountAED={project.priceFromAED} convertedClassName="type-body-s" />
+            </>
+          ) : (
+            <span className="type-body text-iron/80">{t("priceOnApplication")}</span>
+          )}
         </p>
         <div className="mt-2 grid grid-cols-3 gap-2 border-t border-rule pt-3">
           <div>

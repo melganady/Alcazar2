@@ -101,7 +101,8 @@
     "compareScores": "Filter score",
     "prevPage": "Previous",
     "nextPage": "Next",
-    "shortlisted": "Shortlisted"
+    "shortlisted": "Shortlisted",
+    "priceOnApplication": "Price on application"
   },
   "project": {
     "navOverview": "Overview",

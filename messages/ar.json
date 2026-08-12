@@ -101,7 +101,8 @@
     "compareScores": "نتيجة الفلترة",
     "prevPage": "السابق",
     "nextPage": "التالي",
-    "shortlisted": "ضمن القائمة المختارة"
+    "shortlisted": "ضمن القائمة المختارة",
+    "priceOnApplication": "السعر عند الطلب"
   },
   "project": {
     "navOverview": "نظرة عامة",
