@@ -150,6 +150,7 @@
     "ltvNote": "At {residentPct}% / {nonResidentPct}% LTV. {source} Effective {date}.",
     "openCalculator": "Model your mortgage",
     "viewTitle": "Our view",
+    "viewPending": "Our written view on this project is with the desk and publishes when it is finished. The facts above come from the developer's own release; the opinion will be ours, and we would rather leave the space empty than fill it with theirs.",
     "scoreDeveloperRecord": "Developer record",
     "scoreRegulatoryStanding": "Regulatory standing",
     "scorePriceVsComparables": "Price vs comparables",

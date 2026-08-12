@@ -4,14 +4,29 @@ Everything below is a one-time setup. After it, `git push` deploys.
 
 ## What goes live today
 
-Brand pages, the mortgage calculator and guides, careers, contact and the
-legal pages. **Everything data-backed is empty**, for two separate reasons.
+The full site: 49 projects with licensed photography, 48 developer profiles,
+25 area pages, the mortgage calculator and guides, careers, contact and the
+legal pages.
 
-**No property adverts go live.** All 49 imported projects are drafts, and the
-publish gate holds them there until each carries a Trakheesi permit number.
-`/projects`, `/developers` and `/communities` render their empty states until
-then, and the homepage carries no photography because its imagery is drawn
-from published projects. That is the gate working, not a misconfiguration.
+**The 49 listings are advertised without Trakheesi permits.** This was an
+explicit instruction, and the exposure is the operator's: §11.1 requires a
+permit number on any advert for a specific Dubai property, and the penalty
+falls on the licence holder, not on the site. The gate that would otherwise
+block them is not deleted — it still evaluates every record and logs what is
+missing — but `ALLOW_INCOMPLETE_PUBLISH=true` lets those gaps through:
+
+```
+ALLOW_INCOMPLETE_PUBLISH=true    # remove this and the gate blocks again
+```
+
+`npm run preflight` reports how many live listings lack a permit every time it
+runs. Entering permit numbers at `/admin` clears them one by one; unsetting
+the flag holds everything as drafts again.
+
+Two gaps the flag also lets through, both visible on the pages themselves:
+14 of 49 have no handover date from the feed and render "—", and none carries
+an Alcázar verdict — the "Our view" panel says the desk's opinion is still
+being written rather than inventing one. Verdicts are never auto-generated.
 
 **No demo content goes live.** The development database is seeded with content
 that reads as real and is not: five invented banks quoting LTVs and rates,
@@ -28,6 +43,7 @@ is only what you import or write there. To populate it:
 
 ```bash
 npm run reelly:all -- --contract-ref <your Reelly agreement ref>
+ALLOW_INCOMPLETE_PUBLISH=true npm run publish:all
 ```
 
 Real lenders, consultants and editorial have to be entered at `/admin`. There
@@ -114,11 +130,13 @@ content ever does reach production, `npm run mark:fixtures` flags it and
 Then create an admin user at `/admin` on first visit, and **rotate the dev
 password** — `alcazar-dev-2026` must not reach production.
 
-## 7. Before any project is published
+## 7. Still owed on every published project
 
-Per project, in `/admin`:
-- Trakheesi permit number (the gate blocks publish without it)
+The listings are live; these are what each is still missing. `npm run
+validate:projects` prints the per-project list.
+
+- **Trakheesi permit number** — the one with a regulatory deadline attached
 - An Alcázar verdict — our own written view, not the developer's copy
-- Confirm media licence is recorded
+- Handover quarter and year where the feed left them blank (14 of 49)
 
-`npm run validate:projects` lists what each draft still needs.
+Media licence is already recorded on all 49 from the Reelly contract.

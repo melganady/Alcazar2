@@ -150,6 +150,7 @@
     "ltvNote": "بنسبة تمويل {residentPct}% / {nonResidentPct}%. {source} سارية من {date}.",
     "openCalculator": "احسب تمويلك",
     "viewTitle": "رأينا",
+    "viewPending": "رأينا المكتوب في هذا المشروع قيد الإعداد لدى المكتب وسيُنشر عند اكتماله. الحقائق أعلاه مصدرها إصدار المطوّر نفسه؛ أما الرأي فسيكون رأينا، ونفضّل ترك المساحة فارغة على أن نملأها برأيه.",
     "scoreDeveloperRecord": "سجل المطوّر",
     "scoreRegulatoryStanding": "الموقف التنظيمي",
     "scorePriceVsComparables": "السعر مقابل المقارنات",

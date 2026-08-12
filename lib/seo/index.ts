@@ -21,8 +21,22 @@ export function alternates(path: string) {
 }
 
 /** §10 title pattern for project pages. */
+/**
+ * Feed plan labels are prose, and many already contain "payment plan" —
+ * "60/40" needs the suffix, "4 Years Post Handover Payment Plan" does not.
+ * Returns null when there is no label, so callers can drop the clause.
+ */
+export function planPhrase(
+  label: string | null | undefined,
+  suffix: "Payment Plan" | "payment plan",
+): string | null {
+  const trimmed = label?.trim();
+  if (!trimmed) return null;
+  return /payment plan/i.test(trimmed) ? trimmed : `${trimmed} ${suffix}`;
+}
+
 export function projectTitle(project: Project): string {
-  const plan = project.paymentPlan?.label ? `${project.paymentPlan.label} Payment Plan` : "";
+  const plan = planPhrase(project.paymentPlan?.label, "Payment Plan") ?? "";
   const handover = project.handoverQuarter && project.handoverYear
     ? `, Handover ${project.handoverQuarter} ${project.handoverYear}`
     : "";

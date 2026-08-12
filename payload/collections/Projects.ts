@@ -67,15 +67,25 @@ export const Projects: CollectionConfig = {
           }
           if (data.priceFromAED == null) missing.push("price from (AED)");
 
+          // The gate always names the gaps. Whether they block is a deployment
+          // decision the operator makes once, in the environment, rather than
+          // per record in the admin UI — so a listing is never advertised with
+          // gaps by accident, only by policy. The gaps stay logged either way.
           if (missing.length > 0) {
-            throw new ValidationError({
-              errors: [
-                {
-                  path: "publishedAt",
-                  message: `Cannot publish — missing: ${missing.join("; ")}.`,
-                },
-              ],
-            });
+            if (process.env.ALLOW_INCOMPLETE_PUBLISH === "true") {
+              console.warn(
+                `[publish gate] ${data.slug ?? data.name} published with gaps: ${missing.join("; ")}`,
+              );
+            } else {
+              throw new ValidationError({
+                errors: [
+                  {
+                    path: "publishedAt",
+                    message: `Cannot publish — missing: ${missing.join("; ")}.`,
+                  },
+                ],
+              });
+            }
           }
         }
         return data;

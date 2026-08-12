@@ -27,6 +27,7 @@ const optional = [
   ["EMAIL_FROM", "autoresponder sender"],
   ["TURNSTILE_SECRET_KEY", "form spam protection"],
   ["NEXT_PUBLIC_MAPBOX_TOKEN", "map view on /projects"],
+  ["ALLOW_INCOMPLETE_PUBLISH", "lets the publish gate pass a listing with gaps, logging each one"],
 ] as const;
 
 /**
@@ -106,7 +107,29 @@ if (dbIsPg) {
   });
   console.log(`  ${live.totalDocs > 0 ? "ok  " : "none"}  ${"published projects".padEnd(28)} ${live.totalDocs}`);
   if (live.totalDocs === 0) {
-    console.log("        note: /projects, /developers and /communities render their empty states. Each project needs a Trakheesi permit before it can publish.");
+    console.log("        note: /projects, /developers and /communities render their empty states. Publish stock before launch.");
+  }
+
+  // Reported, never blocked. Advertising without a permit is the operator's
+  // call and their exposure; preflight's job is to make sure it is a known
+  // number rather than a surprise.
+  const unpermitted = await payload.count({
+    collection: "projects",
+    where: {
+      and: [
+        { publishedAt: { exists: true } },
+        { isFixture: { not_equals: true } },
+        { country: { equals: "AE" } },
+        { trakheesiPermitNumber: { exists: false } },
+      ],
+    },
+    overrideAccess: true,
+  });
+  if (unpermitted.totalDocs > 0) {
+    console.log(
+      `  WARN  ${"UAE listings without a permit".padEnd(28)} ${unpermitted.totalDocs} advertised without a Trakheesi number (§11.1)`,
+    );
+    console.log("        Enter permits at /admin per project, or unset ALLOW_INCOMPLETE_PUBLISH to hold them as drafts.");
   }
 } else {
   console.log("  skip  content audit                  runs against the production database only");

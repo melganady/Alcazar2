@@ -29,7 +29,7 @@ import { brokerNumber } from "@/lib/legalEntity";
 import { depositFor, INDICATIVE_LTV } from "@/lib/mortgage/indicative";
 import { createLead } from "@/lib/actions";
 import { formatBedrooms, formatHandoverOrDash } from "@/lib/format";
-import { alternates, breadcrumbJsonLd, projectJsonLd, projectTitle } from "@/lib/seo";
+import { alternates, breadcrumbJsonLd, planPhrase, projectJsonLd, projectTitle } from "@/lib/seo";
 import { TrackProjectView } from "@/components/analytics/TrackProjectView";
 import { WhatsAppLink } from "@/components/analytics/WhatsAppLink";
 import type { Agent, Developer, Lender, Project } from "@/payload-types";
@@ -50,9 +50,19 @@ export async function generateMetadata({
   const project = await getProjectBySlug(slug);
   if (!project) return {};
   const title = project.seo?.title ?? projectTitle(project);
+  // Built from the facts that exist. The feed leaves handover and plan blank
+  // on a fair number of records, and "handover null null" is worse than
+  // saying nothing about handover.
+  const facts = [
+    `from AED ${project.priceFromAED.toLocaleString()}`,
+    planPhrase(project.paymentPlan?.label, "payment plan"),
+    project.handoverQuarter && project.handoverYear
+      ? `handover ${project.handoverQuarter} ${project.handoverYear}`
+      : null,
+  ].filter(Boolean);
   const description =
     project.seo?.description ??
-    `${project.name} in ${project.subCommunity}: from AED ${project.priceFromAED.toLocaleString()}, ${project.paymentPlan?.label} payment plan, handover ${project.handoverQuarter} ${project.handoverYear}.`;
+    `${project.name} in ${project.subCommunity}: ${facts.join(", ")}.`;
   return {
     title,
     description,
@@ -299,7 +309,10 @@ export default async function ProjectPage({
               slug={project.slug}
             />
           ) : (
-            <p className="type-body text-iron/80">{project.paymentPlan?.label}</p>
+            <p className="type-body text-iron/80">
+              {project.paymentPlan?.label ||
+                "The developer has not published a milestone schedule for this project. Ask the desk for the current terms before you commit to a plan."}
+            </p>
           )}
         </Section>
 
@@ -550,7 +563,13 @@ export default async function ProjectPage({
                 <div className="type-body-l max-w-2xl text-iron [&_p]:mb-3">
                   <RichText data={project.alcazarVerdict} />
                 </div>
-              ) : null}
+              ) : (
+                // Never auto-written. A verdict is the desk's own opinion, and
+                // an empty panel is more honest than a generated one.
+                <p className="type-body-l max-w-2xl text-iron">
+                  {t("viewPending")}
+                </p>
+              )}
               {project.alcazarFilterScores ? (
                 <FilterScoreRow scores={project.alcazarFilterScores} />
               ) : null}
