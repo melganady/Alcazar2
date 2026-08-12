@@ -12,10 +12,16 @@ const run = async () => {
     slug: "legal-entity",
     data: {
       brandName: "Alcázar",
-      licensedEntityName: "",
-      displayMode: "brand-with-licence-line",
+      // From the trade licence supplied 2026-08-12. The licence on that
+      // document EXPIRED 14/04/2023, so tradeLicenceExpiry is set and the site
+      // suppresses the number until a current licence replaces it.
+      licensedEntityName: "PROPERTYANA REAL ESTATE L.L.C",
+      displayMode: "brand-only",
       orn: "",
-      tradeLicence: "",
+      tradeLicence: "831248",
+      tradeLicenceExpiry: "2023-04-14T00:00:00.000Z",
+      commercialRegister: "1406430",
+      chamberMembership: "319815",
       dldBrokerRegistration: "",
       address: "Office 733, Tamani Arts Offices\nAl Asayel St, Business Bay",
       city: "Dubai, United Arab Emirates",

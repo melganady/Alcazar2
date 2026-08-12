@@ -1,4 +1,7 @@
 import { getPayloadClient } from "./payload";
+import { hasLapsed } from "./credentials";
+
+export { brokerNumber } from "./credentials";
 
 /**
  * The compliance strip shown in the footer and on every advert (§11.3).
@@ -19,6 +22,9 @@ export type ComplianceIdentity = {
   email?: string;
   /** True when licence numbers are published without naming the holder. */
   entityNameHidden: boolean;
+  /** True when the trade licence on file has lapsed. */
+  licenceExpired: boolean;
+  licenceExpiry?: string;
 };
 
 export async function getComplianceIdentity(): Promise<ComplianceIdentity> {
@@ -28,10 +34,18 @@ export async function getComplianceIdentity(): Promise<ComplianceIdentity> {
   const brandName = e?.brandName || "Alcázar";
   const hidden = e?.displayMode === "brand-only";
 
+  // A lapsed licence is never published: putting an expired number on a live
+  // property advert misrepresents the brokerage's standing, which is worse
+  // than showing nothing.
+  const expiry = e?.tradeLicenceExpiry ? new Date(e.tradeLicenceExpiry) : null;
+  const licenceExpired = hasLapsed(expiry);
+
   const registrations = [
     e?.orn ? `ORN ${e.orn}` : "ORN pending",
-    e?.tradeLicence ? `Trade licence ${e.tradeLicence}` : "Trade licence pending",
-    e?.dldBrokerRegistration ? `DLD ${e.dldBrokerRegistration}` : null,
+    e?.tradeLicence && !licenceExpired
+      ? `Trade licence ${e.tradeLicence}`
+      : "Trade licence pending",
+    e?.dldBrokerRegistration && !licenceExpired ? `DLD ${e.dldBrokerRegistration}` : null,
   ].filter((v): v is string => Boolean(v));
 
   return {
@@ -48,5 +62,7 @@ export async function getComplianceIdentity(): Promise<ComplianceIdentity> {
     phone: e?.phone ?? undefined,
     email: e?.email ?? undefined,
     entityNameHidden: hidden,
+    licenceExpired,
+    licenceExpiry: expiry ? expiry.toISOString().slice(0, 10) : undefined,
   };
 }

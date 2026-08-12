@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { cn } from "@/lib/cn";
+import { brokerNumber } from "@/lib/credentials";
 
 export type TeamMember = {
   id: string;
@@ -9,6 +10,7 @@ export type TeamMember = {
   name: string;
   role: string;
   brn: string;
+  brnExpiry: string | null;
   languages: string[];
   specialisms: string[];
   bio: string | null;
@@ -97,7 +99,9 @@ export function TeamFilter({ agents }: { agents: TeamMember[] }) {
             </div>
             <h2 className="type-display-s mt-2 text-iron">{a.name}</h2>
             <p className="type-body-s text-iron/80">{a.role}</p>
-            <p className="type-micro text-iron/80">RERA BRN {a.brn}</p>
+            {brokerNumber(a.brn, a.brnExpiry) ? (
+              <p className="type-micro text-iron/80">{brokerNumber(a.brn, a.brnExpiry)}</p>
+            ) : null}
             {a.bio ? <p className="type-body-s mt-1 text-iron/80">{a.bio}</p> : null}
             <p className="type-micro mt-1 text-iron/80">{a.languages.join(" · ")}</p>
             <p className="type-micro text-iron/80">{a.specialisms.join(" · ")}</p>

@@ -25,6 +25,7 @@ import {
   getSupplyInWindow,
 } from "@/lib/projects";
 import { getPayloadClient } from "@/lib/payload";
+import { brokerNumber } from "@/lib/legalEntity";
 import { depositFor, INDICATIVE_LTV } from "@/lib/mortgage/indicative";
 import { createLead } from "@/lib/actions";
 import { formatBedrooms, formatHandoverOrDash } from "@/lib/format";
@@ -610,7 +611,9 @@ export default async function ProjectPage({
                     <p className="type-micro uppercase text-iron/80">{t("consultant")}</p>
                     <p className="type-display-s text-iron">{agent.name}</p>
                     <p className="type-body-s text-iron/80">{agent.role}</p>
-                    <p className="type-micro text-iron/80">RERA BRN {agent.brn}</p>
+                    {brokerNumber(agent.brn, agent.brnExpiry) ? (
+                      <p className="type-micro text-iron/80">{brokerNumber(agent.brn, agent.brnExpiry)}</p>
+                    ) : null}
                     {waHref ? (
                       <WhatsAppLink
                         href={waHref}

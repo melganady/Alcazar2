@@ -40,6 +40,7 @@ export default async function TeamPage({
           name: a.name,
           role: a.role,
           brn: a.brn,
+          brnExpiry: a.brnExpiry ?? null,
           languages: a.languages ?? [],
           specialisms: a.specialisms ?? [],
           bio: a.bio ?? null,

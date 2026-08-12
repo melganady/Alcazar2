@@ -546,6 +546,10 @@ export interface Agent {
    * RERA broker number — §11.2, renders on the profile and every attributed listing.
    */
   brn: string;
+  /**
+   * §11.2 — a lapsed broker card must not be published against a listing. Expired BRNs are suppressed on the site.
+   */
+  brnExpiry?: string | null;
   languages?: string[] | null;
   specialisms?: string[] | null;
   photo?: (number | null) | Media;
@@ -992,6 +996,7 @@ export interface AgentsSelect<T extends boolean = true> {
   name?: T;
   role?: T;
   brn?: T;
+  brnExpiry?: T;
   languages?: T;
   specialisms?: T;
   photo?: T;
@@ -1254,6 +1259,12 @@ export interface LegalEntity {
   tradeLicence?: string | null;
   dldBrokerRegistration?: string | null;
   /**
+   * An expired licence is not published. The site shows 'pending' rather than a number that is no longer valid.
+   */
+  tradeLicenceExpiry?: string | null;
+  commercialRegister?: string | null;
+  chamberMembership?: string | null;
+  /**
    * The registered office address shown on the site.
    */
   address?: string | null;
@@ -1347,6 +1358,9 @@ export interface LegalEntitySelect<T extends boolean = true> {
   orn?: T;
   tradeLicence?: T;
   dldBrokerRegistration?: T;
+  tradeLicenceExpiry?: T;
+  commercialRegister?: T;
+  chamberMembership?: T;
   address?: T;
   city?: T;
   phone?: T;

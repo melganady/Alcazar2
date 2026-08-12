@@ -9,6 +9,7 @@ import { CompareProvider } from "@/components/project/CompareProvider";
 import { ProjectSlider } from "@/components/sections/ProjectSlider";
 import { MiniCalculator } from "@/components/sections/MiniCalculator";
 import { getPayloadClient } from "@/lib/payload";
+import { brokerNumber } from "@/lib/legalEntity";
 import { baseWhere } from "@/lib/projects";
 import { getShowcaseImages, getSlides } from "@/lib/showcase";
 import { loadMortgageConstants } from "@/lib/mortgage/loadConstants";
@@ -296,7 +297,7 @@ export default async function HomePage({
                 <p className="type-body max-w-md text-iron/80">{t("contactSupport")}</p>
                 {agent ? (
                   <p className="type-body-s mt-1 text-iron/80">
-                    {agent.name} · {agent.role} · RERA BRN {agent.brn}
+                    {[agent.name, agent.role, brokerNumber(agent.brn, agent.brnExpiry)].filter(Boolean).join(" · ")}
                   </p>
                 ) : null}
                 <div className="mt-3 flex flex-wrap gap-4">

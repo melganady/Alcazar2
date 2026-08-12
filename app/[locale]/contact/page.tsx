@@ -7,7 +7,7 @@ import { Select } from "@/components/primitives/Select";
 import { SentBanner } from "@/components/project/SentBanner";
 import { getPayloadClient } from "@/lib/payload";
 import { createLead } from "@/lib/actions";
-import { getComplianceIdentity } from "@/lib/legalEntity";
+import { brokerNumber, getComplianceIdentity } from "@/lib/legalEntity";
 
 export const revalidate = 3600;
 
@@ -53,7 +53,9 @@ export default async function ContactPage({
               <p className="type-micro uppercase text-iron/80">{t("consultant")}</p>
               <p className="type-display-s text-iron">{agent.name}</p>
               <p className="type-body-s text-iron/80">{agent.role}</p>
-              <p className="type-micro text-iron/80">RERA BRN {agent.brn}</p>
+              {brokerNumber(agent.brn, agent.brnExpiry) ? (
+                <p className="type-micro text-iron/80">{brokerNumber(agent.brn, agent.brnExpiry)}</p>
+              ) : null}
               <div className="mt-3 flex flex-wrap gap-3">
                 {waHref ? (
                   <a

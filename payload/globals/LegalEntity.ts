@@ -67,6 +67,21 @@ export const LegalEntity: GlobalConfig = {
     },
     { name: "dldBrokerRegistration", type: "text" },
     {
+      type: "row",
+      fields: [
+        {
+          name: "tradeLicenceExpiry",
+          type: "date",
+          admin: {
+            description:
+              "An expired licence is not published. The site shows 'pending' rather than a number that is no longer valid.",
+          },
+        },
+        { name: "commercialRegister", type: "text" },
+        { name: "chamberMembership", type: "text" },
+      ],
+    },
+    {
       name: "address",
       type: "textarea",
       admin: { description: "The registered office address shown on the site." },
