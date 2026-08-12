@@ -27,6 +27,7 @@
     "mark:fixtures": "node --env-file=.env --import tsx scripts/mark-fixtures.ts",
     "publish:all": "node --env-file=.env --import tsx scripts/publish-all.ts",
     "upload:media": "node --env-file-if-exists=.env --import tsx scripts/upload-media.ts",
+    "db:smoke": "node --env-file-if-exists=.env --import tsx scripts/db-smoke.ts",
     "preflight": "node --env-file-if-exists=.env --import tsx scripts/preflight.ts"
   },
   "dependencies": {

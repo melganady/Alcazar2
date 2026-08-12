@@ -72,12 +72,22 @@ served, and reports how many live listings still lack a Trakheesi permit.
 
 ### Two things worth knowing before you start
 
-**Postgres is untested.** Every run of this app so far has been on SQLite. The
-adapter is selected by URI scheme and Payload creates the schema on first
-boot, but that path has not been exercised against a real Postgres — I tried
-with an in-process stand-in and it could not complete drizzle's schema
-introspection, which tells us about the stand-in rather than about Neon. Watch
-the first boot.
+**Postgres has been rehearsed, not proven on Neon.** The app was built on
+SQLite, so the Postgres path was exercised against an in-process Postgres 16
+before writing this: Payload created the whole schema on first boot, writes
+and relationship population worked across the join tables, the publish gate
+refused an incomplete record and then passed it under
+`ALLOW_INCOMPLETE_PUBLISH`, the fixture guard hid a flagged record from public
+reads and degraded a flagged relation to a bare id, and every page rendered
+with no errors in the log. Neon is a managed service with its own pooling, so
+run this against it before the first deploy:
+
+```bash
+DATABASE_URI=<neon string> PAYLOAD_SECRET=<secret> npm run db:smoke
+```
+
+It writes two throwaway `probe-*` records, checks the above, and deletes them.
+Safe against a live database and safe to re-run.
 
 **Media is no longer in the repository.** It was 2013 files and 1.2 GB, which
 is past what a deployment bundle should carry. The files are still on disk
