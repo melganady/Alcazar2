@@ -17,6 +17,7 @@ import { Leads } from "./payload/collections/Leads";
 import { InternalProjectUniverse } from "./payload/collections/InternalProjectUniverse";
 import { SiteStats } from "./payload/globals/SiteStats";
 import { MortgageConstants } from "./payload/globals/MortgageConstants";
+import { LegalEntity } from "./payload/globals/LegalEntity";
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -37,7 +38,7 @@ export default buildConfig({
     Users,
     InternalProjectUniverse,
   ],
-  globals: [SiteStats, MortgageConstants],
+  globals: [SiteStats, MortgageConstants, LegalEntity],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || "",
   typescript: {

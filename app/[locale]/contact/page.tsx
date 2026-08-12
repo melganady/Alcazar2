@@ -7,7 +7,7 @@ import { Select } from "@/components/primitives/Select";
 import { SentBanner } from "@/components/project/SentBanner";
 import { getPayloadClient } from "@/lib/payload";
 import { createLead } from "@/lib/actions";
-import { SITE } from "@/lib/site";
+import { getComplianceIdentity } from "@/lib/legalEntity";
 
 export const revalidate = 3600;
 
@@ -26,6 +26,7 @@ export default async function ContactPage({
   setRequestLocale(locale);
   const t = await getTranslations("project");
 
+  const identity = await getComplianceIdentity();
   const payload = await getPayloadClient();
   const agents = await payload.find({ collection: "agents", limit: 3, sort: "slug" });
   const agent = agents.docs[0];
@@ -76,10 +77,18 @@ export default async function ContactPage({
 
           <div className="flex flex-col gap-2 border border-rule bg-linen p-5">
             <p className="type-micro uppercase text-iron/80">Office</p>
-            <p className="type-body-s text-iron">{SITE.compliance.legalName}</p>
-            <p className="type-body-s text-iron/80">{SITE.compliance.city}</p>
+            <p className="type-body-s text-iron">{identity.licenceLine ?? identity.brandName}</p>
+            {identity.address ? (
+              <p className="type-body-s whitespace-pre-line text-iron/80">{identity.address}</p>
+            ) : null}
+            <p className="type-body-s text-iron/80">{identity.city}</p>
+            {identity.phone ? (
+              <a href={`tel:${identity.phone.replace(/\s/g, "")}`} className="type-body-s text-iron underline-offset-4 hover:underline">
+                {identity.phone}
+              </a>
+            ) : null}
             <p className="type-micro mt-2 text-iron/80">
-              {SITE.compliance.orn} · {SITE.compliance.tradeLicence}
+              {identity.registrations.join(" · ")}
             </p>
           </div>
         </aside>

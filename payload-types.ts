@@ -106,10 +106,12 @@ export interface Config {
   globals: {
     'site-stats': SiteStat;
     'mortgage-constants': MortgageConstant;
+    'legal-entity': LegalEntity;
   };
   globalsSelect: {
     'site-stats': SiteStatsSelect<false> | SiteStatsSelect<true>;
     'mortgage-constants': MortgageConstantsSelect<false> | MortgageConstantsSelect<true>;
+    'legal-entity': LegalEntitySelect<false> | LegalEntitySelect<true>;
   };
   locale: null;
   widgets: {
@@ -1223,6 +1225,45 @@ export interface MortgageConstant {
   createdAt?: string | null;
 }
 /**
+ * Appears in the footer of every page and on every property advert. An ORN is publicly searchable in the DLD register, so whatever is entered here is discoverable regardless of how it is displayed.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "legal-entity".
+ */
+export interface LegalEntity {
+  id: number;
+  /**
+   * The consumer-facing brand. Used everywhere on the site.
+   */
+  brandName: string;
+  /**
+   * The company that holds the brokerage licence. Required on adverts under RERA rules — see displayMode.
+   */
+  licensedEntityName?: string | null;
+  /**
+   * Brand-only omits the licence holder's name. The ORN still resolves to it publicly, and RERA advertising rules expect the broker to be identified — take legal advice before using it.
+   */
+  displayMode: 'brand-with-licence-line' | 'brand-only';
+  /**
+   * RERA Office Registration Number
+   */
+  orn?: string | null;
+  /**
+   * DED trade licence number
+   */
+  tradeLicence?: string | null;
+  dldBrokerRegistration?: string | null;
+  /**
+   * The registered office address shown on the site.
+   */
+  address?: string | null;
+  city?: string | null;
+  phone?: string | null;
+  email?: string | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "site-stats_select".
  */
@@ -1291,6 +1332,25 @@ export interface MortgageConstantsSelect<T extends boolean = true> {
         lifeInsurancePctAnnual?: T;
         propertyInsurancePctAnnual?: T;
       };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "legal-entity_select".
+ */
+export interface LegalEntitySelect<T extends boolean = true> {
+  brandName?: T;
+  licensedEntityName?: T;
+  displayMode?: T;
+  orn?: T;
+  tradeLicence?: T;
+  dldBrokerRegistration?: T;
+  address?: T;
+  city?: T;
+  phone?: T;
+  email?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

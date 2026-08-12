@@ -22,7 +22,8 @@
     "reelly:import": "node --env-file=.env --import tsx scripts/ingest/reelly-adapter.ts",
     "reelly:communities": "node --env-file=.env --import tsx scripts/ingest/reelly-adapter.ts --backfill-communities",
     "reelly:media": "node --env-file=.env --import tsx scripts/ingest/reelly-adapter.ts --backfill-media",
-    "reelly:all": "node --env-file=.env --import tsx scripts/ingest/reelly-adapter.ts --backfill-all"
+    "reelly:all": "node --env-file=.env --import tsx scripts/ingest/reelly-adapter.ts --backfill-all",
+    "seed:legal": "node --env-file=.env --import tsx scripts/seed-legal-entity.ts"
   },
   "dependencies": {
     "@payloadcms/db-sqlite": "^3.87.1",

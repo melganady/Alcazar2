@@ -1,7 +1,7 @@
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { Logo } from "@/components/primitives/Logo";
-import { SITE } from "@/lib/site";
+import { getComplianceIdentity } from "@/lib/legalEntity";
 
 const LEGAL_LINKS = [
   { href: "/legal/privacy", label: "Privacy" },
@@ -10,8 +10,9 @@ const LEGAL_LINKS = [
   { href: "/legal/cookies", label: "Cookies" },
 ] as const;
 
-export function SiteFooter() {
-  const t = useTranslations("footer");
+export async function SiteFooter() {
+  const t = await getTranslations("footer");
+  const identity = await getComplianceIdentity();
   const year = new Date().getFullYear();
 
   return (
@@ -35,8 +36,9 @@ export function SiteFooter() {
         {/* §11 — compliance strip. ORN / licence numbers are placeholders until Q3 is answered. */}
         <div className="flex flex-col gap-3 border-t border-ash/15 pt-8">
           <p className="type-micro text-ash/80">
-            {SITE.compliance.legalName} · {SITE.compliance.orn} ·{" "}
-            {SITE.compliance.tradeLicence} · {SITE.compliance.city}
+            {[identity.licenceLine, ...identity.registrations, identity.city]
+              .filter(Boolean)
+              .join(" · ")}
           </p>
           <p className="type-micro text-ash/80">{t("escrow")}</p>
           <p className="type-micro text-ash/80">{t("investment")}</p>

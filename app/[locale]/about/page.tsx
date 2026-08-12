@@ -4,7 +4,7 @@ import { Link } from "@/i18n/navigation";
 import { Eyebrow } from "@/components/primitives/Eyebrow";
 import { CropMarks } from "@/components/primitives/CropMarks";
 import { VERBATIM } from "@/lib/content";
-import { SITE } from "@/lib/site";
+import { getComplianceIdentity } from "@/lib/legalEntity";
 
 export const metadata: Metadata = {
   title: "About the house",
@@ -19,6 +19,7 @@ export default async function AboutPage({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
+  const identity = await getComplianceIdentity();
 
   return (
     <div className="mx-auto flex max-w-container flex-col gap-14 px-4 py-12 md:px-6">
@@ -71,8 +72,7 @@ export default async function AboutPage({
       <section className="flex flex-col gap-4">
         <h2 className="type-display-m text-iron">The licence</h2>
         <p className="type-body max-w-2xl text-iron/80">
-          {SITE.compliance.legalName}, {SITE.compliance.city}. ORN{" "}
-          {SITE.compliance.orn}, trade licence {SITE.compliance.tradeLicence}. Every
+          {[identity.licenceLine, ...identity.registrations, identity.city].filter(Boolean).join(" · ")}. Every
           advert we publish carries its Trakheesi permit number; every consultant
           carries a RERA broker number. Purchase payments go to the developer&rsquo;s
           DLD-registered escrow account — Alcázar does not hold client funds.

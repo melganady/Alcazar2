@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import { Eyebrow } from "@/components/primitives/Eyebrow";
 import { alternates } from "@/lib/seo";
-import { SITE } from "@/lib/site";
+import { getComplianceIdentity } from "@/lib/legalEntity";
 
 export const dynamicParams = false;
 
@@ -13,7 +13,7 @@ type LegalDoc = { title: string; intro: string; sections: Section[] };
 const ESCROW =
   "Purchase payments are made to the developer's DLD-registered escrow account. Alcázar does not hold client funds.";
 
-const DOCS: Record<string, LegalDoc> = {
+const buildDocs = (identityLine: string): Record<string, LegalDoc> => ({
   privacy: {
     title: "Privacy policy",
     intro:
@@ -53,9 +53,7 @@ const DOCS: Record<string, LegalDoc> = {
       },
       {
         h: "Contact",
-        p: [
-          `${SITE.compliance.legalName}, ${SITE.compliance.city}. ORN ${SITE.compliance.orn}, trade licence ${SITE.compliance.tradeLicence}.`,
-        ],
+        p: [identityLine],
       },
     ],
   },
@@ -153,10 +151,10 @@ const DOCS: Record<string, LegalDoc> = {
       },
     ],
   },
-};
+});
 
 export function generateStaticParams() {
-  return Object.keys(DOCS).map((slug) => ({ slug }));
+  return ["privacy", "terms", "disclaimer", "cookies"].map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({
@@ -165,7 +163,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const doc = DOCS[slug];
+  const doc = buildDocs("")[slug];
   if (!doc) return {};
   return {
     title: doc.title,
@@ -181,7 +179,10 @@ export default async function LegalPage({
 }) {
   const { locale, slug } = await params;
   setRequestLocale(locale);
-  const doc = DOCS[slug];
+  const identity = await getComplianceIdentity();
+  const doc = buildDocs(
+    [identity.licenceLine, ...identity.registrations, identity.city].filter(Boolean).join(" · "),
+  )[slug];
   if (!doc) notFound();
 
   return (
