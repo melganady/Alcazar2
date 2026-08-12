@@ -1,92 +1,72 @@
+import { geoNaturalEarth1, geoPath } from "d3-geo";
+import { feature } from "topojson-client";
+import type { FeatureCollection, Geometry } from "geojson";
+import type { Topology } from "topojson-specification";
+import worldAtlas from "world-atlas/countries-110m.json";
 import { MARKETS } from "@/lib/content";
 
 /**
- * The markets, as a map.
+ * The markets, on a real map.
  *
- * Drawn as inline SVG rather than pulled from a tile provider: it needs no
- * token, no network request and no third-party script, it renders identically
- * in both themes, and a stylised outline reads better against the brand than
- * a photographic basemap would. The equirectangular projection is exact
- * enough at this size — pins land on their cities, which is all it has to do.
+ * Coastlines come from Natural Earth via world-atlas (public domain), not from
+ * hand-drawn polygons — an approximated Africa reads as a mistake, and this is
+ * the section that has to look deliberate.
+ *
+ * Projected to SVG paths on the server, so the page ships plain markup: no tile
+ * provider, no API key, no client-side mapping library, nothing to load before
+ * it draws. Natural Earth's projection rather than Mercator, which inflates the
+ * far north into a distraction while every market here sits between about 8°S
+ * and 42°N.
  */
 
-const WIDTH = 1000;
-const HEIGHT = 480;
+const WIDTH = 1100;
+const HEIGHT = 470;
 
-/** Equirectangular: longitude maps linearly, latitude is flattened to match. */
-const project = (lat: number, lng: number) => ({
-  x: ((lng + 180) / 360) * WIDTH,
-  y: ((90 - lat) / 180) * HEIGHT,
-});
-
-/**
- * Landmass outlines, heavily simplified — enough silhouette to orient the eye
- * around the markets we actually work in, which run from the Americas to
- * south-east Asia. Coordinates are lng/lat pairs.
- */
-const LANDMASSES: Array<Array<[number, number]>> = [
-  // Separate shapes rather than one connected ring: joining Europe to Asia to
-  // Africa filled the Mediterranean and the Gulf, which is where half our
-  // markets are.
-  // North America
-  [
-    [-168, 66], [-156, 71], [-130, 70], [-100, 73], [-80, 72], [-64, 60],
-    [-56, 51], [-66, 45], [-70, 41], [-76, 35], [-80, 26], [-90, 29],
-    [-97, 26], [-105, 22], [-110, 24], [-117, 32], [-124, 40], [-125, 49],
-    [-133, 55], [-150, 59], [-165, 62], [-168, 66],
-  ],
-  // South America
-  [
-    [-78, 8], [-70, 12], [-60, 10], [-51, 4], [-44, -2], [-35, -6], [-39, -14],
-    [-48, -25], [-53, -34], [-62, -41], [-68, -50], [-74, -53], [-73, -44],
-    [-71, -30], [-70, -18], [-75, -14], [-81, -5], [-79, 2], [-78, 8],
-  ],
-  // Africa
-  [
-    [-17, 21], [-16, 14], [-11, 5], [-2, 5], [6, 4], [9, 4], [9, -1],
-    [12, -6], [12, -17], [15, -23], [18, -29], [20, -35], [27, -34],
-    [32, -26], [35, -22], [40, -16], [40, -3], [42, 1], [44, 5], [51, 12],
-    [43, 12], [40, 15], [37, 22], [34, 28], [32, 31], [25, 32], [17, 31],
-    [10, 34], [0, 36], [-6, 36], [-10, 31], [-13, 27], [-17, 21],
-  ],
-  // Europe
-  [
-    [-9, 44], [-9, 39], [-6, 36], [0, 39], [4, 43], [8, 44], [12, 45],
-    [16, 42], [20, 40], [24, 40], [28, 41], [30, 45], [38, 46], [40, 52],
-    [32, 55], [30, 60], [25, 66], [21, 70], [15, 68], [10, 64], [5, 61],
-    [8, 57], [4, 52], [-2, 49], [-5, 48], [-9, 44],
-  ],
-  // Asia
-  [
-    [40, 52], [50, 55], [60, 57], [70, 60], [80, 62], [95, 62], [110, 60],
-    [125, 55], [135, 55], [143, 60], [150, 60], [155, 57], [143, 48],
-    [135, 43], [128, 38], [122, 32], [121, 25], [110, 21], [108, 12],
-    [104, 8], [100, 6], [98, 12], [95, 18], [92, 22], [89, 22], [85, 20],
-    [80, 12], [77, 8], [73, 16], [70, 22], [64, 25], [58, 24], [52, 25],
-    [50, 29], [48, 34], [44, 38], [40, 43], [40, 52],
-  ],
-  // Australia
-  [
-    [113, -22], [114, -35], [122, -34], [129, -32], [138, -35], [147, -38],
-    [151, -34], [153, -28], [148, -20], [143, -13], [136, -12], [130, -12],
-    [125, -14], [118, -20], [113, -22],
-  ],
-];
-
-/**
- * Pins sit close together around the Gulf, so labels are placed by hand:
- * "above" clears the pin, "below" drops under it, and the side anchors push a
- * crowded label clear of its neighbour rather than letting the two collide.
- */
-const LABEL: Record<string, { dy: number; anchor: "middle" | "start" | "end" }> = {
-  uae: { dy: 26, anchor: "end" },
-  oman: { dy: -14, anchor: "start" },
-  georgia: { dy: -14, anchor: "middle" },
-  egypt: { dy: -14, anchor: "end" },
-  thailand: { dy: 34, anchor: "middle" },
-  indonesia: { dy: 30, anchor: "middle" },
-  usa: { dy: -14, anchor: "middle" },
+/** ISO 3166-1 numeric, which is how Natural Earth identifies a country. */
+const MARKET_ISO: Record<string, string> = {
+  uae: "784",
+  oman: "512",
+  georgia: "268",
+  thailand: "764",
+  indonesia: "360",
+  egypt: "818",
+  usa: "840",
 };
+const MARKET_IDS = new Set(Object.values(MARKET_ISO));
+
+/**
+ * Label placement. The Gulf markets sit within a few degrees of each other, so
+ * these are positioned by hand rather than left to collide.
+ */
+const LABEL: Record<string, { dx: number; dy: number; anchor: "middle" | "start" | "end" }> = {
+  usa: { dx: 0, dy: -20, anchor: "middle" },
+  georgia: { dx: 0, dy: -18, anchor: "middle" },
+  egypt: { dx: -14, dy: 2, anchor: "end" },
+  uae: { dx: 14, dy: -10, anchor: "start" },
+  oman: { dx: 14, dy: 18, anchor: "start" },
+  thailand: { dx: 10, dy: -14, anchor: "start" },
+  indonesia: { dx: 0, dy: 30, anchor: "middle" },
+};
+
+const world = worldAtlas as unknown as Topology;
+const all = feature(
+  world,
+  world.objects.countries,
+) as unknown as FeatureCollection<Geometry, { name?: string }>;
+
+/**
+ * Antarctica out. No market is anywhere near it, and at this projection it
+ * spans the full width along the bottom — a quarter of the frame spent on the
+ * one continent the page has nothing to say about. Dropping it lets the fit
+ * scale everything else up.
+ */
+const countries: FeatureCollection<Geometry, { name?: string }> = {
+  ...all,
+  features: all.features.filter((f) => String(f.id) !== "010"),
+};
+
+const projection = geoNaturalEarth1().fitSize([WIDTH, HEIGHT], countries);
+const toPath = geoPath(projection);
 
 export function MarketMap({
   title,
@@ -98,8 +78,8 @@ export function MarketMap({
   note: string;
 }) {
   return (
-    <section className="border-t border-rule bg-pine/8">
-      <div className="mx-auto flex max-w-container flex-col gap-8 px-4 py-16 md:px-6">
+    <section className="border-t border-rule bg-linen">
+      <div className="mx-auto flex max-w-container flex-col gap-8 px-4 py-16 md:px-6 md:py-20">
         <div className="flex flex-col gap-3">
           <h2 className="type-display-m max-w-3xl text-iron">{title}</h2>
           <p className="type-body-l max-w-2xl text-iron/80">{support}</p>
@@ -108,41 +88,55 @@ export function MarketMap({
         <div className="overflow-x-auto">
           <svg
             viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
-            className="h-auto w-full min-w-[40rem]"
+            className="h-auto w-full min-w-[52rem]"
             role="img"
-            aria-label={`World map showing Alcázar markets: ${MARKETS.map((m) => m.name).join(", ")}.`}
+            aria-label={`World map marking the countries Alcázar operates in: ${MARKETS.map((m) => m.name).join(", ")}.`}
           >
-            {LANDMASSES.map((shape, i) => (
-              <polygon
-                key={i}
-                points={shape.map(([lng, lat]) => {
-                  const { x, y } = project(lat, lng);
-                  return `${x.toFixed(1)},${y.toFixed(1)}`;
-                }).join(" ")}
-                className="fill-ash/60 stroke-pine/40"
-                strokeWidth={1}
-              />
-            ))}
+            {/* Every country, quietly. The markets are then lifted out of it. */}
+            <g>
+              {countries.features.map((f) => {
+                const d = toPath(f);
+                if (!d) return null;
+                const isMarket = MARKET_IDS.has(String(f.id));
+                return (
+                  <path
+                    key={String(f.id)}
+                    d={d}
+                    className={isMarket ? "fill-pine stroke-linen" : "fill-ash/70 stroke-linen"}
+                    strokeWidth={0.5}
+                  />
+                );
+              })}
+            </g>
 
             {MARKETS.map((m) => {
-              const { x, y } = project(m.lat, m.lng);
+              const point = projection([m.lng, m.lat]);
+              if (!point) return null;
+              const [x, y] = point;
+              const label = LABEL[m.key];
               return (
                 <g key={m.key}>
-                  {/* A halo on live markets, so the eye finds them first. */}
+                  {/* A ring on live markets, so the eye lands there first. */}
                   {m.live ? (
-                    <circle cx={x} cy={y} r={16} className="fill-pine/25" />
+                    <circle
+                      cx={x}
+                      cy={y}
+                      r={13}
+                      className="fill-none stroke-iron"
+                      strokeWidth={1.5}
+                    />
                   ) : null}
-                  <circle cx={x} cy={y} r={6} className="fill-pine" />
-                  <circle cx={x} cy={y} r={2.5} className="fill-frost" />
+                  <circle cx={x} cy={y} r={4.5} className="fill-iron" />
+                  <circle cx={x} cy={y} r={1.75} className="fill-frost" />
                   <text
-                    x={x + (LABEL[m.key].anchor === "start" ? 12 : LABEL[m.key].anchor === "end" ? -12 : 0)}
-                    y={y + LABEL[m.key].dy}
-                    textAnchor={LABEL[m.key].anchor}
+                    x={x + label.dx}
+                    y={y + label.dy}
+                    textAnchor={label.anchor}
                     className="fill-iron"
-                    style={{ fontSize: 18, fontWeight: 500 }}
+                    style={{ fontSize: 16, fontWeight: 500, letterSpacing: "0.02em" }}
                   >
                     {m.name === "United Arab Emirates" ? "UAE" : m.name}
-                    <tspan className="fill-iron/70" style={{ fontSize: 15 }}>
+                    <tspan className="fill-iron/70" style={{ fontSize: 14, fontWeight: 400 }}>
                       {"  "}
                       {m.returnLow}–{m.returnHigh}%
                     </tspan>
@@ -153,8 +147,8 @@ export function MarketMap({
           </svg>
         </div>
 
-        {/* The same markets as a list, because the map is a picture and a
-            screen reader should not have to parse one. */}
+        {/* The same markets as a list: a map is a picture, and a screen reader
+            should not have to parse one to learn where we operate. */}
         <ul className="grid gap-x-8 gap-y-4 sm:grid-cols-2 lg:grid-cols-4">
           {MARKETS.map((m) => (
             <li key={m.key} className="flex flex-col gap-1 border-t-2 border-pine pt-3">
