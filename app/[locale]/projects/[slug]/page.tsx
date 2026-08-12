@@ -172,7 +172,16 @@ export default async function ProjectPage({
   // Sections drop out when the feed has nothing for them, so the jump nav is
   // built from the same conditions. A link that scrolls nowhere is the kind of
   // thing a visitor notices and a page audit does not.
-  const hasPlan = Boolean(project.paymentPlan?.milestones?.length || project.paymentPlan?.label);
+  const isResale = project.listingType === "secondary";
+  const tenancyLabel =
+    project.resale?.tenancy === "tenanted"
+      ? t("tenancyTenanted")
+      : project.resale?.tenancy === "owner-occupied"
+        ? t("tenancyOwnerOccupied")
+        : t("tenancyVacant");
+  const comparables = (project.resale?.comparables ?? []).filter((c) => c?.amountAED);
+  const hasPlan =
+    !isResale && Boolean(project.paymentPlan?.milestones?.length || project.paymentPlan?.label);
   const hasView = Boolean(project.alcazarVerdict || project.alcazarFilterScores);
   const developerStats = developer
     ? [
@@ -194,6 +203,7 @@ export default async function ProjectPage({
       ["units", t("navUnits"), !declined && Boolean(project.unitTypes?.length)],
       ["location", t("navLocation"), true],
       ["financing", t("navFinancing"), !declined],
+      ["evidence", t("navEvidence"), isResale && comparables.length > 0],
       ["our-view", t("navView"), hasView],
       ["enquire", t("navEnquire"), !declined],
     ] as const
@@ -211,8 +221,44 @@ export default async function ProjectPage({
     [t("sizeFrom"), <AreaDisplay key="s" sqft={project.sizeFromSqft} />],
     [t("pricePerSqft"), project.pricePerSqftFrom?.toLocaleString() ?? "—"],
     [t("bedrooms"), formatBedrooms(project.bedroomsMin, project.bedroomsMax)],
-    [t("handover"), formatHandoverOrDash(project.handoverQuarter, project.handoverYear)],
-    [t("paymentPlan"), project.paymentPlan?.label ?? "—"],
+    // A completed home is asked different questions from a launch: not when it
+    // hands over, but whether you can move in and what it earns meanwhile.
+    ...(isResale
+      ? ([
+          [t("tenancy"), tenancyLabel],
+          [
+            t("availableFrom"),
+            project.resale?.availableFrom
+              ? new Date(project.resale.availableFrom).toLocaleDateString("en-GB", {
+                  day: "numeric",
+                  month: "short",
+                  year: "numeric",
+                })
+              : "—",
+          ],
+          [
+            t("annualRent"),
+            project.resale?.currentAnnualRentAED ? (
+              <PriceDisplay
+                key="r"
+                amountAED={project.resale.currentAnnualRentAED}
+                convertedClassName="type-micro"
+              />
+            ) : (
+              "—"
+            ),
+          ],
+          [
+            t("grossYield"),
+            project.resale?.grossYieldPct != null ? `${project.resale.grossYieldPct}%` : "—",
+          ],
+          [t("bathrooms"), project.bathrooms ?? "—"],
+          [t("yearBuilt"), project.resale?.yearBuilt ?? "—"],
+        ] as Array<[string, React.ReactNode]>)
+      : ([
+          [t("handover"), formatHandoverOrDash(project.handoverQuarter, project.handoverYear)],
+          [t("paymentPlan"), project.paymentPlan?.label ?? "—"],
+        ] as Array<[string, React.ReactNode]>)),
     [t("developer"), developer?.name ?? "—"],
     [t("dldNumber"), project.dldProjectNumber ?? "—"],
   ];
@@ -589,6 +635,58 @@ export default async function ProjectPage({
             </div>
           </CropMarks>
         </Section>
+        ) : null}
+
+        {/* The evidence behind the asking price. Secondary only — an off-plan
+            launch has no transaction history to measure against. */}
+        {isResale && comparables.length > 0 ? (
+          <Section id="evidence" title={t("comparablesTitle")}>
+            <p className="type-body mb-6 max-w-2xl text-iron/80">{t("comparablesBody")}</p>
+            <div className="overflow-x-auto border border-rule bg-linen">
+              <table className="w-full min-w-[34rem] border-collapse">
+                <thead>
+                  <tr className="border-b-2 border-pine">
+                    {[
+                      t("comparablesKind"),
+                      t("comparablesDate"),
+                      t("comparablesAmount"),
+                      t("comparablesSize"),
+                      t("comparablesBeds"),
+                    ].map((h) => (
+                      <th key={h} className="type-eyebrow p-3 text-start text-iron/80">
+                        {h}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {comparables.map((c, i) => (
+                    <tr key={c.id ?? i} className="border-b border-rule/60">
+                      <td className="type-body-s p-3 text-iron">
+                        {c.kind === "let" ? t("comparablesLet") : t("comparablesSold")}
+                      </td>
+                      <td className="type-body-s p-3 text-iron">
+                        {c.date
+                          ? new Date(c.date).toLocaleDateString("en-GB", {
+                              day: "numeric",
+                              month: "short",
+                              year: "numeric",
+                            })
+                          : "—"}
+                      </td>
+                      <td className="type-body-s p-3 font-medium text-iron">
+                        {c.amountAED?.toLocaleString("en-AE") ?? "—"}
+                      </td>
+                      <td className="type-body-s p-3 text-iron">
+                        {c.sizeSqft ? <AreaDisplay sqft={c.sizeSqft} /> : "—"}
+                      </td>
+                      <td className="type-body-s p-3 text-iron">{c.bedrooms ?? "—"}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </Section>
         ) : null}
 
         {/* Developer */}

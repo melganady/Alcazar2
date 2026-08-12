@@ -11,6 +11,20 @@ import type { CollectionAfterChangeHook, CollectionAfterDeleteHook } from "paylo
  *
  * Both locales, because next-intl serves them as separate routes.
  */
+/**
+ * revalidatePath needs a Next.js request context. Payload also runs from CLI
+ * scripts — imports, seeds, migrations — where there is no server to tell and
+ * the call throws, aborting the script. There is nothing to rebuild in that
+ * case, so the failure is swallowed deliberately.
+ */
+const safeRevalidate = (path: string) => {
+  try {
+    revalidatePath(path);
+  } catch {
+    // Not running inside the server. Nothing to invalidate.
+  }
+};
+
 const pathsFor = (slug?: string | null, listingType?: string | null): string[] => {
   const index = listingType === "secondary" ? "/secondary" : "/projects";
   const paths = ["/", index];
@@ -23,13 +37,13 @@ export const revalidateProject: CollectionAfterChangeHook = ({ doc, previousDoc 
   const slugs = new Set([doc?.slug, previousDoc?.slug].filter(Boolean));
   for (const slug of slugs) {
     for (const path of pathsFor(slug as string, doc?.listingType)) {
-      revalidatePath(path);
+      safeRevalidate(path);
     }
   }
   return doc;
 };
 
 export const revalidateProjectOnDelete: CollectionAfterDeleteHook = ({ doc }) => {
-  for (const path of pathsFor(doc?.slug, doc?.listingType)) revalidatePath(path);
+  for (const path of pathsFor(doc?.slug, doc?.listingType)) safeRevalidate(path);
   return doc;
 };
