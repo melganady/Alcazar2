@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { Eyebrow } from "@/components/primitives/Eyebrow";
+import { PageHero } from "@/components/sections/PageHero";
 import { CropMarks } from "@/components/primitives/CropMarks";
 import { getPayloadClient } from "@/lib/payload";
 import { loadMortgageConstants } from "@/lib/mortgage/loadConstants";
@@ -79,22 +79,18 @@ export default async function NonResidentsPage({
   ] as const;
 
   return (
-    <div className="mx-auto flex max-w-container flex-col gap-12 px-4 py-12 md:px-6">
+    <>
+      <PageHero
+        eyebrow="Alcázar · Non-resident financing"
+        title="You do not need a UAE visa to hold a UAE mortgage"
+        support={`Banks here lend to non-residents at up to ${constants.ltv.nonResidentPct}% of a completed property's value. The process is document-driven and predictable — if you know the sequence. This is the sequence.`}
+        compact
+      />
+      <div className="mx-auto flex max-w-container flex-col gap-12 px-4 py-12 md:px-6">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />
-      <header className="flex flex-col gap-3">
-        <Eyebrow>Alcázar · Non-resident financing</Eyebrow>
-        <h1 className="type-display-l text-iron">
-          You do not need a UAE visa to hold a UAE mortgage
-        </h1>
-        <p className="type-body-l max-w-2xl text-iron/80">
-          Banks here lend to non-residents at up to {constants.ltv.nonResidentPct}% of a completed
-          property&rsquo;s value. The process is document-driven and predictable — if you know the
-          sequence. This is the sequence.
-        </p>
-      </header>
 
       {/* Eligibility table */}
       <section className="flex flex-col gap-5">
@@ -219,6 +215,7 @@ export default async function NonResidentsPage({
         Indicative only — not an offer of finance. Lender criteria and rates vary and approval is
         not guaranteed. Alcázar acts as an intermediary and is not a lender.
       </p>
-    </div>
+      </div>
+    </>
   );
 }

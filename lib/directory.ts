@@ -54,6 +54,28 @@ const heroOf = (p?: Project) =>
     ? { url: p.media.hero.url ?? null, alt: p.media.hero.alt ?? undefined }
     : { url: null, alt: undefined };
 
+/**
+ * The banner image for a developer or community detail page: their
+ * highest-value project with a licensed render, so the page leads with the
+ * asset that best makes the case for the entity, not just whichever the
+ * import happened to reach first.
+ */
+export function flagshipImage(
+  projects: Project[],
+): { url: string; alt: string; project: string } | null {
+  const withHero = projects
+    .filter((p) => p.media?.hero && typeof p.media.hero === "object" && p.media.hero.url)
+    .sort((a, b) => (b.priceFromAED ?? 0) - (a.priceFromAED ?? 0));
+  const pick = withHero[0];
+  const hero = pick?.media?.hero;
+  if (!pick || !hero || typeof hero !== "object" || !hero.url) return null;
+  return {
+    url: hero.url,
+    alt: hero.alt ?? `${pick.name}, ${pick.subCommunity}`,
+    project: `${pick.name}, ${pick.subCommunity}`,
+  };
+}
+
 export async function getDevelopers(): Promise<DirectoryEntry[]> {
   const payload = await getPayloadClient();
   const devs = await payload.find({ collection: "developers", limit: 300, sort: "name", depth: 0 });

@@ -18,6 +18,7 @@ export function MediaWell({
   priority = false,
   sizes,
   className,
+  imageClassName,
 }: {
   src?: string | null;
   alt?: string;
@@ -27,6 +28,8 @@ export function MediaWell({
   priority?: boolean;
   sizes?: string;
   className?: string;
+  /** Extra classes on the photo itself — a parent `group` hover-zoom, say. */
+  imageClassName?: string;
 }) {
   const aspect =
     ratio === "21/9" ? "aspect-[21/9]" : ratio === "1/1" ? "aspect-square" : "aspect-[3/2]";
@@ -40,7 +43,7 @@ export function MediaWell({
           fill
           sizes={sizes ?? "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"}
           priority={priority}
-          className="object-cover"
+          className={cn("object-cover", imageClassName)}
         />
       </div>
     );

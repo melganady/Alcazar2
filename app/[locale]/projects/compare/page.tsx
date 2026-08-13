@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { Eyebrow } from "@/components/primitives/Eyebrow";
+import { PageHero } from "@/components/sections/PageHero";
 import { getProjectsBySlugs } from "@/lib/projects";
 import { formatHandoverOrDash } from "@/lib/format";
 import type { Developer } from "@/payload-types";
@@ -84,15 +84,14 @@ export default async function ComparePage({
   ];
 
   return (
-    <div className="mx-auto flex max-w-container flex-col gap-8 px-4 py-12 md:px-6">
-      <header className="flex flex-col gap-3">
-        <Eyebrow>Alcázar</Eyebrow>
-        <h1 className="type-display-l text-iron">{t("compareTitle")}</h1>
-        {projects.length < 2 ? (
-          <p className="type-body-l text-iron/80">{t("compareHint")}</p>
-        ) : null}
-      </header>
-
+    <>
+      <PageHero
+        eyebrow="Alcázar"
+        title={t("compareTitle")}
+        support={projects.length < 2 ? t("compareHint") : undefined}
+        compact
+      />
+      <div className="mx-auto flex max-w-container flex-col gap-8 px-4 py-12 md:px-6">
       {projects.length > 0 ? (
         <div className="overflow-x-auto border border-rule bg-linen">
           <table className="w-full min-w-[44rem] border-collapse">
@@ -132,6 +131,7 @@ export default async function ComparePage({
       <Link href="/projects" className="type-eyebrow self-start text-iron/80 hover:underline hover:underline-offset-4">
         ← {t("title")}
       </Link>
-    </div>
+      </div>
+    </>
   );
 }

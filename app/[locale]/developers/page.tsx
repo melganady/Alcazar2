@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
-import { Eyebrow } from "@/components/primitives/Eyebrow";
+import { PageHero } from "@/components/sections/PageHero";
 import { DirectoryGrid } from "@/components/sections/DirectoryGrid";
 import { getDevelopers } from "@/lib/directory";
 import { alternates } from "@/lib/seo";
@@ -22,34 +22,37 @@ export default async function DevelopersPage({
   const { locale } = await params;
   setRequestLocale(locale);
   const developers = await getDevelopers();
+  // Leads with whichever developer's render we actually hold — usually the
+  // one carrying the most stock, since the list sorts by project count.
+  const lead = developers.find((d) => d.image);
 
   return (
-    <div className="mx-auto flex max-w-container flex-col gap-10 px-4 py-12 md:px-6">
-      <header className="flex flex-col gap-3">
-        <Eyebrow>Alcázar · Developers</Eyebrow>
-        <h1 className="type-display-l text-iron">Who builds it matters</h1>
-        <p className="type-body-l max-w-2xl text-iron/80">
-          Developer record is the first of our eight tests. What they have
-          delivered, and how late, decides whether their stock reaches you.
-        </p>
-      </header>
-
-      {developers.length > 0 ? (
-        <>
-          <p aria-live="polite" className="type-eyebrow text-iron/80">
-            {developers.length} developers with assets on our books
+    <>
+      <PageHero
+        eyebrow="Alcázar · Developers"
+        title="Who builds it matters"
+        support="Developer record is the first of our eight tests. What they have delivered, and how late, decides whether their stock reaches you."
+        image={lead?.image ? { url: lead.image, alt: lead.imageAlt ?? lead.name } : null}
+        caption={lead?.image ? lead.name : undefined}
+      />
+      <div className="mx-auto flex max-w-container flex-col gap-10 px-4 py-12 md:px-6">
+        {developers.length > 0 ? (
+          <>
+            <p aria-live="polite" className="type-eyebrow text-iron/80">
+              {developers.length} developers with assets on our books
+            </p>
+            <DirectoryGrid
+              entries={developers}
+              basePath="/developers"
+              countLabel={(n) => `${n} ${n === 1 ? "project" : "projects"}`}
+            />
+          </>
+        ) : (
+          <p className="type-body text-iron/80">
+            We publish a developer once we hold a delivery record we have checked ourselves.
           </p>
-          <DirectoryGrid
-            entries={developers}
-            basePath="/developers"
-            countLabel={(n) => `${n} ${n === 1 ? "project" : "projects"}`}
-          />
-        </>
-      ) : (
-        <p className="type-body text-iron/80">
-          We publish a developer once we hold a delivery record we have checked ourselves.
-        </p>
-      )}
-    </div>
+        )}
+      </div>
+    </>
   );
 }

@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { Eyebrow } from "@/components/primitives/Eyebrow";
+import { PageHero } from "@/components/sections/PageHero";
 import { CropMarks } from "@/components/primitives/CropMarks";
 import { VERBATIM } from "@/lib/content";
 import { getComplianceIdentity } from "@/lib/legalEntity";
+import { getHeroShowcase } from "@/lib/showcase";
 
 export const metadata: Metadata = {
   title: "About the house",
@@ -19,16 +20,18 @@ export default async function AboutPage({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const identity = await getComplianceIdentity();
+  const [identity, image] = await Promise.all([getComplianceIdentity(), getHeroShowcase()]);
 
   return (
-    <div className="mx-auto flex max-w-container flex-col gap-14 px-4 py-12 md:px-6">
-      <header className="flex flex-col gap-3">
-        <Eyebrow>Alcázar · The house</Eyebrow>
-        <h1 className="type-display-l text-iron">{VERBATIM.tagline}</h1>
-        <p className="type-body-l max-w-2xl text-iron/80">{VERBATIM.positioning}</p>
-      </header>
-
+    <>
+      <PageHero
+        eyebrow="Alcázar · The house"
+        title={VERBATIM.tagline}
+        support={VERBATIM.positioning}
+        image={image}
+        caption={image?.project}
+      />
+      <div className="mx-auto flex max-w-container flex-col gap-14 px-4 py-12 md:px-6">
       <section className="grid gap-10 md:grid-cols-2">
         <div className="flex flex-col gap-4">
           <h2 className="type-display-m text-iron">What we do</h2>
@@ -78,6 +81,7 @@ export default async function AboutPage({
           DLD-registered escrow account — Alcázar does not hold client funds.
         </p>
       </section>
-    </div>
+      </div>
+    </>
   );
 }

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { Eyebrow } from "@/components/primitives/Eyebrow";
+import { PageHero } from "@/components/sections/PageHero";
 import { getPayloadClient } from "@/lib/payload";
 import { loadMortgageConstants } from "@/lib/mortgage/loadConstants";
 
@@ -56,17 +56,14 @@ export default async function MortgagesPage({
   ] as const;
 
   return (
-    <div className="mx-auto flex max-w-container flex-col gap-12 px-4 py-12 md:px-6">
-      <header className="flex flex-col gap-3">
-        <Eyebrow>Alcázar · Mortgage advisory</Eyebrow>
-        <h1 className="type-display-l text-iron">Financing, without the fog</h1>
-        <p className="type-body-l max-w-2xl text-iron/80">
-          Residents and non-residents. We arrange, we do not lend — and we show
-          you which constraint actually limits what you can borrow before any
-          bank does.
-        </p>
-      </header>
-
+    <>
+      <PageHero
+        eyebrow="Alcázar · Mortgage advisory"
+        title="Financing, without the fog"
+        support="Residents and non-residents. We arrange, we do not lend — and we show you which constraint actually limits what you can borrow before any bank does."
+        compact
+      />
+      <div className="mx-auto flex max-w-container flex-col gap-12 px-4 py-12 md:px-6">
       <div className="grid gap-5 md:grid-cols-3">
         {CARDS.map((c) => (
           <Link
@@ -117,6 +114,7 @@ export default async function MortgagesPage({
         </p>
       </section>
       ) : null}
-    </div>
+      </div>
+    </>
   );
 }

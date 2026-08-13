@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { Eyebrow } from "@/components/primitives/Eyebrow";
+import { PageHero } from "@/components/sections/PageHero";
 import { getPayloadClient } from "@/lib/payload";
 
 export const revalidate = 3600;
@@ -30,16 +30,14 @@ export default async function InsightsPage({
   });
 
   return (
-    <div className="mx-auto flex max-w-container flex-col gap-10 px-4 py-12 md:px-6">
-      <header className="flex flex-col gap-3">
-        <Eyebrow>Alcázar · Insights</Eyebrow>
-        <h1 className="type-display-l text-iron">Insights</h1>
-        <p className="type-body-l max-w-2xl text-iron/80">
-          Market, mortgage, community and developer analysis — written by the desk
-          that runs the filter, not by a content agency.
-        </p>
-      </header>
-
+    <>
+      <PageHero
+        eyebrow="Alcázar · Insights"
+        title="Insights"
+        support="Market, mortgage, community and developer analysis — written by the desk that runs the filter, not by a content agency."
+        compact
+      />
+      <div className="mx-auto flex max-w-container flex-col gap-10 px-4 py-12 md:px-6">
       {articles.docs.length > 0 ? (
         <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {articles.docs.map((a) => (
@@ -65,6 +63,7 @@ export default async function InsightsPage({
           written view on every listing.
         </p>
       )}
-    </div>
+      </div>
+    </>
   );
 }

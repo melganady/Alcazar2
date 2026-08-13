@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import { RichText } from "@payloadcms/richtext-lexical/react";
-import { Eyebrow } from "@/components/primitives/Eyebrow";
+import { PageHero } from "@/components/sections/PageHero";
 import { StatBlock } from "@/components/primitives/StatBlock";
 import { ProjectCard } from "@/components/project/ProjectCard";
 import { CompareProvider } from "@/components/project/CompareProvider";
-import { getCommunityBySlug } from "@/lib/directory";
+import { flagshipImage, getCommunityBySlug } from "@/lib/directory";
 import { getPayloadClient } from "@/lib/payload";
 import { staticParamsOrEmpty } from "@/lib/buildTime";
 import { alternates, breadcrumbJsonLd, BASE_URL } from "@/lib/seo";
@@ -93,6 +93,8 @@ export default async function CommunityPage({
     url: `${BASE_URL}/communities/${slug}`,
   };
 
+  const image = flagshipImage(projects);
+
   return (
     <CompareProvider>
       <script
@@ -110,12 +112,8 @@ export default async function CommunityPage({
           ),
         }}
       />
+      <PageHero eyebrow={community.region} title={community.name} image={image} caption={image?.project} compact />
       <div className="mx-auto flex max-w-container flex-col gap-10 px-4 py-12 md:px-6">
-        <header className="flex flex-col gap-3">
-          <Eyebrow>{community.region}</Eyebrow>
-          <h1 className="type-display-l text-iron">{community.name}</h1>
-        </header>
-
         <div className="grid grid-cols-2 gap-8 border-y border-rule py-8 sm:grid-cols-4">
           <StatBlock value={String(projects.length)} label="Projects on our books" />
           {priceFloor ? (

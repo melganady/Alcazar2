@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { Eyebrow } from "@/components/primitives/Eyebrow";
+import { PageHero } from "@/components/sections/PageHero";
 import { getPayloadClient } from "@/lib/payload";
 import { loadMortgageConstants } from "@/lib/mortgage/loadConstants";
 
@@ -33,17 +33,14 @@ export default async function OffPlanFinancePage({
   ]);
 
   return (
-    <div className="mx-auto flex max-w-container flex-col gap-12 px-4 py-12 md:px-6">
-      <header className="flex flex-col gap-3">
-        <Eyebrow>Alcázar · Off-plan finance</Eyebrow>
-        <h1 className="type-display-l text-iron">Off-plan is financed twice</h1>
-        <p className="type-body-l max-w-2xl text-iron/80">
-          Stage one: the developer&rsquo;s instalments during construction, from your own funds.
-          Stage two: the mortgage at handover. Most buyers plan only stage two — and get
-          surprised by stage one. Here is the whole picture.
-        </p>
-      </header>
-
+    <>
+      <PageHero
+        eyebrow="Alcázar · Off-plan finance"
+        title="Off-plan is financed twice"
+        support="Stage one: the developer's instalments during construction, from your own funds. Stage two: the mortgage at handover. Most buyers plan only stage two — and get surprised by stage one. Here is the whole picture."
+        compact
+      />
+      <div className="mx-auto flex max-w-container flex-col gap-12 px-4 py-12 md:px-6">
       <section className="grid gap-5 md:grid-cols-2">
         <div className="flex flex-col gap-3 border border-rule bg-linen p-6">
           <p className="type-eyebrow text-iron/80">Stage 1 · During construction</p>
@@ -107,6 +104,7 @@ export default async function OffPlanFinancePage({
         not guaranteed. Alcázar acts as an intermediary and is not a lender. Off-plan property
         carries construction, delivery, market and liquidity risk; values can fall.
       </p>
-    </div>
+      </div>
+    </>
   );
 }

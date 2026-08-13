@@ -90,7 +90,14 @@ export default async function HomePage({
               sizes="100vw"
               className="object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-iron via-iron/70 to-iron/30" />
+            {/* Two scrims, not one flat wash: a diagonal from the bottom-left
+                — where the type sits — keeps that corner reliably close to
+                solid iron regardless of what's under it, while the top-right
+                sky and skyline stay close to true colour. A second, tighter
+                pass at the very bottom guarantees the buttons and caption
+                row never sit on a bright patch of water or render. */}
+            <div className="absolute inset-0 bg-gradient-to-tr from-iron via-iron/65 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-iron/85 via-transparent to-transparent" />
           </div>
         ) : null}
         <div
@@ -98,13 +105,28 @@ export default async function HomePage({
             heroImage ? "min-h-[34rem] justify-end md:min-h-[40rem]" : ""
           }`}
         >
-          <Eyebrow tone={heroImage ? "reversed" : "default"}>{t("eyebrow")}</Eyebrow>
+          <Eyebrow
+            tone={heroImage ? "reversed" : "default"}
+            className={heroImage ? "[text-shadow:0_1px_10px_rgba(0,0,0,0.45)]" : undefined}
+          >
+            {t("eyebrow")}
+          </Eyebrow>
           <h1
-            className={`type-display-xl max-w-4xl ${heroImage ? "text-frost" : "text-iron"}`}
+            className={`type-display-xl max-w-4xl ${
+              heroImage
+                ? "text-frost [text-shadow:0_2px_16px_rgba(0,0,0,0.45)]"
+                : "text-iron"
+            }`}
           >
             {t("title", { low: RETURN_RANGE.low, high: RETURN_RANGE.high })}
           </h1>
-          <p className={`type-body-l max-w-2xl ${heroImage ? "text-frost/90" : "text-iron/80"}`}>
+          <p
+            className={`type-body-l max-w-2xl ${
+              heroImage
+                ? "text-frost/95 [text-shadow:0_1px_10px_rgba(0,0,0,0.4)]"
+                : "text-iron/80"
+            }`}
+          >
             {t("support")}
           </p>
           {/* The flags earn their place: seven markets is the differentiator,
@@ -117,7 +139,9 @@ export default async function HomePage({
                 </span>
                 <span
                   className={`type-micro uppercase tracking-eyebrow ${
-                    heroImage ? "text-frost/90" : "text-iron/80"
+                    heroImage
+                      ? "text-frost/95 [text-shadow:0_1px_8px_rgba(0,0,0,0.45)]"
+                      : "text-iron/80"
                   }`}
                 >
                   {m.name === "United Arab Emirates" ? "UAE" : m.name}
@@ -159,7 +183,9 @@ export default async function HomePage({
             )}
           </div>
           {heroImage ? (
-            <p className="type-micro text-frost/70">{heroImage.project}</p>
+            <p className="type-micro text-frost/80 [text-shadow:0_1px_8px_rgba(0,0,0,0.45)]">
+              {heroImage.project}
+            </p>
           ) : null}
         </div>
       </section>

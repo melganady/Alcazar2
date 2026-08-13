@@ -3,9 +3,10 @@ import { notFound } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import { RichText } from "@payloadcms/richtext-lexical/react";
 import { Link } from "@/i18n/navigation";
-import { Eyebrow } from "@/components/primitives/Eyebrow";
+import { PageHero } from "@/components/sections/PageHero";
 import { ProjectCard } from "@/components/project/ProjectCard";
 import { CompareProvider } from "@/components/project/CompareProvider";
+import { flagshipImage } from "@/lib/directory";
 import { getPayloadClient } from "@/lib/payload";
 import { staticParamsOrEmpty } from "@/lib/buildTime";
 import type { Agent, Project } from "@/payload-types";
@@ -87,6 +88,8 @@ export default async function ArticlePage({
         }
       : null;
 
+  const image = relatedProjects.length > 0 ? flagshipImage(relatedProjects) : null;
+
   return (
     <CompareProvider>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
@@ -94,16 +97,18 @@ export default async function ArticlePage({
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
       ) : null}
 
-      <article className="mx-auto flex max-w-container flex-col gap-10 px-4 py-12 md:px-6">
-        <header className="flex max-w-3xl flex-col gap-3">
-          <Eyebrow>{article.category}</Eyebrow>
-          <h1 className="type-display-l text-iron">{article.title}</h1>
-          <p className="type-body-s text-iron/80">
-            {author ? `${author.name} · ${author.role} · ` : ""}
-            {String(article.publishedAt).slice(0, 10)}
-          </p>
-        </header>
+      <PageHero
+        eyebrow={article.category}
+        title={article.title}
+        support={
+          author ? `${author.name} · ${author.role} · ${String(article.publishedAt).slice(0, 10)}` : String(article.publishedAt).slice(0, 10)
+        }
+        image={image}
+        caption={image?.project}
+        compact
+      />
 
+      <article className="mx-auto flex max-w-container flex-col gap-10 px-4 py-12 md:px-6">
         {article.body ? (
           <div className="type-body-l max-w-3xl text-iron/85 [&_h2]:mb-3 [&_h2]:mt-8 [&_h2]:font-display [&_h2]:uppercase [&_h2]:tracking-display-m [&_h2]:text-iron [&_p]:mb-4">
             <RichText data={article.body} />

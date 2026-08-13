@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import { RichText } from "@payloadcms/richtext-lexical/react";
-import { Eyebrow } from "@/components/primitives/Eyebrow";
+import { PageHero } from "@/components/sections/PageHero";
 import { StatBlock } from "@/components/primitives/StatBlock";
 import { ProjectCard } from "@/components/project/ProjectCard";
 import { CompareProvider } from "@/components/project/CompareProvider";
-import { getDeveloperBySlug } from "@/lib/directory";
+import { flagshipImage, getDeveloperBySlug } from "@/lib/directory";
 import { getPayloadClient } from "@/lib/payload";
 import { staticParamsOrEmpty } from "@/lib/buildTime";
 import { alternates, breadcrumbJsonLd } from "@/lib/seo";
@@ -74,6 +74,8 @@ export default async function DeveloperPage({
     { value: String(projects.length), label: "On our books" },
   ].filter((s): s is { value: string; label: string } => Boolean(s));
 
+  const image = flagshipImage(projects);
+
   return (
     <CompareProvider>
       <script
@@ -87,15 +89,14 @@ export default async function DeveloperPage({
           ),
         }}
       />
+      <PageHero
+        eyebrow={`Developer${developer.headquarters ? ` · ${developer.headquarters}` : ""}`}
+        title={developer.name}
+        image={image}
+        caption={image?.project}
+        compact
+      />
       <div className="mx-auto flex max-w-container flex-col gap-10 px-4 py-12 md:px-6">
-        <header className="flex flex-col gap-3">
-          <Eyebrow>
-            Developer
-            {developer.headquarters ? ` · ${developer.headquarters}` : ""}
-          </Eyebrow>
-          <h1 className="type-display-l text-iron">{developer.name}</h1>
-        </header>
-
         {stats.length > 0 ? (
           <div className="grid grid-cols-2 gap-8 border-y border-rule py-8 sm:grid-cols-4">
             {stats.map((s) => (

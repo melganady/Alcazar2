@@ -18,9 +18,18 @@ export function DirectoryGrid({
   return (
     <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
       {entries.map((e) => (
-        <article key={e.slug} className="group border border-rule bg-linen">
+        <article
+          key={e.slug}
+          className="group border border-rule bg-linen transition-colors duration-fast ease-brand hover:border-pine"
+        >
           <Link href={`${basePath}/${e.slug}`} className="block">
-            <MediaWell src={e.image} alt={e.imageAlt ?? e.name} label={e.name} ratio="3/2" />
+            <MediaWell
+              src={e.image}
+              alt={e.imageAlt ?? e.name}
+              label={e.name}
+              ratio="3/2"
+              imageClassName="transition-transform duration-slow ease-brand group-hover:scale-105"
+            />
           </Link>
           <div className="flex flex-col gap-2 p-5">
             <h2 className="type-display-s text-iron">

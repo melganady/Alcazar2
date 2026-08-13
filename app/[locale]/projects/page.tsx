@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { Eyebrow } from "@/components/primitives/Eyebrow";
+import { PageHero } from "@/components/sections/PageHero";
 import { ProjectCard } from "@/components/project/ProjectCard";
 import { FilterBar } from "@/components/project/FilterBar";
 import { ControlsBar } from "@/components/project/ControlsBar";
@@ -80,13 +80,8 @@ export default async function ProjectsPage({
 
   return (
     <CompareProvider>
+      <PageHero eyebrow="Alcázar" title={t("title")} support={t("intro")} compact />
       <div className="mx-auto flex max-w-container flex-col gap-8 px-4 py-12 md:px-6">
-        <header className="flex flex-col gap-3">
-          <Eyebrow>Alcázar</Eyebrow>
-          <h1 className="type-display-l text-iron">{t("title")}</h1>
-          <p className="type-body-l max-w-2xl text-iron/80">{t("intro")}</p>
-        </header>
-
         <FilterBar options={options} />
 
         <div className="flex flex-wrap items-center justify-between gap-4">

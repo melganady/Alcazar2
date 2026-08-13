@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { setRequestLocale, getTranslations } from "next-intl/server";
-import { Eyebrow } from "@/components/primitives/Eyebrow";
+import { PageHero } from "@/components/sections/PageHero";
 import { Field } from "@/components/primitives/Field";
 import { Select } from "@/components/primitives/Select";
 import { SentBanner } from "@/components/project/SentBanner";
@@ -37,16 +37,14 @@ export default async function ContactPage({
   const waHref = whatsappHref(agent?.whatsapp ?? identity.whatsapp);
 
   return (
-    <div className="mx-auto flex max-w-container flex-col gap-10 px-4 py-12 md:px-6">
-      <header className="flex flex-col gap-3">
-        <Eyebrow>Alcázar · Contact</Eyebrow>
-        <h1 className="type-display-l text-iron">Start with a brief</h1>
-        <p className="type-body-l max-w-2xl text-iron/80">
-          Twenty minutes, no deck. Tell us the budget, the residency status and
-          the exit horizon — the rest follows from those three.
-        </p>
-      </header>
-
+    <>
+      <PageHero
+        eyebrow="Alcázar · Contact"
+        title="Start with a brief"
+        support="Twenty minutes, no deck. Tell us the budget, the residency status and the exit horizon — the rest follows from those three."
+        compact
+      />
+      <div className="mx-auto flex max-w-container flex-col gap-10 px-4 py-12 md:px-6">
       <div className="grid gap-10 md:grid-cols-[minmax(0,22rem)_1fr]">
         <aside className="flex flex-col gap-6">
           {agent ? (
@@ -186,6 +184,7 @@ export default async function ContactPage({
           </p>
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 }

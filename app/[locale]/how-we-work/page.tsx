@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { Eyebrow } from "@/components/primitives/Eyebrow";
+import { PageHero } from "@/components/sections/PageHero";
 import { CropMarks } from "@/components/primitives/CropMarks";
 import { EIGHT_TESTS, FIVE_STAGES, VERBATIM } from "@/lib/content";
 
@@ -20,17 +20,14 @@ export default async function HowWeWorkPage({
   setRequestLocale(locale);
 
   return (
-    <div className="mx-auto flex max-w-container flex-col gap-14 px-4 py-12 md:px-6">
-      <header className="flex flex-col gap-3">
-        <Eyebrow>Alcázar · The method</Eyebrow>
-        <h1 className="type-display-l text-iron">Most launches do not pass</h1>
-        <p className="type-body-l max-w-2xl text-iron/80">
-          We are not a portal. We publish a defended shortlist, which means every
-          project on this site survived the same eight tests — and the ones that
-          did not are on record as declined.
-        </p>
-      </header>
-
+    <>
+      <PageHero
+        eyebrow="Alcázar · The method"
+        title="Most launches do not pass"
+        support="We are not a portal. We publish a defended shortlist, which means every project on this site survived the same eight tests — and the ones that did not are on record as declined."
+        compact
+      />
+      <div className="mx-auto flex max-w-container flex-col gap-14 px-4 py-12 md:px-6">
       <section className="flex flex-col gap-6">
         <h2 className="type-display-m text-iron">The eight tests</h2>
         <div className="grid gap-x-8 gap-y-8 md:grid-cols-2">
@@ -77,6 +74,7 @@ export default async function HowWeWorkPage({
           See the shortlist →
         </Link>
       </section>
-    </div>
+      </div>
+    </>
   );
 }

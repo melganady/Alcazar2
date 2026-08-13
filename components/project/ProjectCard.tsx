@@ -44,6 +44,7 @@ export function ProjectCard({
           alt={hero?.alt ?? `${project.name}, ${project.subCommunity}`}
           label={project.subCommunity}
           ratio="3/2"
+          imageClassName="transition-transform duration-slow ease-brand group-hover:scale-105"
         />
         {shortlisted ? (
           <span

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { Eyebrow } from "@/components/primitives/Eyebrow";
+import { PageHero } from "@/components/sections/PageHero";
 import { Calculator } from "@/components/mortgage/Calculator";
 import { loadMortgageConstants } from "@/lib/mortgage/loadConstants";
 import { getProjectBySlug } from "@/lib/projects";
@@ -51,22 +51,25 @@ export default async function CalculatorPage({
         : undefined;
 
   return (
-    <div className="mx-auto flex max-w-container flex-col gap-8 px-4 py-12 md:px-6">
-      <header className="flex flex-col gap-3">
-        <Eyebrow>Alcázar · {project ? project.name : "UAE"}</Eyebrow>
-        <h1 className="type-display-l text-iron">{t("calcTitle")}</h1>
-        <p className="type-body-l max-w-2xl text-iron/80">{t("calcIntro")}</p>
-      </header>
-      <Calculator
-        constants={constants}
-        initial={{
-          price: sp.price ? Number(sp.price) : project?.priceFromAED,
-          residency,
-          propertyStatus,
-        }}
-        projectMilestones={milestones}
-        projectName={project?.name}
+    <>
+      <PageHero
+        eyebrow={`Alcázar · ${project ? project.name : "UAE"}`}
+        title={t("calcTitle")}
+        support={t("calcIntro")}
+        compact
       />
-    </div>
+      <div className="mx-auto flex max-w-container flex-col gap-8 px-4 py-12 md:px-6">
+        <Calculator
+          constants={constants}
+          initial={{
+            price: sp.price ? Number(sp.price) : project?.priceFromAED,
+            residency,
+            propertyStatus,
+          }}
+          projectMilestones={milestones}
+          projectName={project?.name}
+        />
+      </div>
+    </>
   );
 }
