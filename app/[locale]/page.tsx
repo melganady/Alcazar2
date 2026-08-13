@@ -77,52 +77,54 @@ export default async function HomePage({
   return (
     <CompareProvider>
       {/* 1 — Hero. Typographic on the frost ground; iron carries the headline.
-          The map sits beside the copy rather than behind it — proof of the
-          seven markets, not decoration. */}
-      <section className="border-b border-rule">
-        <div className="mx-auto grid max-w-container gap-10 px-4 py-20 md:px-6 md:py-28 lg:grid-cols-[1fr_minmax(0,26rem)] lg:items-center">
-          <div className="flex flex-col items-start gap-7">
-            <Eyebrow>{t("eyebrow")}</Eyebrow>
-            <h1 className="type-display-xl max-w-4xl text-iron">
-              {t("title", { low: RETURN_RANGE.low, high: RETURN_RANGE.high })}
-            </h1>
-            <p className="type-body-l max-w-2xl text-iron/80">{t("support")}</p>
-            {/* The flags earn their place: seven markets is the differentiator,
-                and a row of flags says it faster than a sentence. */}
-            <ul className="flex flex-wrap items-center gap-x-5 gap-y-3">
-              {MARKETS.map((m) => (
-                <li key={m.key} className="flex items-center gap-2">
-                  <span aria-hidden className="text-2xl leading-none">
-                    {m.flag}
-                  </span>
-                  <span className="type-micro uppercase tracking-eyebrow text-iron/80">
-                    {m.name === "United Arab Emirates" ? "UAE" : m.name}
-                  </span>
-                </li>
-              ))}
-            </ul>
-            <div className="flex flex-wrap gap-4">
-              <Link
-                href="/projects"
-                className="type-eyebrow bg-iron px-6 py-3.5 text-ash transition-colors duration-fast ease-brand hover:bg-iron/85"
-              >
-                {t("ctaShortlist")}
-              </Link>
-              <Link
-                href="/mortgages/calculator"
-                className="type-eyebrow border border-iron px-6 py-3.5 text-iron transition-colors duration-fast ease-brand hover:bg-iron hover:text-ash"
-              >
-                {t("ctaBorrow")}
-              </Link>
-            </div>
-          </div>
-
-          {/* A quiet, label-free cut of the full map from section 2 — dots
-              only, so it reads at a glance rather than competing with the
-              headline for attention. */}
-          <div className="w-full border border-rule bg-linen p-5">
-            <p className="type-eyebrow mb-3 text-iron/80">{t("mapTitle")}</p>
-            <WorldMap showLabels={false} />
+          The map now sits behind the copy as a quiet, full-bleed backdrop —
+          proof of the seven markets, not decoration, and faint enough that
+          the headline stays the loudest thing on the page. */}
+      <section className="relative overflow-hidden border-b border-rule bg-frost">
+        <div aria-hidden className="absolute inset-0">
+          <WorldMap
+            tone="muted"
+            showLabels={false}
+            preserveAspectRatio="xMidYMid slice"
+            className="h-full w-full"
+          />
+          {/* A soft, even wash toward the ground colour so the map recedes and
+              the headline keeps full contrast wherever text falls on it. */}
+          <div className="absolute inset-0 bg-frost/55" />
+        </div>
+        <div className="relative mx-auto flex max-w-container flex-col items-start gap-7 px-4 py-20 md:px-6 md:py-28">
+          <Eyebrow>{t("eyebrow")}</Eyebrow>
+          <h1 className="type-display-xl max-w-4xl text-iron">
+            {t("title", { low: RETURN_RANGE.low, high: RETURN_RANGE.high })}
+          </h1>
+          <p className="type-body-l max-w-2xl text-iron/80">{t("support")}</p>
+          {/* The flags earn their place: seven markets is the differentiator,
+              and a row of flags says it faster than a sentence. */}
+          <ul className="flex flex-wrap items-center gap-x-5 gap-y-3">
+            {MARKETS.map((m) => (
+              <li key={m.key} className="flex items-center gap-2">
+                <span aria-hidden className="text-2xl leading-none">
+                  {m.flag}
+                </span>
+                <span className="type-micro uppercase tracking-eyebrow text-iron/80">
+                  {m.name === "United Arab Emirates" ? "UAE" : m.name}
+                </span>
+              </li>
+            ))}
+          </ul>
+          <div className="flex flex-wrap gap-4">
+            <Link
+              href="/projects"
+              className="type-eyebrow bg-iron px-6 py-3.5 text-ash transition-colors duration-fast ease-brand hover:bg-iron/85"
+            >
+              {t("ctaShortlist")}
+            </Link>
+            <Link
+              href="/mortgages/calculator"
+              className="type-eyebrow border border-iron px-6 py-3.5 text-iron transition-colors duration-fast ease-brand hover:bg-iron hover:text-ash"
+            >
+              {t("ctaBorrow")}
+            </Link>
           </div>
         </div>
       </section>

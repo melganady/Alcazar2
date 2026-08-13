@@ -68,14 +68,22 @@ const toPath = geoPath(projection);
 export function WorldMap({
   showLabels = true,
   className,
+  /** Faint land, faint dots — for sitting behind text rather than beside it. */
+  tone = "default",
+  /** "slice" crops to fill its box (a background); "meet" (default) fits whole. */
+  preserveAspectRatio,
 }: {
   /** Off for the compact hero panel — return figures crowd at small sizes. */
   showLabels?: boolean;
   className?: string;
+  tone?: "default" | "muted";
+  preserveAspectRatio?: "xMidYMid slice" | "xMidYMid meet";
 }) {
+  const muted = tone === "muted";
   return (
     <svg
       viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
+      preserveAspectRatio={preserveAspectRatio}
       className={className ?? "h-auto w-full"}
       role="img"
       aria-label={`World map marking the countries Alcázar operates in: ${MARKETS.map((m) => m.name).join(", ")}.`}
@@ -90,7 +98,15 @@ export function WorldMap({
             <path
               key={String(f.id)}
               d={d}
-              className={isMarket ? "fill-pine stroke-linen" : "fill-ash/70 stroke-linen"}
+              className={
+                muted
+                  ? isMarket
+                    ? "fill-pine/25 stroke-frost"
+                    : "fill-ash/25 stroke-frost"
+                  : isMarket
+                    ? "fill-pine stroke-linen"
+                    : "fill-ash/70 stroke-linen"
+              }
               strokeWidth={0.5}
             />
           );
@@ -106,9 +122,15 @@ export function WorldMap({
           <g key={m.key}>
             {/* A ring on live markets, so the eye lands there first. */}
             {m.live ? (
-              <circle cx={x} cy={y} r={13} className="fill-none stroke-iron" strokeWidth={1.5} />
+              <circle
+                cx={x}
+                cy={y}
+                r={13}
+                className={muted ? "fill-none stroke-iron/35" : "fill-none stroke-iron"}
+                strokeWidth={1.5}
+              />
             ) : null}
-            <circle cx={x} cy={y} r={4.5} className="fill-iron" />
+            <circle cx={x} cy={y} r={4.5} className={muted ? "fill-iron/45" : "fill-iron"} />
             <circle cx={x} cy={y} r={1.75} className="fill-frost" />
             {showLabels ? (
               <text
