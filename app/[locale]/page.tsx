@@ -14,7 +14,7 @@ import { brokerNumber, getComplianceIdentity } from "@/lib/legalEntity";
 import { whatsappHref } from "@/lib/credentials";
 import { WhatsAppLink } from "@/components/analytics/WhatsAppLink";
 import { baseWhere } from "@/lib/projects";
-import { getShowcaseImages, getSlides } from "@/lib/showcase";
+import { getHeroShowcase, getShowcaseImages, getSlides } from "@/lib/showcase";
 import { loadMortgageConstants } from "@/lib/mortgage/loadConstants";
 import {
   RETURN_RANGE,
@@ -38,7 +38,9 @@ export default async function HomePage({
   const t = await getTranslations("home");
 
   const payload = await getPayloadClient();
-  const [slides, showcase, shortlist, stats, constants, articles, agents, identity] = await Promise.all([
+  const [heroImage, slides, showcase, shortlist, stats, constants, articles, agents, identity] =
+    await Promise.all([
+    getHeroShowcase(),
     getSlides(6),
     getShowcaseImages(2),
     payload.find({
@@ -74,40 +76,91 @@ export default async function HomePage({
 
   return (
     <CompareProvider>
-      {/* 1 — Hero. Typographic on the frost ground; iron carries the headline. */}
-      <section className="mx-auto flex max-w-container flex-col items-start gap-7 px-4 py-20 md:px-6 md:py-28">
-        <Eyebrow>{t("eyebrow")}</Eyebrow>
-        <h1 className="type-display-xl max-w-4xl text-iron">
-          {t("title", { low: RETURN_RANGE.low, high: RETURN_RANGE.high })}
-        </h1>
-        <p className="type-body-l max-w-2xl text-iron/80">{t("support")}</p>
-        {/* The flags earn their place: seven markets is the differentiator,
-            and a row of flags says it faster than a sentence. */}
-        <ul className="flex flex-wrap items-center gap-x-5 gap-y-3">
-          {MARKETS.map((m) => (
-            <li key={m.key} className="flex items-center gap-2">
-              <span aria-hidden className="text-2xl leading-none">
-                {m.flag}
-              </span>
-              <span className="type-micro uppercase tracking-eyebrow text-iron/80">
-                {m.name === "United Arab Emirates" ? "UAE" : m.name}
-              </span>
-            </li>
-          ))}
-        </ul>
-        <div className="flex flex-wrap gap-4">
-          <Link
-            href="/projects"
-            className="type-eyebrow bg-iron px-6 py-3.5 text-ash transition-colors duration-fast ease-brand hover:bg-iron/85"
+      {/* 1 — Hero. A licensed seafront render behind the headline when we have
+          one worth leading with; iron scrim keeps the type legible either
+          way, and the copy falls back to the plain frost ground if not. */}
+      <section className="relative isolate overflow-hidden border-b border-rule">
+        {heroImage ? (
+          <div className="absolute inset-0 -z-10">
+            <Image
+              src={heroImage.url}
+              alt={heroImage.alt}
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-iron via-iron/70 to-iron/30" />
+          </div>
+        ) : null}
+        <div
+          className={`mx-auto flex max-w-container flex-col items-start gap-7 px-4 py-20 md:px-6 md:py-28 ${
+            heroImage ? "min-h-[34rem] justify-end md:min-h-[40rem]" : ""
+          }`}
+        >
+          <Eyebrow tone={heroImage ? "reversed" : "default"}>{t("eyebrow")}</Eyebrow>
+          <h1
+            className={`type-display-xl max-w-4xl ${heroImage ? "text-frost" : "text-iron"}`}
           >
-            {t("ctaShortlist")}
-          </Link>
-          <Link
-            href="/mortgages/calculator"
-            className="type-eyebrow border border-iron px-6 py-3.5 text-iron transition-colors duration-fast ease-brand hover:bg-iron hover:text-ash"
-          >
-            {t("ctaBorrow")}
-          </Link>
+            {t("title", { low: RETURN_RANGE.low, high: RETURN_RANGE.high })}
+          </h1>
+          <p className={`type-body-l max-w-2xl ${heroImage ? "text-frost/90" : "text-iron/80"}`}>
+            {t("support")}
+          </p>
+          {/* The flags earn their place: seven markets is the differentiator,
+              and a row of flags says it faster than a sentence. */}
+          <ul className="flex flex-wrap items-center gap-x-5 gap-y-3">
+            {MARKETS.map((m) => (
+              <li key={m.key} className="flex items-center gap-2">
+                <span aria-hidden className="text-2xl leading-none">
+                  {m.flag}
+                </span>
+                <span
+                  className={`type-micro uppercase tracking-eyebrow ${
+                    heroImage ? "text-frost/90" : "text-iron/80"
+                  }`}
+                >
+                  {m.name === "United Arab Emirates" ? "UAE" : m.name}
+                </span>
+              </li>
+            ))}
+          </ul>
+          <div className="flex flex-wrap gap-4">
+            {heroImage ? (
+              <>
+                <Link
+                  href="/projects"
+                  className="type-eyebrow bg-frost px-6 py-3.5 text-iron transition-colors duration-fast ease-brand hover:bg-frost/85"
+                >
+                  {t("ctaShortlist")}
+                </Link>
+                <Link
+                  href="/mortgages/calculator"
+                  className="type-eyebrow border border-frost px-6 py-3.5 text-frost transition-colors duration-fast ease-brand hover:bg-frost hover:text-iron"
+                >
+                  {t("ctaBorrow")}
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link
+                  href="/projects"
+                  className="type-eyebrow bg-iron px-6 py-3.5 text-ash transition-colors duration-fast ease-brand hover:bg-iron/85"
+                >
+                  {t("ctaShortlist")}
+                </Link>
+                <Link
+                  href="/mortgages/calculator"
+                  className="type-eyebrow border border-iron px-6 py-3.5 text-iron transition-colors duration-fast ease-brand hover:bg-iron hover:text-ash"
+                >
+                  {t("ctaBorrow")}
+                </Link>
+              </>
+            )}
+          </div>
+          {heroImage ? (
+            <p className="type-micro text-frost/70">{heroImage.project}</p>
+          ) : null}
         </div>
       </section>
 

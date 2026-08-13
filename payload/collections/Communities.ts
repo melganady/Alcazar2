@@ -1,12 +1,17 @@
 import type { CollectionConfig } from "payload";
 import { COUNTRY_OPTIONS, REGION_OPTIONS } from "./markets";
 import { fixtureField, hideFixtures } from "./shared";
+import { revalidateDirectoryEntry, revalidateDirectoryEntryOnDelete } from "../hooks/revalidate";
 
 export const Communities: CollectionConfig = {
   slug: "communities",
   admin: { useAsTitle: "name", defaultColumns: ["name", "region", "country"] },
   access: { read: () => true },
-  hooks: { beforeOperation: [hideFixtures] },
+  hooks: {
+    beforeOperation: [hideFixtures],
+    afterChange: [revalidateDirectoryEntry("communities")],
+    afterDelete: [revalidateDirectoryEntryOnDelete("communities")],
+  },
   fields: [
     fixtureField,
     { name: "slug", type: "text", required: true, unique: true, index: true },

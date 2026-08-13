@@ -1,11 +1,16 @@
 import type { CollectionConfig } from "payload";
 import { fixtureField, hideFixtures } from "./shared";
+import { revalidateDirectoryEntry, revalidateDirectoryEntryOnDelete } from "../hooks/revalidate";
 
 export const Developers: CollectionConfig = {
   slug: "developers",
   admin: { useAsTitle: "name", defaultColumns: ["name", "alcazarPanelStatus"] },
   access: { read: () => true },
-  hooks: { beforeOperation: [hideFixtures] },
+  hooks: {
+    beforeOperation: [hideFixtures],
+    afterChange: [revalidateDirectoryEntry("developers")],
+    afterDelete: [revalidateDirectoryEntryOnDelete("developers")],
+  },
   fields: [
     fixtureField,
     { name: "slug", type: "text", required: true, unique: true, index: true },
