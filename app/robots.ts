@@ -7,8 +7,9 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: "/",
-        // Admin, API and the compare scratch view carry nothing worth indexing.
-        disallow: ["/admin", "/api/", "/projects/compare"],
+        // Admin, the CRM, API and the compare scratch view carry nothing
+        // worth indexing — /crm is also gated by auth and a per-page noindex.
+        disallow: ["/admin", "/crm", "/api/", "/projects/compare"],
       },
     ],
     sitemap: [

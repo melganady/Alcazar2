@@ -1,12 +1,14 @@
 import type { CollectionConfig } from "payload";
 import { getCrmAdapter } from "@/lib/crm";
 import { autoresponderHtml, getEmailAdapter } from "@/lib/email";
+import { newLeadAlertHtml, getInternalAlertAdapter } from "@/lib/notifications";
+import { PIPELINE_STAGES, STAGE_LABEL, adminOnly, leadVisibilityWhere } from "./crmShared";
 
 export const Leads: CollectionConfig = {
   slug: "leads",
   admin: {
     useAsTitle: "name",
-    defaultColumns: ["name", "residencyStatus", "budgetBandAED", "createdAt"],
+    defaultColumns: ["name", "pipelineStage", "assignedAgent", "sourceProject", "createdAt"],
     description: "PDPL: lawful basis is captured per submission; deletion requests are honoured here.",
   },
   hooks: {
@@ -67,15 +69,128 @@ export const Leads: CollectionConfig = {
         } catch (err) {
           req.payload.logger.error(`Autoresponder threw: ${String(err)}`);
         }
+
+        // Alcázar CRM — alert the team the moment a lead lands, so no one
+        // finds out from the client first. Failure never blocks the lead.
+        try {
+          let sourceLabel = doc.sourcePage || "General enquiry";
+          if (doc.sourceProject) {
+            try {
+              const project = await req.payload.findByID({
+                collection: "projects",
+                id: typeof doc.sourceProject === "object" ? doc.sourceProject.id : doc.sourceProject,
+                depth: 0,
+              });
+              if (project?.name) sourceLabel = project.name;
+            } catch {
+              // Relationship may have been deleted; fall back to sourcePage.
+            }
+          }
+          const alert = getInternalAlertAdapter();
+          const result = await alert.send({
+            leadName: doc.name,
+            leadEmail: doc.email ?? undefined,
+            leadPhone: doc.phone ?? undefined,
+            sourceLabel,
+            crmUrl: `${process.env.NEXT_PUBLIC_SITE_URL ?? ""}/crm/leads/${doc.id}`,
+            html: newLeadAlertHtml({
+              leadName: doc.name,
+              leadEmail: doc.email,
+              leadPhone: doc.phone,
+              sourceLabel,
+              message: doc.message,
+              crmUrl: `${process.env.NEXT_PUBLIC_SITE_URL ?? ""}/crm/leads/${doc.id}`,
+            }),
+          });
+          await req.payload.create({
+            collection: "lead-activity",
+            data: {
+              lead: doc.id,
+              kind: "notification",
+              message: result.ok
+                ? `Team alerted via ${alert.name} — ${sourceLabel}`
+                : `Team alert via ${alert.name} failed: ${result.error ?? "unknown error"}`,
+            },
+          });
+        } catch (err) {
+          req.payload.logger.error(`New-lead alert threw: ${String(err)}`);
+        }
+      },
+      // Alcázar CRM — activity feed. Runs after the notification hook above
+      // so "Lead created" always appears before "Team alerted".
+      async ({ doc, previousDoc, operation, req }) => {
+        try {
+          if (operation === "create") {
+            await req.payload.create({
+              collection: "lead-activity",
+              data: {
+                lead: doc.id,
+                kind: "stage-change",
+                message: `Lead created — stage: ${STAGE_LABEL[doc.pipelineStage] ?? doc.pipelineStage}`,
+                actor: req.user?.id,
+              },
+            });
+            return;
+          }
+          if (previousDoc && previousDoc.pipelineStage !== doc.pipelineStage) {
+            await req.payload.create({
+              collection: "lead-activity",
+              data: {
+                lead: doc.id,
+                kind: "stage-change",
+                message: `Stage changed: ${STAGE_LABEL[previousDoc.pipelineStage] ?? previousDoc.pipelineStage ?? "—"} → ${STAGE_LABEL[doc.pipelineStage] ?? doc.pipelineStage}`,
+                actor: req.user?.id,
+              },
+            });
+          }
+          const prevAgent = previousDoc?.assignedAgent
+            ? typeof previousDoc.assignedAgent === "object"
+              ? previousDoc.assignedAgent.id
+              : previousDoc.assignedAgent
+            : null;
+          const nextAgent = doc.assignedAgent
+            ? typeof doc.assignedAgent === "object"
+              ? doc.assignedAgent.id
+              : doc.assignedAgent
+            : null;
+          if (previousDoc && prevAgent !== nextAgent) {
+            let message = "Unassigned";
+            if (nextAgent) {
+              try {
+                const agentUser = await req.payload.findByID({ collection: "users", id: nextAgent, depth: 0 });
+                message = `Assigned to ${agentUser?.name || agentUser?.email || "team member"}`;
+              } catch {
+                message = "Assigned";
+              }
+            }
+            await req.payload.create({
+              collection: "lead-activity",
+              data: { lead: doc.id, kind: "assignment", message, actor: req.user?.id },
+            });
+          }
+        } catch (err) {
+          req.payload.logger.error(`lead-activity write failed (lead): ${String(err)}`);
+        }
       },
     ],
   },
   access: {
-    // Created via server actions only; readable by staff only
-    read: ({ req }) => Boolean(req.user),
+    // Created via server actions only. Reads/edits: admins see every lead;
+    // agents see leads assigned to them plus unassigned ones (so there is
+    // something to claim). Deletes are admin-only — an agent losing a lead
+    // by mistake should never be one click away.
+    read: ({ req }) => {
+      if (!req.user) return false;
+      if (req.user.role === "admin") return true;
+      return leadVisibilityWhere(req.user.id);
+    },
     create: () => true,
-    update: ({ req }) => Boolean(req.user),
-    delete: ({ req }) => Boolean(req.user),
+    update: ({ req }) => {
+      if (!req.user) return false;
+      if (req.user.role === "admin") return true;
+      return leadVisibilityWhere(req.user.id);
+    },
+    delete: adminOnly,
   },
   fields: [
     { name: "name", type: "text", required: true },
@@ -98,5 +213,22 @@ export const Leads: CollectionConfig = {
     { name: "currency", type: "text" },
     { name: "message", type: "textarea" },
     { name: "crmSyncedAt", type: "date" },
+    // ---- Alcázar CRM (Phase 4) ----
+    {
+      name: "pipelineStage",
+      type: "select",
+      required: true,
+      defaultValue: "new",
+      index: true,
+      options: PIPELINE_STAGES as unknown as { label: string; value: string }[],
+      admin: { position: "sidebar" },
+    },
+    {
+      name: "assignedAgent",
+      type: "relationship",
+      relationTo: "users",
+      index: true,
+      admin: { position: "sidebar", description: "Empty = unclaimed, visible to every agent in the New queue." },
+    },
   ],
 };

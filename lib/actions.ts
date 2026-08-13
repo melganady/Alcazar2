@@ -71,6 +71,8 @@ export async function createLead(formData: FormData) {
         sourcePage: String(formData.get("sourcePage") || "").slice(0, 300),
         locale: String(formData.get("locale") || "en"),
         message: message || undefined,
+        // Alcázar CRM — every lead starts unclaimed in the New queue.
+        pipelineStage: "new",
       },
     });
   }
@@ -107,6 +109,7 @@ export async function requestCalculatorPdf(
       sourcePage: "/mortgages/calculator",
       locale: String(formData.get("locale") || "en"),
       message: `Calculator PDF request. Scenario: ${String(formData.get("scenario") || "").slice(0, 1500)}`,
+      pipelineStage: "new",
     },
   });
   return { ok: true };
