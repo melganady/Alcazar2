@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { getPayloadClient } from "@/lib/payload";
 import { baseWhere } from "@/lib/projects";
 import { getCommunities, getDevelopers } from "@/lib/directory";
+import { staticParamsOrEmpty } from "@/lib/buildTime";
 import { absolute } from "@/lib/seo";
 
 /** §10 — sitemaps split by type, regenerated on publish via ISR. */
@@ -25,9 +26,9 @@ export default async function sitemap({
 }: {
   id: string;
 }): Promise<MetadataRoute.Sitemap> {
-  const payload = await getPayloadClient();
-
   if (id === "projects") {
+    return staticParamsOrEmpty("sitemap:projects", async () => {
+    const payload = await getPayloadClient();
     const res = await payload.find({
       collection: "projects",
       where: { and: baseWhere() },
@@ -36,22 +37,27 @@ export default async function sitemap({
       select: { slug: true, updatedAt: true },
     });
     return res.docs.map((p) => withAlternates(`/projects/${p.slug}`, p.updatedAt));
+    });
   }
 
   // Directory queries rather than the raw collections: a developer or area
   // with nothing publishable has no page worth crawling, and the feed carries
   // hundreds of names we hold only as a relationship target.
   if (id === "developers") {
-    const developers = await getDevelopers();
-    return developers.map((d) => withAlternates(`/developers/${d.slug}`));
+    return staticParamsOrEmpty("sitemap:developers", async () =>
+      (await getDevelopers()).map((d) => withAlternates(`/developers/${d.slug}`)),
+    );
   }
 
   if (id === "communities") {
-    const communities = await getCommunities();
-    return communities.map((c) => withAlternates(`/communities/${c.slug}`));
+    return staticParamsOrEmpty("sitemap:communities", async () =>
+      (await getCommunities()).map((c) => withAlternates(`/communities/${c.slug}`)),
+    );
   }
 
   if (id === "articles") {
+    return staticParamsOrEmpty("sitemap:articles", async () => {
+    const payload = await getPayloadClient();
     const res = await payload.find({
       collection: "articles",
       where: { publishedAt: { exists: true } },
@@ -60,6 +66,7 @@ export default async function sitemap({
       select: { slug: true, updatedAt: true },
     });
     return res.docs.map((a) => withAlternates(`/insights/${a.slug}`, a.updatedAt));
+    });
   }
 
   return [

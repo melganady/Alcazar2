@@ -7,6 +7,7 @@ import { Eyebrow } from "@/components/primitives/Eyebrow";
 import { ProjectCard } from "@/components/project/ProjectCard";
 import { CompareProvider } from "@/components/project/CompareProvider";
 import { getPayloadClient } from "@/lib/payload";
+import { staticParamsOrEmpty } from "@/lib/buildTime";
 import type { Agent, Project } from "@/payload-types";
 
 export const revalidate = 3600;
@@ -23,15 +24,17 @@ async function getArticle(slug: string) {
 }
 
 export async function generateStaticParams() {
-  const payload = await getPayloadClient();
-  const res = await payload.find({
-    collection: "articles",
-    where: { publishedAt: { exists: true } },
-    limit: 200,
-    depth: 0,
-    select: { slug: true },
+  return staticParamsOrEmpty("articles", async () => {
+    const payload = await getPayloadClient();
+    const res = await payload.find({
+      collection: "articles",
+      where: { publishedAt: { exists: true } },
+      limit: 200,
+      depth: 0,
+      select: { slug: true },
+    });
+    return res.docs.map((d) => ({ slug: d.slug }));
   });
-  return res.docs.map((d) => ({ slug: d.slug }));
 }
 
 export async function generateMetadata({

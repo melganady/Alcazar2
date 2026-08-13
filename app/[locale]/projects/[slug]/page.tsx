@@ -29,6 +29,7 @@ import { whatsappHref } from "@/lib/credentials";
 import { depositFor, INDICATIVE_LTV } from "@/lib/mortgage/indicative";
 import { createLead } from "@/lib/actions";
 import { formatBedrooms, formatHandoverOrDash } from "@/lib/format";
+import { staticParamsOrEmpty } from "@/lib/buildTime";
 import { alternates, breadcrumbJsonLd, planPhrase, projectJsonLd, projectTitle } from "@/lib/seo";
 import { TrackProjectView } from "@/components/analytics/TrackProjectView";
 import { WhatsAppLink } from "@/components/analytics/WhatsAppLink";
@@ -37,8 +38,10 @@ import type { Developer, Lender, Project } from "@/payload-types";
 export const revalidate = 3600;
 
 export async function generateStaticParams() {
-  const slugs = await getAllProjectSlugs();
-  return slugs.map((slug) => ({ slug }));
+  return staticParamsOrEmpty("projects", async () => {
+    const slugs = await getAllProjectSlugs();
+    return slugs.map((slug) => ({ slug }));
+  });
 }
 
 export async function generateMetadata({

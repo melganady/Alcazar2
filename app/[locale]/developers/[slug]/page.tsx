@@ -8,19 +8,22 @@ import { ProjectCard } from "@/components/project/ProjectCard";
 import { CompareProvider } from "@/components/project/CompareProvider";
 import { getDeveloperBySlug } from "@/lib/directory";
 import { getPayloadClient } from "@/lib/payload";
+import { staticParamsOrEmpty } from "@/lib/buildTime";
 import { alternates, breadcrumbJsonLd } from "@/lib/seo";
 
 export const revalidate = 3600;
 
 export async function generateStaticParams() {
-  const payload = await getPayloadClient();
-  const res = await payload.find({
-    collection: "developers",
-    limit: 300,
-    depth: 0,
-    select: { slug: true },
+  return staticParamsOrEmpty("developers", async () => {
+    const payload = await getPayloadClient();
+    const res = await payload.find({
+      collection: "developers",
+      limit: 300,
+      depth: 0,
+      select: { slug: true },
+    });
+    return res.docs.map((d) => ({ slug: d.slug }));
   });
-  return res.docs.map((d) => ({ slug: d.slug }));
 }
 
 export async function generateMetadata({

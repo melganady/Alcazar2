@@ -8,20 +8,23 @@ import { ProjectCard } from "@/components/project/ProjectCard";
 import { CompareProvider } from "@/components/project/CompareProvider";
 import { getCommunityBySlug } from "@/lib/directory";
 import { getPayloadClient } from "@/lib/payload";
+import { staticParamsOrEmpty } from "@/lib/buildTime";
 import { alternates, breadcrumbJsonLd, BASE_URL } from "@/lib/seo";
 import { formatHandoverOrDash } from "@/lib/format";
 
 export const revalidate = 3600;
 
 export async function generateStaticParams() {
-  const payload = await getPayloadClient();
-  const res = await payload.find({
-    collection: "communities",
-    limit: 300,
-    depth: 0,
-    select: { slug: true },
+  return staticParamsOrEmpty("communities", async () => {
+    const payload = await getPayloadClient();
+    const res = await payload.find({
+      collection: "communities",
+      limit: 300,
+      depth: 0,
+      select: { slug: true },
+    });
+    return res.docs.map((c) => ({ slug: c.slug }));
   });
-  return res.docs.map((c) => ({ slug: c.slug }));
 }
 
 export async function generateMetadata({
