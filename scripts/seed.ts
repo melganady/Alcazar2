@@ -99,12 +99,7 @@ const seed = async () => {
   if (users.totalDocs === 0) {
     await payload.create({
       collection: "users",
-      data: {
-        email: "admin@alcazar.ae",
-        password: "alcazar-dev-2026",
-        name: "Alcázar Admin",
-        role: "admin",
-      },
+      data: { email: "admin@alcazar.ae", password: "alcazar-dev-2026", name: "Alcázar Admin" },
     });
     console.log("Admin user: admin@alcazar.ae / alcazar-dev-2026");
   }

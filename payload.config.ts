@@ -16,9 +16,6 @@ import { Lenders } from "./payload/collections/Lenders";
 import { Agents } from "./payload/collections/Agents";
 import { Articles } from "./payload/collections/Articles";
 import { Leads } from "./payload/collections/Leads";
-import { LeadNotes } from "./payload/collections/LeadNotes";
-import { LeadTasks } from "./payload/collections/LeadTasks";
-import { LeadActivity } from "./payload/collections/LeadActivity";
 import { InternalProjectUniverse } from "./payload/collections/InternalProjectUniverse";
 import { SiteStats } from "./payload/globals/SiteStats";
 import { MortgageConstants } from "./payload/globals/MortgageConstants";
@@ -42,9 +39,6 @@ export default buildConfig({
     Agents,
     Articles,
     Leads,
-    LeadNotes,
-    LeadTasks,
-    LeadActivity,
     Media,
     Users,
     InternalProjectUniverse,

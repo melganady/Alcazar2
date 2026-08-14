@@ -16,15 +16,13 @@ const eslintConfig = [
     // The styleguide is exempt — it prints hex values as documentation text.
     files: ["app/**/*.{ts,tsx}", "components/**/*.{ts,tsx}", "lib/**/*.{ts,tsx}"],
     // Exempt by necessity, not convenience:
-    //   styleguide       — prints hex values as documentation text
-    //   lib/email        — mail clients do not support CSS variables
-    //   lib/notifications — same: the internal "new lead" alert is an email
-    //   app/og           — ImageResponse renders in isolation with no stylesheet
-    //   *.test.ts        — contrast tests assert on literal colour values
+    //   styleguide — prints hex values as documentation text
+    //   lib/email  — mail clients do not support CSS variables
+    //   app/og     — ImageResponse renders in isolation with no stylesheet
+    //   *.test.ts  — contrast tests assert on literal colour values
     ignores: [
       "app/**/styleguide/**",
       "lib/email/**",
-      "lib/notifications/**",
       "app/og/**",
       "**/*.test.ts",
     ],

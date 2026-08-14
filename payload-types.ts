@@ -74,9 +74,6 @@ export interface Config {
     agents: Agent;
     articles: Article;
     leads: Lead;
-    'lead-notes': LeadNote;
-    'lead-tasks': LeadTask;
-    'lead-activity': LeadActivity;
     media: Media;
     users: User;
     'internal-project-universe': InternalProjectUniverse;
@@ -94,9 +91,6 @@ export interface Config {
     agents: AgentsSelect<false> | AgentsSelect<true>;
     articles: ArticlesSelect<false> | ArticlesSelect<true>;
     leads: LeadsSelect<false> | LeadsSelect<true>;
-    'lead-notes': LeadNotesSelect<false> | LeadNotesSelect<true>;
-    'lead-tasks': LeadTasksSelect<false> | LeadTasksSelect<true>;
-    'lead-activity': LeadActivitySelect<false> | LeadActivitySelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     'internal-project-universe': InternalProjectUniverseSelect<false> | InternalProjectUniverseSelect<true>;
@@ -722,11 +716,6 @@ export interface Lead {
   currency?: string | null;
   message?: string | null;
   crmSyncedAt?: string | null;
-  pipelineStage: 'new' | 'contacted' | 'qualified' | 'viewing-scheduled' | 'offer-made' | 'closed-won' | 'closed-lost';
-  /**
-   * Empty = unclaimed, visible to every agent in the New queue.
-   */
-  assignedAgent?: (number | null) | User;
   updatedAt: string;
   createdAt: string;
 }
@@ -737,7 +726,6 @@ export interface Lead {
 export interface User {
   id: number;
   name?: string | null;
-  role: 'admin' | 'agent';
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -756,51 +744,6 @@ export interface User {
     | null;
   password?: string | null;
   collection: 'users';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "lead-notes".
- */
-export interface LeadNote {
-  id: number;
-  lead: number | Lead;
-  body: string;
-  author: number | User;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "lead-tasks".
- */
-export interface LeadTask {
-  id: number;
-  lead: number | Lead;
-  title: string;
-  dueDate?: string | null;
-  /**
-   * Optional — a time to be nudged before dueDate.
-   */
-  reminderAt?: string | null;
-  assignedTo: number | User;
-  done?: boolean | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * Auto-generated audit trail. Not edited by hand — see the CRM lead page.
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "lead-activity".
- */
-export interface LeadActivity {
-  id: number;
-  lead: number | Lead;
-  kind: 'stage-change' | 'assignment' | 'note' | 'task' | 'notification';
-  message: string;
-  actor?: (number | null) | User;
-  updatedAt: string;
-  createdAt: string;
 }
 /**
  * Internal competitive intelligence from the discovery crawl. Never published, never rendered. Facts only — no descriptions, no media.
@@ -889,18 +832,6 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'leads';
         value: number | Lead;
-      } | null)
-    | ({
-        relationTo: 'lead-notes';
-        value: number | LeadNote;
-      } | null)
-    | ({
-        relationTo: 'lead-tasks';
-        value: number | LeadTask;
-      } | null)
-    | ({
-        relationTo: 'lead-activity';
-        value: number | LeadActivity;
       } | null)
     | ({
         relationTo: 'media';
@@ -1232,45 +1163,6 @@ export interface LeadsSelect<T extends boolean = true> {
   currency?: T;
   message?: T;
   crmSyncedAt?: T;
-  pipelineStage?: T;
-  assignedAgent?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "lead-notes_select".
- */
-export interface LeadNotesSelect<T extends boolean = true> {
-  lead?: T;
-  body?: T;
-  author?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "lead-tasks_select".
- */
-export interface LeadTasksSelect<T extends boolean = true> {
-  lead?: T;
-  title?: T;
-  dueDate?: T;
-  reminderAt?: T;
-  assignedTo?: T;
-  done?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "lead-activity_select".
- */
-export interface LeadActivitySelect<T extends boolean = true> {
-  lead?: T;
-  kind?: T;
-  message?: T;
-  actor?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1299,7 +1191,6 @@ export interface MediaSelect<T extends boolean = true> {
  */
 export interface UsersSelect<T extends boolean = true> {
   name?: T;
-  role?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;
