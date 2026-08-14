@@ -16,7 +16,7 @@ export const revalidate = 3600;
 export const metadata: Metadata = {
   title: "Contact",
   description:
-    "Reach an Alcázar consultant on WhatsApp or by form. Offices in Dubai. Residency status first — it changes what we show you.",
+    "Reach an REIN Investment consultant on WhatsApp or by form. Offices in Dubai. Residency status first — it changes what we show you.",
 };
 
 export default async function ContactPage({
@@ -39,7 +39,7 @@ export default async function ContactPage({
   return (
     <>
       <PageHero
-        eyebrow="Alcázar · Contact"
+        eyebrow="REIN Investment · Contact"
         title="Start with a brief"
         support="Twenty minutes, no deck. Tell us the budget, the residency status and the exit horizon — the rest follows from those three."
         compact
@@ -48,18 +48,18 @@ export default async function ContactPage({
       <div className="grid gap-10 md:grid-cols-[minmax(0,22rem)_1fr]">
         <aside className="flex flex-col gap-6">
           {agent ? (
-            <div className="flex flex-col gap-1 border border-rule bg-linen p-5">
-              <p className="type-micro uppercase text-iron/80">{t("consultant")}</p>
-              <p className="type-display-s text-iron">{agent.name}</p>
-              <p className="type-body-s text-iron/80">{agent.role}</p>
+            <div className="flex flex-col gap-1 border border-rule bg-surface p-5">
+              <p className="type-micro uppercase text-navy/80">{t("consultant")}</p>
+              <p className="type-display-s text-navy">{agent.name}</p>
+              <p className="type-body-s text-navy/80">{agent.role}</p>
               {brokerNumber(agent.brn, agent.brnExpiry) ? (
-                <p className="type-micro text-iron/80">{brokerNumber(agent.brn, agent.brnExpiry)}</p>
+                <p className="type-micro text-navy/80">{brokerNumber(agent.brn, agent.brnExpiry)}</p>
               ) : null}
               <div className="mt-3 flex flex-wrap gap-3">
                 {waHref ? (
                   <a
                     href={waHref}
-                    className="type-eyebrow bg-iron px-4 py-2.5 text-ash transition-colors duration-fast ease-brand hover:bg-iron/85"
+                    className="type-eyebrow bg-navy px-4 py-2.5 text-chalk transition-colors duration-fast ease-brand hover:bg-navy/85"
                   >
                     WhatsApp
                   </a>
@@ -67,7 +67,7 @@ export default async function ContactPage({
                 {agent.email ? (
                   <a
                     href={`mailto:${agent.email}`}
-                    className="type-eyebrow border border-iron px-4 py-2.5 text-iron transition-colors duration-fast ease-brand hover:bg-iron hover:text-ash"
+                    className="type-eyebrow border border-navy px-4 py-2.5 text-navy transition-colors duration-fast ease-brand hover:bg-navy hover:text-chalk"
                   >
                     Email
                   </a>
@@ -76,22 +76,22 @@ export default async function ContactPage({
             </div>
           ) : null}
 
-          <div className="flex flex-col gap-2 border border-rule bg-linen p-5">
-            <p className="type-micro uppercase text-iron/80">Office</p>
-            <p className="type-body-s text-iron">{identity.licenceLine ?? identity.brandName}</p>
+          <div className="flex flex-col gap-2 border border-rule bg-surface p-5">
+            <p className="type-micro uppercase text-navy/80">Office</p>
+            <p className="type-body-s text-navy">{identity.licenceLine ?? identity.brandName}</p>
             {identity.address ? (
-              <p className="type-body-s whitespace-pre-line text-iron/80">{identity.address}</p>
+              <p className="type-body-s whitespace-pre-line text-navy/80">{identity.address}</p>
             ) : null}
-            <p className="type-body-s text-iron/80">{identity.city}</p>
+            <p className="type-body-s text-navy/80">{identity.city}</p>
             {identity.phone ? (
-              <a href={`tel:${identity.phone.replace(/\s/g, "")}`} className="type-body-s text-iron underline-offset-4 hover:underline">
+              <a href={`tel:${identity.phone.replace(/\s/g, "")}`} className="type-body-s text-navy underline-offset-4 hover:underline">
                 {identity.phone}
               </a>
             ) : null}
             {identity.email ? (
               <a
                 href={`mailto:${identity.email}`}
-                className="type-body-s text-iron underline-offset-4 hover:underline"
+                className="type-body-s text-navy underline-offset-4 hover:underline"
               >
                 {identity.email}
               </a>
@@ -102,12 +102,12 @@ export default async function ContactPage({
               <WhatsAppLink
                 href={waHref}
                 source="contact-office"
-                className="type-eyebrow mt-3 self-start bg-iron px-4 py-2.5 text-ash transition-colors duration-fast ease-brand hover:bg-iron/85"
+                className="type-eyebrow mt-3 self-start bg-navy px-4 py-2.5 text-chalk transition-colors duration-fast ease-brand hover:bg-navy/85"
               >
                 WhatsApp
               </WhatsAppLink>
             ) : null}
-            <p className="type-micro mt-2 text-iron/80">
+            <p className="type-micro mt-2 text-navy/80">
               {identity.registrations.join(" · ")}
             </p>
           </div>
@@ -115,7 +115,7 @@ export default async function ContactPage({
 
         <div className="flex flex-col gap-6">
           <Suspense fallback={null}>
-            <SentBanner consultant={agent?.name ?? "Alcázar"} />
+            <SentBanner consultant={agent?.name ?? "REIN Investment"} />
           </Suspense>
 
           <form action={createLead} className="grid gap-4 sm:grid-cols-2">
@@ -156,28 +156,28 @@ export default async function ContactPage({
             </div>
 
             {/* PDPL — granular, separate, unticked (§11.7) */}
-            <label className="type-body-s flex items-start gap-2 text-iron">
-              <input type="checkbox" name="financeNeeded" className="mt-1 h-4 w-4 accent-[var(--iron-grey)]" />
+            <label className="type-body-s flex items-start gap-2 text-navy">
+              <input type="checkbox" name="financeNeeded" className="mt-1 h-4 w-4 accent-[var(--rein-navy)]" />
               {t("formFinance")}
             </label>
-            <label className="type-body-s flex items-start gap-2 text-iron">
-              <input type="checkbox" name="whatsappConsent" className="mt-1 h-4 w-4 accent-[var(--iron-grey)]" />
+            <label className="type-body-s flex items-start gap-2 text-navy">
+              <input type="checkbox" name="whatsappConsent" className="mt-1 h-4 w-4 accent-[var(--rein-navy)]" />
               {t("formWhatsappConsent")}
             </label>
-            <label className="type-body-s flex items-start gap-2 text-iron sm:col-span-2">
-              <input type="checkbox" name="marketingConsent" className="mt-1 h-4 w-4 accent-[var(--iron-grey)]" />
+            <label className="type-body-s flex items-start gap-2 text-navy sm:col-span-2">
+              <input type="checkbox" name="marketingConsent" className="mt-1 h-4 w-4 accent-[var(--rein-navy)]" />
               Send me occasional market notes. Separate from the reply to this enquiry.
             </label>
 
             <button
               type="submit"
-              className="type-eyebrow bg-iron px-6 py-3.5 text-ash transition-colors duration-fast ease-brand hover:bg-iron/85 sm:col-span-2 sm:justify-self-start"
+              className="type-eyebrow bg-navy px-6 py-3.5 text-chalk transition-colors duration-fast ease-brand hover:bg-navy/85 sm:col-span-2 sm:justify-self-start"
             >
               {t("formSubmit")}
             </button>
           </form>
 
-          <p className="type-micro max-w-2xl text-iron/80">
+          <p className="type-micro max-w-2xl text-navy/80">
             We process your details to respond to this enquiry, under our privacy
             policy. Marketing and WhatsApp consent are separate and optional, and
             you can ask us to delete your data at any time.

@@ -48,22 +48,22 @@ export function PrefsProvider({ children }: { children: ReactNode }) {
   const [unit, setUnitState] = useState<AreaUnit>("sqft");
 
   useEffect(() => {
-    const c = readCookie("alcazar-currency");
+    const c = readCookie("rein-currency");
     if (c && (CURRENCIES as readonly string[]).includes(c)) {
       setCurrencyState(c as Currency);
     }
-    const u = readCookie("alcazar-unit");
+    const u = readCookie("rein-unit");
     if (u === "sqft" || u === "sqm") setUnitState(u);
   }, []);
 
   const setCurrency = useCallback((c: Currency) => {
     setCurrencyState(c);
-    persist("alcazar-currency", c);
+    persist("rein-currency", c);
   }, []);
 
   const setUnit = useCallback((u: AreaUnit) => {
     setUnitState(u);
-    persist("alcazar-unit", u);
+    persist("rein-unit", u);
   }, []);
 
   return (

@@ -48,7 +48,7 @@
     "mapSupport": "Seven markets, each with its own regime, its own currency and its own reason to be on the list."
   },
   "brand": {
-    "tagline": "The address before it exists."
+    "tagline": "Fresh thinking, real income."
   },
   "prefs": {
     "language": "Language",
@@ -77,7 +77,7 @@
     "status": "Status",
     "mortgageable": "Mortgageable",
     "goldenVisa": "Golden Visa eligible",
-    "shortlistedOnly": "Alcázar shortlist only",
+    "shortlistedOnly": "REIN Investment shortlist only",
     "sort": "Sort",
     "sortRelevance": "Relevance",
     "sortPriceAsc": "Price, low to high",
@@ -193,7 +193,7 @@
     "formSubmit": "Send enquiry",
     "formSent": "Received. {consultant} will reply within one working day.",
     "legalPermit": "Trakheesi permit no. {number}",
-    "legalEscrow": "Purchase payments are made to the developer's DLD-registered escrow account. Alcázar does not hold client funds.",
+    "legalEscrow": "Purchase payments are made to the developer's DLD-registered escrow account. REIN Investment does not hold client funds.",
     "legalPrices": "Prices, availability and handover dates are set by the developer and subject to change.",
     "legalProjections": "Projections are not guarantees. Off-plan property carries construction, delivery, market and liquidity risk. Values can fall.",
     "amenitiesTitle": "Amenities",
@@ -278,17 +278,17 @@
     "pdfTitle": "Email me this breakdown",
     "pdfCta": "Send the PDF",
     "pdfSent": "Request received. The breakdown is on its way to your inbox.",
-    "disclaimer": "Indicative only — not an offer of finance. Lender criteria and rates vary and approval is not guaranteed. Alcázar acts as an intermediary and is not a lender. Your property may be repossessed if you do not keep up repayments.",
+    "disclaimer": "Indicative only — not an offer of finance. Lender criteria and rates vary and approval is not guaranteed. REIN Investment acts as an intermediary and is not a lender. Your property may be repossessed if you do not keep up repayments.",
     "constantsNote": "Caps and fees effective {date}. {source}"
   },
   "footer": {
-    "escrow": "Purchase payments are made to the developer's DLD-registered escrow account. Alcázar does not hold client funds.",
+    "escrow": "Purchase payments are made to the developer's DLD-registered escrow account. REIN Investment does not hold client funds.",
     "investment": "Projections are not guarantees. Off-plan property carries construction, delivery, market and liquidity risk. Values can fall.",
-    "mortgage": "Alcázar acts as an intermediary and is not a lender. Financing figures are indicative only and approval is not guaranteed.",
-    "rights": "© {year} Alcázar. All rights reserved."
+    "mortgage": "REIN Investment acts as an intermediary and is not a lender. Financing figures are indicative only and approval is not guaranteed.",
+    "rights": "© {year} REIN Investment. All rights reserved."
   },
   "secondary": {
-    "eyebrow": "Alcázar · Secondary market",
+    "eyebrow": "REIN Investment · Secondary market",
     "badge": "Secondary market",
     "title": "Resale, worldwide",
     "support": "A second desk, for completed property rather than off-plan — income-producing, financeable at full LTV, and priced against what actually sold.",

@@ -67,7 +67,7 @@ export function ProjectGallery({
         type="button"
         onClick={openAt(0)}
         aria-label={`${hero.alt} — open gallery`}
-        className="group relative block aspect-[21/9] w-full overflow-hidden bg-linen"
+        className="group relative block aspect-[21/9] w-full overflow-hidden bg-surface"
       >
         <Image
           src={hero.url}
@@ -78,7 +78,7 @@ export function ProjectGallery({
           className="object-cover"
         />
         {permitNumber || developer ? (
-          <span className="type-micro absolute bottom-0 end-0 bg-frost/90 px-3 py-1.5 text-iron/80">
+          <span className="type-micro absolute bottom-0 end-0 bg-paper/90 px-3 py-1.5 text-navy/80">
             {permitNumber ? `Trakheesi permit no. ${permitNumber}` : null}
             {permitNumber && developer ? " · " : null}
             {developer}
@@ -95,7 +95,7 @@ export function ProjectGallery({
                 type="button"
                 onClick={openAt(i + 1)}
                 aria-label={`${img.alt} — open gallery`}
-                className="group relative block aspect-[4/3] w-full overflow-hidden bg-linen"
+                className="group relative block aspect-[4/3] w-full overflow-hidden bg-surface"
               >
                 <Image
                   src={img.url}
@@ -111,7 +111,7 @@ export function ProjectGallery({
         </ul>
       ) : null}
 
-      <p className="type-micro text-iron/80">
+      <p className="type-micro text-navy/80">
         {images.length} {images.length === 1 ? "render" : "renders"} supplied under licence
         {developer ? ` · ${developer}` : ""}. Renders are the developer&rsquo;s and are
         indicative; finishes and views are subject to change.
@@ -125,11 +125,11 @@ export function ProjectGallery({
           if (e.target === dialogRef.current) close();
         }}
         aria-label="Project gallery"
-        className="max-h-[92vh] w-full max-w-6xl bg-transparent p-0 backdrop:bg-iron/80"
+        className="max-h-[92vh] w-full max-w-6xl bg-transparent p-0 backdrop:bg-navy/80"
       >
         {open !== null ? (
           <div className="flex flex-col gap-3">
-            <div className="relative aspect-[3/2] w-full bg-iron">
+            <div className="relative aspect-[3/2] w-full bg-navy">
               <Image
                 src={images[open].url}
                 alt={images[open].alt}
@@ -138,10 +138,10 @@ export function ProjectGallery({
                 className="object-contain"
               />
             </div>
-            <div className="flex items-center justify-between gap-4 bg-frost px-4 py-3">
-              <p className="type-body-s text-iron">
+            <div className="flex items-center justify-between gap-4 bg-paper px-4 py-3">
+              <p className="type-body-s text-navy">
                 {images[open].alt}
-                <span className="ms-3 text-iron/80">
+                <span className="ms-3 text-navy/80">
                   {open + 1} / {images.length}
                 </span>
               </p>
@@ -185,8 +185,8 @@ function LightboxButton({
       aria-label={label}
       onClick={onClick}
       className={cn(
-        "type-body flex h-9 w-9 items-center justify-center border border-pine text-iron",
-        "transition-colors duration-fast ease-brand hover:bg-pine/25",
+        "type-body flex h-9 w-9 items-center justify-center border border-steel text-navy",
+        "transition-colors duration-fast ease-brand hover:bg-steel/25",
       )}
     >
       {children}

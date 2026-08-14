@@ -33,7 +33,7 @@ export async function getComplianceIdentity(): Promise<ComplianceIdentity> {
   const payload = await getPayloadClient();
   const e = await payload.findGlobal({ slug: "legal-entity" });
 
-  const brandName = e?.brandName || "Alcázar";
+  const brandName = e?.brandName || "REIN Investment";
   const hidden = e?.displayMode === "brand-only";
 
   // A lapsed licence is never published: putting an expired number on a live

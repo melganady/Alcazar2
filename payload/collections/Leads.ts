@@ -47,8 +47,8 @@ export const Leads: CollectionConfig = {
               const result = await email.send({
                 to: doc.email,
                 subject: isCareer
-                  ? "Your application — Alcázar"
-                  : "Your enquiry — Alcázar",
+                  ? "Your application — REIN Investment"
+                  : "Your enquiry — REIN Investment",
                 replyTo: agent.email ?? undefined,
                 html: autoresponderHtml({
                   leadName: doc.name,

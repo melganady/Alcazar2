@@ -23,7 +23,7 @@ export function WhatsAppLink({
       href={href}
       onClick={() => track({ name: "whatsapp_click", source, slug })}
       className={cn(
-        "type-eyebrow bg-iron px-6 py-3.5 text-ash transition-colors duration-fast ease-brand hover:bg-iron/85",
+        "type-eyebrow bg-navy px-6 py-3.5 text-chalk transition-colors duration-fast ease-brand hover:bg-navy/85",
         className,
       )}
     >

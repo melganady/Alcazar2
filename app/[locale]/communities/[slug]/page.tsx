@@ -135,8 +135,8 @@ export default async function CommunityPage({
 
         {community.description ? (
           <section className="flex max-w-3xl flex-col gap-3">
-            <h2 className="type-display-m text-iron">The area</h2>
-            <div className="type-body text-iron/80 [&_p]:mb-3">
+            <h2 className="type-display-m text-navy">The area</h2>
+            <div className="type-body text-navy/80 [&_p]:mb-3">
               <RichText data={community.description} />
             </div>
           </section>
@@ -144,16 +144,16 @@ export default async function CommunityPage({
 
         {years.length > 0 ? (
           <section className="flex flex-col gap-4">
-            <h2 className="type-display-m text-iron">Supply in window</h2>
-            <p className="type-body max-w-2xl text-iron/80">
+            <h2 className="type-display-m text-navy">Supply in window</h2>
+            <p className="type-body max-w-2xl text-navy/80">
               What completes here, and when. Your exit competes with every one of
               these.
             </p>
             <ul className="flex flex-wrap gap-x-10 gap-y-4">
               {years.map(([year, count]) => (
                 <li key={year} className="flex min-w-32 flex-col gap-1 border-t border-rule pt-4">
-                  <span className="type-display-s text-iron">{year}</span>
-                  <span className="type-body-s text-iron/80">
+                  <span className="type-display-s text-navy">{year}</span>
+                  <span className="type-body-s text-navy/80">
                     {count} {count === 1 ? "project" : "projects"}
                   </span>
                 </li>
@@ -166,14 +166,14 @@ export default async function CommunityPage({
           <section className="grid max-w-4xl gap-8 border-t border-rule pt-10 md:grid-cols-2">
             {community.transportNotes ? (
               <div className="flex flex-col gap-2">
-                <h2 className="type-display-s text-iron">Getting around</h2>
-                <p className="type-body-s text-iron/80">{community.transportNotes}</p>
+                <h2 className="type-display-s text-navy">Getting around</h2>
+                <p className="type-body-s text-navy/80">{community.transportNotes}</p>
               </div>
             ) : null}
             {community.schoolsNotes ? (
               <div className="flex flex-col gap-2">
-                <h2 className="type-display-s text-iron">Schools</h2>
-                <p className="type-body-s text-iron/80">{community.schoolsNotes}</p>
+                <h2 className="type-display-s text-navy">Schools</h2>
+                <p className="type-body-s text-navy/80">{community.schoolsNotes}</p>
               </div>
             ) : null}
           </section>
@@ -181,13 +181,13 @@ export default async function CommunityPage({
 
         {projects.length > 0 ? (
           <section className="flex flex-col gap-6 border-t border-rule pt-10">
-            <h2 className="type-display-m text-iron">Available here</h2>
+            <h2 className="type-display-m text-navy">Available here</h2>
             <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {projects.map((p) => (
                 <ProjectCard key={p.id} project={p} />
               ))}
             </div>
-            <p className="type-micro text-iron/80">
+            <p className="type-micro text-navy/80">
               Handover windows:{" "}
               {projects
                 .map((p) => formatHandoverOrDash(p.handoverQuarter, p.handoverYear))

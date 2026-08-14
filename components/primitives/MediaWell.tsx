@@ -6,7 +6,7 @@ import { cn } from "@/lib/cn";
  *
  * When licensed media exists it renders the photograph. When it does not — the
  * state the site is in until developer packs arrive — it renders a composed
- * brand field rather than a broken-looking gap: linen ground, ash-wood
+ * brand field rather than a broken-looking gap: surface ground, chalk
  * monogram, crop marks, and the subject named in eyebrow type. A visitor reads
  * it as a design decision, which it is, not as a missing asset.
  */
@@ -36,7 +36,7 @@ export function MediaWell({
 
   if (src) {
     return (
-      <div className={cn("relative overflow-hidden bg-linen", aspect, className)}>
+      <div className={cn("relative overflow-hidden bg-surface", aspect, className)}>
         <Image
           src={src}
           alt={alt ?? label ?? ""}
@@ -54,7 +54,7 @@ export function MediaWell({
       role="img"
       aria-label={alt ?? (label ? `${label} — render to follow` : "Render to follow")}
       className={cn(
-        "relative flex items-center justify-center overflow-hidden bg-pine/8",
+        "relative flex items-center justify-center overflow-hidden bg-steel/8",
         aspect,
         className,
       )}
@@ -65,7 +65,7 @@ export function MediaWell({
           key={pos}
           aria-hidden
           viewBox="0 0 12 12"
-          className={cn("absolute h-2.5 w-2.5 text-pine", pos)}
+          className={cn("absolute h-2.5 w-2.5 text-steel", pos)}
         >
           <path d="M6 0v12M0 6h12" stroke="currentColor" strokeWidth="1" fill="none" />
         </svg>
@@ -74,12 +74,12 @@ export function MediaWell({
       <div className="flex flex-col items-center gap-2 px-6 text-center">
         <span
           aria-hidden
-          className="font-display text-display-l font-light leading-none text-pine/70"
+          className="font-display text-display-l font-bold leading-none text-steel/70"
         >
-          Á
+          R
         </span>
         {label ? (
-          <span className="type-micro uppercase tracking-eyebrow text-iron/80">{label}</span>
+          <span className="type-micro uppercase tracking-eyebrow text-navy/80">{label}</span>
         ) : null}
       </div>
     </div>

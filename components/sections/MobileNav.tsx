@@ -21,7 +21,7 @@ export function MobileNav({
         onClick={() => setOpen(true)}
         aria-label={menuLabel}
         aria-expanded={open}
-        className="-m-2 p-2 text-iron underline-offset-4 transition-colors duration-fast ease-brand hover:underline"
+        className="-m-2 p-2 text-navy underline-offset-4 transition-colors duration-fast ease-brand hover:underline"
       >
         <svg aria-hidden viewBox="0 0 20 14" className="h-3.5 w-5">
           <path d="M0 1h20M0 7h20M0 13h20" stroke="currentColor" fill="none" />
@@ -39,7 +39,7 @@ export function MobileNav({
               key={l.href}
               href={l.href}
               onClick={() => setOpen(false)}
-              className="type-display-s border-b border-rule py-4 text-iron underline-offset-4 transition-colors duration-fast ease-brand hover:underline"
+              className="type-display-s border-b border-rule py-4 text-navy underline-offset-4 transition-colors duration-fast ease-brand hover:underline"
             >
               {l.label}
             </Link>

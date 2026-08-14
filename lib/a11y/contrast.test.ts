@@ -14,11 +14,13 @@ const token = (name: string): string => {
   return m[1];
 };
 
-const IRON = token("--iron-grey");
-const ASH = token("--ash-wood");
-const PINE = token("--pine-smoke");
-const LINEN = token("--nordic-linen");
-const FROST = token("--frost-white");
+const NAVY = token("--rein-navy");
+const CHALK = token("--chalk");
+const STEEL = token("--steel");
+const SURFACE = token("--surface");
+const PAPER = token("--paper");
+const GRAPHITE = token("--graphite");
+const STEEL_700 = token("--steel-700");
 
 const composite = (fg: string, bg: string, alpha: number): string => {
   const mix = (i: number) => {
@@ -36,110 +38,124 @@ describe("contrastRatio", () => {
     expect(contrastRatio("#000000", "#ffffff")).toBeCloseTo(21, 1);
   });
   it("is order-independent", () => {
-    expect(contrastRatio(IRON, FROST)).toBeCloseTo(contrastRatio(FROST, IRON), 10);
+    expect(contrastRatio(NAVY, PAPER)).toBeCloseTo(contrastRatio(PAPER, NAVY), 10);
   });
 });
 
-describe("iron grey — the palette's only dark — passes AA on every ground", () => {
-  it("on frost white, the primary page ground", () => {
-    expect(contrastRatio(IRON, FROST)).toBeGreaterThanOrEqual(AA_NORMAL);
+describe("REIN navy — the signature — passes AA on every light ground", () => {
+  it("on paper, the primary page ground", () => {
+    expect(contrastRatio(NAVY, PAPER)).toBeGreaterThanOrEqual(AA_NORMAL);
   });
-  it("on nordic linen, the surface colour", () => {
-    expect(contrastRatio(IRON, LINEN)).toBeGreaterThanOrEqual(AA_NORMAL);
+  it("on surface, the panel colour", () => {
+    expect(contrastRatio(NAVY, SURFACE)).toBeGreaterThanOrEqual(AA_NORMAL);
   });
-  it("on ash wood, the warm ground", () => {
-    expect(contrastRatio(IRON, ASH)).toBeGreaterThanOrEqual(AA_NORMAL);
+  it("on chalk, the near-white", () => {
+    expect(contrastRatio(NAVY, CHALK)).toBeGreaterThanOrEqual(AA_NORMAL);
   });
 });
 
-describe("reversed type on the iron field passes AA", () => {
-  it("ash wood on iron — the specified reversed pair", () => {
-    expect(contrastRatio(ASH, IRON)).toBeGreaterThanOrEqual(AA_NORMAL);
+describe("graphite — body copy at rest — passes AA on every light ground", () => {
+  it("on paper and on surface", () => {
+    expect(contrastRatio(GRAPHITE, PAPER)).toBeGreaterThanOrEqual(AA_NORMAL);
+    expect(contrastRatio(GRAPHITE, SURFACE)).toBeGreaterThanOrEqual(AA_NORMAL);
   });
-  it("linen and frost on iron", () => {
-    expect(contrastRatio(LINEN, IRON)).toBeGreaterThanOrEqual(AA_NORMAL);
-    expect(contrastRatio(FROST, IRON)).toBeGreaterThanOrEqual(AA_NORMAL);
+});
+
+describe("reversed type on the navy field passes AA", () => {
+  it("chalk on navy — the specified reversed pair", () => {
+    expect(contrastRatio(CHALK, NAVY)).toBeGreaterThanOrEqual(AA_NORMAL);
+  });
+  it("paper and surface on navy", () => {
+    expect(contrastRatio(PAPER, NAVY)).toBeGreaterThanOrEqual(AA_NORMAL);
+    expect(contrastRatio(SURFACE, NAVY)).toBeGreaterThanOrEqual(AA_NORMAL);
   });
 });
 
 /*
- * Iron grey is far lighter than a near-black, so muted tints lose contrast
- * quickly: /70 is 4.14 on frost and already fails. /80 is the floor, and it
- * is the floor the components use. Do not lower it.
+ * Navy is a near-black, so it holds AA much further down the alpha scale than
+ * the old mid-grey ink did: /60 is the first step that clears 4.5 on paper.
+ * The components use /80, which sits at 10.15 with a wide margin. The floor is
+ * pinned here so a future "soften the muted text" change has to prove itself.
  */
 describe("muted tint floors", () => {
-  it("iron/80 passes AA on frost and linen", () => {
-    expect(contrastRatio(composite(IRON, FROST, 0.8), FROST)).toBeGreaterThanOrEqual(AA_NORMAL);
-    expect(contrastRatio(composite(IRON, LINEN, 0.8), LINEN)).toBeGreaterThanOrEqual(AA_NORMAL);
+  it("navy/80 — the strength the components use — passes on paper and surface", () => {
+    expect(contrastRatio(composite(NAVY, PAPER, 0.8), PAPER)).toBeGreaterThanOrEqual(AA_NORMAL);
+    expect(contrastRatio(composite(NAVY, SURFACE, 0.8), SURFACE)).toBeGreaterThanOrEqual(AA_NORMAL);
   });
-  it("iron/70 does NOT pass — proves /80 is a floor, not a preference", () => {
-    expect(contrastRatio(composite(IRON, FROST, 0.7), FROST)).toBeLessThan(AA_NORMAL);
+  it("navy/60 still passes on paper; /50 does not — that is the real floor", () => {
+    expect(contrastRatio(composite(NAVY, PAPER, 0.6), PAPER)).toBeGreaterThanOrEqual(AA_NORMAL);
+    expect(contrastRatio(composite(NAVY, PAPER, 0.5), PAPER)).toBeLessThan(AA_NORMAL);
   });
-  it("ash/80 — the reversed floor — passes AA on iron", () => {
-    expect(contrastRatio(composite(ASH, IRON, 0.8), IRON)).toBeGreaterThanOrEqual(AA_NORMAL);
+  it("chalk/70 — the reversed floor — passes AA on navy", () => {
+    expect(contrastRatio(composite(CHALK, NAVY, 0.7), NAVY)).toBeGreaterThanOrEqual(AA_NORMAL);
   });
-  it("full iron is required for muted text on ash wood panels", () => {
-    // iron/80 on ash is 4.24 — below AA, so ash panels use full-strength iron.
-    expect(contrastRatio(composite(IRON, ASH, 0.8), ASH)).toBeLessThan(AA_NORMAL);
-    expect(contrastRatio(IRON, ASH)).toBeGreaterThanOrEqual(AA_NORMAL);
+  it("graphite/70 passes on paper, /60 does not", () => {
+    expect(contrastRatio(composite(GRAPHITE, PAPER, 0.7), PAPER)).toBeGreaterThanOrEqual(AA_NORMAL);
+    expect(contrastRatio(composite(GRAPHITE, PAPER, 0.6), PAPER)).toBeLessThan(AA_NORMAL);
   });
 });
 
 /*
- * Pine smoke is the accent and never carries text: at 2.98 on frost it fails
- * AA by a wide margin, and iron on pine is only 3.16. It is used exclusively
- * as a non-text mark — rules, tag outlines, crop marks — where the meaning is
- * carried by adjacent iron-grey text.
+ * Steel is the accent. At 3.71 on paper it clears AA for large text and
+ * graphical objects but fails for body copy — exactly the rule the brand
+ * states: base steel is tuned for chrome and large type, and paragraph text in
+ * the accent steps down to steel-700 or deeper.
  */
-describe("pine smoke is a non-text accent by construction", () => {
-  it("fails AA as text on every ground, which is why it never carries text", () => {
-    expect(contrastRatio(PINE, FROST)).toBeLessThan(AA_NORMAL);
-    expect(contrastRatio(PINE, LINEN)).toBeLessThan(AA_NORMAL);
-    expect(contrastRatio(IRON, PINE)).toBeLessThan(AA_NORMAL);
+describe("steel is a non-text accent at base strength", () => {
+  it("fails AA as body text on the light grounds, which is why it never carries body copy", () => {
+    expect(contrastRatio(STEEL, PAPER)).toBeLessThan(AA_NORMAL);
+    expect(contrastRatio(STEEL, SURFACE)).toBeLessThan(AA_NORMAL);
   });
-  it("is distinguishable from its ground as a graphical mark", () => {
-    expect(contrastRatio(PINE, FROST)).toBeGreaterThan(2.5);
+  it("still clears the large-text and graphical-object floor", () => {
+    expect(contrastRatio(STEEL, PAPER)).toBeGreaterThanOrEqual(AA_LARGE);
+  });
+  it("steel-700 is the first step that carries paragraph text on paper", () => {
+    expect(contrastRatio(STEEL_700, PAPER)).toBeGreaterThanOrEqual(AA_NORMAL);
+  });
+  it("clears AA-large reversed on the navy field, where it labels the fact strips", () => {
+    expect(contrastRatio(STEEL, NAVY)).toBeGreaterThanOrEqual(AA_LARGE);
   });
 });
 
 describe("hairlines", () => {
-  it("the ash-wood rule is a visible separator, never the sole carrier of meaning", () => {
+  it("the navy-tinted rule is a visible separator, never the sole carrier of meaning", () => {
     const RULE = token("--rule");
-    expect(contrastRatio(RULE, FROST)).toBeGreaterThan(1);
+    expect(contrastRatio(RULE, PAPER)).toBeGreaterThan(1);
     expect(AA_LARGE).toBe(3);
   });
 });
 
 /*
- * Pine smoke is used widely as a wash and as graphical marks. These pin the
- * two rules that keeps that safe: text never sits IN pine, and text sitting ON
- * a pine wash still clears AA.
+ * Steel is used widely as a wash and as graphical marks. These pin the two
+ * rules that keep that safe: text never sits IN base steel, and text sitting
+ * ON a steel wash still clears AA — at full strength and at the /80 muted
+ * strength the components use.
  */
-describe("pine smoke used as a wash stays accessible", () => {
-  it("iron text on a pine wash clears AA at every strength we use", () => {
+describe("steel used as a wash stays accessible", () => {
+  it("navy text on a steel wash clears AA at every strength we use", () => {
     for (const alpha of [0.08, 0.12, 0.18, 0.25]) {
-      const wash = composite(PINE, FROST, alpha);
-      expect(contrastRatio(IRON, wash)).toBeGreaterThanOrEqual(AA_NORMAL);
+      const wash = composite(STEEL, PAPER, alpha);
+      expect(contrastRatio(NAVY, wash)).toBeGreaterThanOrEqual(AA_NORMAL);
+      expect(contrastRatio(composite(NAVY, wash, 0.8), wash)).toBeGreaterThanOrEqual(AA_NORMAL);
     }
   });
-  it("solid pine still fails as text, which is why it is never used for text", () => {
-    expect(contrastRatio(PINE, FROST)).toBeLessThan(AA_NORMAL);
-    expect(contrastRatio(IRON, PINE)).toBeLessThan(AA_NORMAL);
+  it("solid steel still fails as body text, which is why it is never used for it", () => {
+    expect(contrastRatio(STEEL, PAPER)).toBeLessThan(AA_NORMAL);
   });
 });
 
 /*
- * Pine numerals ("01"–"08" beside the eight tests) sit at 2.98 and would fail
+ * Steel numerals ("01"–"08" beside the eight tests) sit at 3.71 and would fail
  * AA if they carried meaning. They do not: they duplicate DOM order, the
- * adjacent iron-grey title is the content, and they are marked aria-hidden so
- * the decorative claim holds for assistive tech too. This test exists so that
+ * adjacent navy title is the content, and they are marked aria-hidden so the
+ * decorative claim holds for assistive tech too. This test exists so that
  * reasoning is on the record rather than assumed.
  */
-describe("pine numerals are decorative, not informational", () => {
-  it("would fail AA as text, which is why they are aria-hidden ordinals", () => {
-    expect(contrastRatio(PINE, FROST)).toBeLessThan(AA_NORMAL);
+describe("steel numerals are decorative, not informational", () => {
+  it("would fail AA as body text, which is why they are aria-hidden ordinals", () => {
+    expect(contrastRatio(STEEL, PAPER)).toBeLessThan(AA_NORMAL);
   });
-  it("their iron-grey companion text passes comfortably", () => {
-    expect(contrastRatio(IRON, FROST)).toBeGreaterThanOrEqual(AA_NORMAL);
+  it("their navy companion text passes comfortably", () => {
+    expect(contrastRatio(NAVY, PAPER)).toBeGreaterThanOrEqual(AA_NORMAL);
   });
 });

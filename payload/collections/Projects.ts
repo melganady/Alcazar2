@@ -71,7 +71,7 @@ export const Projects: CollectionConfig = {
           const verdictEmpty =
             !data.alcazarVerdict ||
             JSON.stringify(data.alcazarVerdict).indexOf('"text"') === -1;
-          if (verdictEmpty) missing.push("Alcázar verdict (our own written view)");
+          if (verdictEmpty) missing.push("REIN Investment verdict (our own written view)");
           if (!data.developer) missing.push("developer");
           if (data.priceFromAED == null) missing.push("price from (AED)");
 
@@ -405,7 +405,7 @@ export const Projects: CollectionConfig = {
               "The DLD title deed for the unit. Held for verification — never rendered on the page.",
           },
         },
-        // The evidence behind the price. Alcázar's claim on secondary is that
+        // The evidence behind the price. REIN Investment's claim on secondary is that
         // it prices against what actually sold in the building; this is where
         // that claim is either substantiated or it is not.
         {
@@ -446,7 +446,7 @@ export const Projects: CollectionConfig = {
       ],
     },
 
-    // ---- The Alcázar layer ----
+    // ---- The REIN Investment layer ----
     {
       name: "alcazarStatus",
       type: "select",

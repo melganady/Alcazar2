@@ -30,14 +30,14 @@ export function CookieConsent() {
     <div
       role="dialog"
       aria-label="Cookie choices"
-      className="fixed inset-x-0 bottom-0 z-50 border-t border-rule bg-linen"
+      className="fixed inset-x-0 bottom-0 z-50 border-t border-rule bg-surface"
     >
       <div className="mx-auto flex max-w-container flex-col gap-4 px-4 py-5 md:flex-row md:items-center md:justify-between md:px-6">
-        <p className="type-body-s max-w-2xl text-iron/80">
+        <p className="type-body-s max-w-2xl text-navy/80">
           We use essential cookies to run the site, and optional analytics
           cookies to see which pages actually help. Nothing optional runs until
           you choose.{" "}
-          <Link href="/legal/cookies" className="text-iron underline underline-offset-4">
+          <Link href="/legal/cookies" className="text-navy underline underline-offset-4">
             Cookie policy
           </Link>
         </p>
@@ -45,14 +45,14 @@ export function CookieConsent() {
           <button
             type="button"
             onClick={() => decide("rejected")}
-            className="type-eyebrow border border-iron px-5 py-3 text-iron transition-colors duration-fast ease-brand hover:bg-iron hover:text-ash"
+            className="type-eyebrow border border-navy px-5 py-3 text-navy transition-colors duration-fast ease-brand hover:bg-navy hover:text-chalk"
           >
             Reject all
           </button>
           <button
             type="button"
             onClick={() => decide("accepted")}
-            className="type-eyebrow border border-iron px-5 py-3 text-iron transition-colors duration-fast ease-brand hover:bg-iron hover:text-ash"
+            className="type-eyebrow border border-navy px-5 py-3 text-navy transition-colors duration-fast ease-brand hover:bg-navy hover:text-chalk"
           >
             Accept all
           </button>

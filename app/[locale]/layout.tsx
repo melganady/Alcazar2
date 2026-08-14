@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { routing } from "@/i18n/routing";
-import { jost, montserrat, plexArabic } from "@/lib/fonts";
+import { barlow, barlowCondensed, plexArabic } from "@/lib/fonts";
 import { PrefsProvider } from "@/components/primitives/PrefsProvider";
 import { ToastProvider } from "@/components/primitives/Toast";
 import { SiteHeader } from "@/components/sections/SiteHeader";
@@ -19,13 +19,13 @@ import "../globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
   title: {
-    default: "Alcázar — The address before it exists",
-    template: "%s | Alcázar",
+    default: "REIN Investment — Fresh thinking, real income",
+    template: "%s | REIN Investment",
   },
   description:
-    "UAE off-plan real estate advisory and mortgage consultancy. A defended shortlist of pre-construction assets, with financing for residents and non-residents.",
+    "A private real estate desk placing capital across seven markets. Pre-construction, income-producing and fix-and-flip assets, underwritten to one standard, with financing arranged alongside.",
   openGraph: {
-    siteName: "Alcázar",
+    siteName: "REIN Investment",
     type: "website",
     locale: "en_AE",
     alternateLocale: "ar_AE",
@@ -56,8 +56,8 @@ export default async function LocaleLayout({
       lang={locale}
       dir={isAr ? "rtl" : "ltr"}
       className={cn(
-        jost.variable,
-        montserrat.variable,
+        barlowCondensed.variable,
+        barlow.variable,
         isAr && plexArabic.variable,
       )}
     >
@@ -71,7 +71,7 @@ export default async function LocaleLayout({
             <ToastProvider>
               <a
                 href="#main"
-                className="type-eyebrow sr-only bg-iron px-4 py-2 text-ash focus:not-sr-only focus:fixed focus:start-4 focus:top-4 focus:z-50"
+                className="type-eyebrow sr-only bg-navy px-4 py-2 text-chalk focus:not-sr-only focus:fixed focus:start-4 focus:top-4 focus:z-50"
               >
                 Skip to content
               </a>

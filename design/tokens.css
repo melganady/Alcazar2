@@ -1,48 +1,71 @@
 /*
- * ALCÁZAR — design tokens. Single source of truth.
- * Brand identity: "UAE luxury real estate brand identity", draft 01, Aug 2026.
+ * REIN INVESTMENT — design tokens. Single source of truth.
+ * Brand identity: "REIN Investment Brand", v1.0.
  * Every component consumes these; no colour, type or motion value is defined
  * anywhere else.
  */
 
 :root {
-  /* ---- Colour: the five-colour palette ---- */
-  --iron-grey: #3f4244; /* the signature. Wordmark, headlines, full fields. */
-  --ash-wood: #d7d1c6; /* the warm ground. Framed fields, reversed type. */
-  --pine-smoke: #8a937f; /* the one accent. Rules, tags, quiet emphasis. */
-  --nordic-linen: #edeae3; /* digital surfaces. */
-  --frost-white: #f7f7f5; /* the primary page ground. */
+  /* ---- Colour ----
+     REIN Navy is the fixed brand colour, taken from the logo artwork and never
+     adjusted. Steel is the single working accent beneath it; market flags and
+     photography carry the variety, the palette does not. */
+  --rein-navy: #050a30; /* the signature. Wordmark, headlines, full fields. */
+  --chalk: #f7f7f8; /* reversed type on the navy field. */
+  --steel: #5980a6; /* the one accent. Rules, tags, quiet emphasis. */
+  --surface: #e9e9ea; /* digital surfaces, framed panels. */
+  --paper: #f2f2f3; /* the primary page ground. */
+  --graphite: #2b2b2d; /* body copy at rest. */
 
-  /* Derived hairline. Ash wood pulled toward pine smoke, so every divider on
-     the site carries a trace of the accent rather than reading as plain sand.
-     Non-text, so it sits outside the contrast floors. */
-  --rule: #cfcdbf;
+  /* Derived hairline. Navy pulled into paper at 18%, so every divider on the
+     site carries a trace of the brand colour rather than reading as plain
+     grey. Non-text, so it sits outside the contrast floors. */
+  --rule: #c7c8d0;
 
-  /* RGB triplets so Tailwind alpha modifiers (text-iron/80) work */
-  --iron-grey-rgb: 63 66 68;
-  --ash-wood-rgb: 215 209 198;
-  --pine-smoke-rgb: 138 147 127;
-  --nordic-linen-rgb: 237 234 227;
-  --frost-white-rgb: 247 247 245;
-  --rule-rgb: 207 205 191;
+  /* Steel ramp — the accent on one shared lightness scale. Base steel is tuned
+     for chrome and large type; paragraph text in the accent uses steel-700 or
+     deeper, the first step that clears AA on paper. */
+  --steel-100: #eef6ff;
+  --steel-200: #d6ebff;
+  --steel-300: #b5d9fd;
+  --steel-400: #94bce3;
+  --steel-500: #749dc4;
+  --steel-600: #597ea3;
+  --steel-700: #416180;
+  --steel-800: #2c455d;
+  --steel-900: #1d2d3d;
 
-  /* ---- Type scale (fluid, 375px -> 1440px viewport) ---- */
-  --text-display-xl: clamp(2.125rem, 1.465rem + 2.817vw, 4rem);    /* 34 -> 64 */
-  --text-display-l: clamp(1.75rem, 1.398rem + 1.502vw, 2.75rem);   /* 28 -> 44 */
-  --text-display-m: clamp(1.3125rem, 1.158rem + 0.657vw, 1.75rem); /* 21 -> 28 */
-  --text-display-s: clamp(0.9375rem, 0.894rem + 0.188vw, 1.0625rem); /* 15 -> 17 */
-  --text-eyebrow: clamp(0.625rem, 0.603rem + 0.094vw, 0.6875rem);  /* 10 -> 11 */
-  --text-body-l: clamp(1rem, 0.956rem + 0.188vw, 1.125rem);        /* 16 -> 18 */
-  --text-body: clamp(0.875rem, 0.853rem + 0.094vw, 0.9375rem);     /* 14 -> 15 */
-  --text-body-s: clamp(0.75rem, 0.728rem + 0.094vw, 0.8125rem);    /* 12 -> 13 */
-  --text-micro: clamp(0.625rem, 0.603rem + 0.094vw, 0.6875rem);    /* 10 -> 11 */
+  /* RGB triplets so Tailwind alpha modifiers (text-navy/80) work */
+  --rein-navy-rgb: 5 10 48;
+  --chalk-rgb: 247 247 248;
+  --steel-rgb: 89 128 166;
+  --surface-rgb: 233 233 234;
+  --paper-rgb: 242 242 243;
+  --graphite-rgb: 43 43 45;
+  --rule-rgb: 199 200 208;
 
-  /* ---- Tracking (display type only; Montserrat is never tracked) ---- */
-  --track-hero: 0.2em;
-  --track-display-l: 0.14em;
-  --track-display-m: 0.1em;
-  --track-display-s: 0.08em;
-  --track-eyebrow: 0.28em;
+  /* ---- Type scale (fluid, 375px -> 1440px viewport) ----
+     Barlow Condensed runs narrow, so the display steps sit larger than a
+     normal-width face would need at the same optical weight. */
+  --text-display-xl: clamp(2.5rem, 1.648rem + 3.634vw, 4.875rem); /* 40 -> 78 */
+  --text-display-l: clamp(2rem, 1.56rem + 1.878vw, 3.25rem); /* 32 -> 52 */
+  --text-display-m: clamp(1.5rem, 1.323rem + 0.751vw, 2rem); /* 24 -> 32 */
+  --text-display-s: clamp(1.125rem, 1.037rem + 0.376vw, 1.375rem); /* 18 -> 22 */
+  --text-eyebrow: clamp(0.6875rem, 0.665rem + 0.094vw, 0.75rem); /* 11 -> 12 */
+  --text-body-l: clamp(1rem, 0.934rem + 0.282vw, 1.1875rem); /* 16 -> 19 */
+  --text-body: clamp(0.9375rem, 0.916rem + 0.094vw, 1rem); /* 15 -> 16 */
+  --text-body-s: clamp(0.8125rem, 0.791rem + 0.094vw, 0.875rem); /* 13 -> 14 */
+  --text-micro: clamp(0.6875rem, 0.665rem + 0.094vw, 0.75rem); /* 11 -> 12 */
+
+  /* ---- Tracking ----
+     The identity sets display type in sentence case and lets the condensed
+     face do the work: headings run slightly tight, and the only tracked type
+     left is the uppercase kicker. */
+  --track-hero: -0.015em;
+  --track-display-l: -0.012em;
+  --track-display-m: -0.008em;
+  --track-display-s: -0.004em;
+  --track-eyebrow: 0.16em;
 
   /* ---- Motion ---- */
   --ease-brand: cubic-bezier(0.16, 1, 0.3, 1);
@@ -51,5 +74,5 @@
 
   /* ---- Layout ---- */
   --container: 75rem; /* 1200px */
-  --logo-clearspace: 0.72em; /* cap-height of the A, scales with logo size */
+  --logo-clearspace: 0.5em; /* stem width x 4, scales with the wordmark */
 }

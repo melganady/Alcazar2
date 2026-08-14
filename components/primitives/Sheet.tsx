@@ -41,7 +41,7 @@ export function Sheet({
         aria-label={closeLabel}
         onClick={onClose}
         className={cn(
-          "absolute inset-0 w-full bg-iron/40 transition-opacity duration-slow ease-brand",
+          "absolute inset-0 w-full bg-navy/40 transition-opacity duration-slow ease-brand",
           open ? "opacity-100" : "opacity-0",
         )}
       />
@@ -50,17 +50,17 @@ export function Sheet({
         aria-modal="true"
         aria-label={title}
         className={cn(
-          "absolute inset-x-0 bottom-0 max-h-[85vh] overflow-y-auto bg-frost transition-transform duration-slow ease-brand",
+          "absolute inset-x-0 bottom-0 max-h-[85vh] overflow-y-auto bg-paper transition-transform duration-slow ease-brand",
           open ? "translate-y-0" : "translate-y-full",
         )}
       >
         <div className="flex items-center justify-between border-b border-rule px-6 py-4">
-          <h2 className="type-display-s text-iron">{title}</h2>
+          <h2 className="type-display-s text-navy">{title}</h2>
           <button
             type="button"
             onClick={onClose}
             aria-label={closeLabel}
-            className="-m-2 p-2 text-iron/80 transition-colors duration-fast ease-brand hover:text-iron"
+            className="-m-2 p-2 text-navy/80 transition-colors duration-fast ease-brand hover:text-navy"
           >
             <svg aria-hidden viewBox="0 0 12 12" className="h-3 w-3">
               <path d="M1 1l10 10M11 1L1 11" stroke="currentColor" fill="none" />

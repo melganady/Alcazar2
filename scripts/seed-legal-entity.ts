@@ -11,7 +11,7 @@ const run = async () => {
   await payload.updateGlobal({
     slug: "legal-entity",
     data: {
-      brandName: "Alcázar",
+      brandName: "REIN Investment",
       // From the trade licence supplied 2026-08-12. The licence on that
       // document EXPIRED 14/04/2023, so tradeLicenceExpiry is set and the site
       // suppresses the number until a current licence replaces it.
@@ -27,7 +27,7 @@ const run = async () => {
       city: "Dubai, United Arab Emirates",
       phone: "+971 58 582 7070",
       whatsapp: "+971585827070",
-      email: "hello@alcazar.ae",
+      email: "hello@rein.investments",
     },
   });
   console.log("Legal entity seeded. ORN / trade licence left blank — enter the real numbers in /admin.");

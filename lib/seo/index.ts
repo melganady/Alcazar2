@@ -1,7 +1,7 @@
 import type { Agent, Community, Developer, Project } from "@/payload-types";
 import { SITE } from "@/lib/site";
 
-export const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://alcazar.ae";
+export const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://rein.investments";
 
 export function absolute(path: string): string {
   return new URL(path, BASE_URL).toString();
@@ -51,7 +51,7 @@ export function organizationJsonLd() {
     name: SITE.name,
     legalName: SITE.compliance.legalName,
     url: BASE_URL,
-    slogan: "The address before it exists.",
+    slogan: "Fresh thinking, real income.",
     areaServed: { "@type": "Country", name: "United Arab Emirates" },
     address: {
       "@type": "PostalAddress",

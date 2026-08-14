@@ -41,7 +41,7 @@ export async function generateMetadata({
   const thin = projects.length === 0 && developer.projectsDelivered == null;
   return {
     title: `${developer.name} — delivery record and projects`,
-    description: `${developer.name}: ${projects.length} projects on the Alcázar books${
+    description: `${developer.name}: ${projects.length} projects on the REIN Investment books${
       developer.projectsDelivered ? `, ${developer.projectsDelivered} delivered to date` : ""
     }.`,
     alternates: alternates(`/developers/${slug}`),
@@ -107,8 +107,8 @@ export default async function DeveloperPage({
 
         {developer.deliveryTrackRecord ? (
           <section className="flex max-w-3xl flex-col gap-3">
-            <h2 className="type-display-m text-iron">Delivery record</h2>
-            <div className="type-body text-iron/80 [&_p]:mb-3">
+            <h2 className="type-display-m text-navy">Delivery record</h2>
+            <div className="type-body text-navy/80 [&_p]:mb-3">
               <RichText data={developer.deliveryTrackRecord} />
             </div>
           </section>
@@ -116,7 +116,7 @@ export default async function DeveloperPage({
 
         {projects.length > 0 ? (
           <section className="flex flex-col gap-6 border-t border-rule pt-10">
-            <h2 className="type-display-m text-iron">
+            <h2 className="type-display-m text-navy">
               {projects.length === 1 ? "Their project" : "Their projects"}
             </h2>
             <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
@@ -127,7 +127,7 @@ export default async function DeveloperPage({
           </section>
         ) : null}
 
-        <p className="type-micro max-w-3xl text-iron/80">
+        <p className="type-micro max-w-3xl text-navy/80">
           Delivery figures are our own record where stated. Projections are not
           guarantees; off-plan property carries construction, delivery, market
           and liquidity risk.

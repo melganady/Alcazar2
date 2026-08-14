@@ -1,7 +1,7 @@
 /**
  * TRACK B — licensed listings feed adapter. INTERFACE ONLY, per §5.
  *
- * If Alcázar buys a licensed broker feed (Property Finder, Bayut, Reelly or
+ * If REIN Investment buys a licensed broker feed (Property Finder, Bayut, Reelly or
  * similar), it arrives with a contractual right to display — which is what
  * separates it from scraping. Implement this interface against whichever feed
  * is signed; the import path and the publish gate stay unchanged.

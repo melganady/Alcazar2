@@ -26,7 +26,7 @@ declare global {
   }
 }
 
-export const CONSENT_COOKIE = "alcazar-consent";
+export const CONSENT_COOKIE = "rein-consent";
 
 export function hasAnalyticsConsent(): boolean {
   if (typeof document === "undefined") return false;

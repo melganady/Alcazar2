@@ -23,13 +23,13 @@ import { LegalEntity } from "./payload/globals/LegalEntity";
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));
 
-const DATABASE_URI = process.env.DATABASE_URI || "file:./alcazar-dev.db";
+const DATABASE_URI = process.env.DATABASE_URI || "file:./rein-dev.db";
 const S3_BUCKET = process.env.S3_BUCKET;
 
 export default buildConfig({
   admin: {
     user: Users.slug,
-    meta: { titleSuffix: " · Alcázar CMS" },
+    meta: { titleSuffix: " · REIN Investment CMS" },
   },
   collections: [
     Projects,

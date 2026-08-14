@@ -39,7 +39,7 @@ export async function generateMetadata({
   return {
     title: "Off-plan projects in the UAE",
     description:
-      "The Alcázar shortlist and watchlist of pre-construction projects — payment plans, handover dates, developers, and financing status.",
+      "The REIN Investment shortlist and watchlist of pre-construction projects — payment plans, handover dates, developers, and financing status.",
     alternates: alternates(canonicalPath),
     robots: index ? undefined : { index: false, follow: true },
   };
@@ -80,20 +80,20 @@ export default async function ProjectsPage({
 
   return (
     <CompareProvider>
-      <PageHero eyebrow="Alcázar" title={t("title")} support={t("intro")} compact />
+      <PageHero eyebrow="REIN Investment" title={t("title")} support={t("intro")} compact />
       <div className="mx-auto flex max-w-container flex-col gap-8 px-4 py-12 md:px-6">
         <FilterBar options={options} />
 
         <div className="flex flex-wrap items-center justify-between gap-4">
-          <p aria-live="polite" className="type-eyebrow text-iron/80">
+          <p aria-live="polite" className="type-eyebrow text-navy/80">
             {t("results", { count: result.totalDocs })}
           </p>
           <ControlsBar />
         </div>
 
         {view === "map" ? (
-          <div className="flex min-h-72 items-center justify-center border border-rule bg-linen p-10 text-center">
-            <p className="type-body max-w-md text-iron/80">{t("mapPending")}</p>
+          <div className="flex min-h-72 items-center justify-center border border-rule bg-surface p-10 text-center">
+            <p className="type-body max-w-md text-navy/80">{t("mapPending")}</p>
           </div>
         ) : (
           <div
@@ -115,19 +115,19 @@ export default async function ProjectsPage({
               <Link
                 href={pageLink(result.page! - 1)}
                 rel="prev"
-                className="type-eyebrow text-iron/80 hover:underline hover:underline-offset-4"
+                className="type-eyebrow text-navy/80 hover:underline hover:underline-offset-4"
               >
                 {t("prevPage")}
               </Link>
             ) : null}
-            <span className="type-body-s text-iron/80">
+            <span className="type-body-s text-navy/80">
               {result.page} / {result.totalPages}
             </span>
             {result.hasNextPage ? (
               <Link
                 href={pageLink(result.page! + 1)}
                 rel="next"
-                className="type-eyebrow text-iron/80 hover:underline hover:underline-offset-4"
+                className="type-eyebrow text-navy/80 hover:underline hover:underline-offset-4"
               >
                 {t("nextPage")}
               </Link>

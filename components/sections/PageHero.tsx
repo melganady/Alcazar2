@@ -10,14 +10,14 @@ import { cn } from "@/lib/cn";
  *
  * — With a licensed render, it's full-bleed with the same two-scrim
  *   treatment as the homepage hero: a diagonal wash keeps the bottom-left
- *   text corner reliably close to solid iron regardless of what's under it,
+ *   text corner reliably close to solid navy regardless of what's under it,
  *   a tighter bottom pass backs the caption row, and a soft text-shadow on
  *   every line is the second line of defence. Never guess at contrast —
  *   this is the one place it's worth repeating verbatim.
  *
  * — Without one (most CMS-only entities never get an uploaded photograph:
  *   mortgages, insights, the static pages), it falls back to a framed panel
- *   in the brand's own signature — crop marks and a pine field — rather
+ *   in the brand's own signature — crop marks and a steel field — rather
  *   than flat type on white. The empty state is a design decision, the same
  *   principle MediaWell already applies to a missing project render.
  */
@@ -60,8 +60,8 @@ export function PageHero({
             sizes="100vw"
             className="object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-tr from-iron via-iron/65 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-t from-iron/85 via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-tr from-navy via-navy/65 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-navy/85 via-transparent to-transparent" />
         </div>
         <div
           className={cn(
@@ -72,13 +72,13 @@ export function PageHero({
           <Eyebrow tone="reversed" className={shadowXs}>
             {eyebrow}
           </Eyebrow>
-          <h1 className={cn("type-display-l max-w-3xl text-frost", shadowMd)}>{title}</h1>
+          <h1 className={cn("type-display-l max-w-3xl text-paper", shadowMd)}>{title}</h1>
           {support ? (
-            <p className={cn("type-body-l max-w-2xl text-frost/95", shadowSm)}>{support}</p>
+            <p className={cn("type-body-l max-w-2xl text-paper/95", shadowSm)}>{support}</p>
           ) : null}
           {children}
           {caption ? (
-            <p className={cn("type-micro text-frost/80", shadowXs)}>{caption}</p>
+            <p className={cn("type-micro text-paper/80", shadowXs)}>{caption}</p>
           ) : null}
         </div>
       </section>
@@ -86,21 +86,21 @@ export function PageHero({
   }
 
   return (
-    <section className="relative overflow-hidden border-b border-rule bg-pine/8">
+    <section className="relative overflow-hidden border-b border-rule bg-steel/8">
       {["start-4 top-4", "end-4 top-4", "bottom-4 start-4", "bottom-4 end-4"].map((pos) => (
         <svg
           key={pos}
           aria-hidden
           viewBox="0 0 12 12"
-          className={cn("absolute h-3 w-3 text-pine", pos)}
+          className={cn("absolute h-3 w-3 text-steel", pos)}
         >
           <path d="M6 0v12M0 6h12" stroke="currentColor" strokeWidth="1" fill="none" />
         </svg>
       ))}
       <div className="mx-auto flex max-w-container flex-col items-start gap-5 px-4 py-14 md:px-6 md:py-20">
         <Eyebrow>{eyebrow}</Eyebrow>
-        <h1 className="type-display-l max-w-3xl text-iron">{title}</h1>
-        {support ? <p className="type-body-l max-w-2xl text-iron/80">{support}</p> : null}
+        <h1 className="type-display-l max-w-3xl text-navy">{title}</h1>
+        {support ? <p className="type-body-l max-w-2xl text-navy/80">{support}</p> : null}
         {children}
       </div>
     </section>

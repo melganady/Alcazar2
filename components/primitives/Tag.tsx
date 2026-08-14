@@ -15,8 +15,8 @@ export function Tag({
       className={cn(
         "inline-flex items-center type-eyebrow px-2.5 py-1 border",
         tone === "accent"
-          ? "border-pine text-iron"
-          : "border-rule text-iron/80",
+          ? "border-steel text-navy"
+          : "border-rule text-navy/80",
         className,
       )}
     >

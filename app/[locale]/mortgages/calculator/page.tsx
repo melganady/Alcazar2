@@ -53,7 +53,7 @@ export default async function CalculatorPage({
   return (
     <>
       <PageHero
-        eyebrow={`Alcázar · ${project ? project.name : "UAE"}`}
+        eyebrow={`REIN Investment · ${project ? project.name : "UAE"}`}
         title={t("calcTitle")}
         support={t("calcIntro")}
         compact

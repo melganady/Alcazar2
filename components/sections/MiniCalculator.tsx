@@ -53,23 +53,23 @@ export function MiniCalculator({ constants }: { constants: MortgageConstants }) 
           ]}
         />
       </div>
-      <div className="flex flex-col justify-between gap-4 border border-rule bg-linen p-5">
+      <div className="flex flex-col justify-between gap-4 border border-rule bg-surface p-5">
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <p className="type-micro uppercase text-iron/80">Deposit from</p>
-            <p className="type-display-s text-iron">{formatAED(Math.round(deposit), locale)}</p>
+            <p className="type-micro uppercase text-navy/80">Deposit from</p>
+            <p className="type-display-s text-navy">{formatAED(Math.round(deposit), locale)}</p>
           </div>
           <div>
-            <p className="type-micro uppercase text-iron/80">Indicative monthly</p>
-            <p className="type-display-s text-iron">{formatAED(Math.round(monthly), locale)}</p>
+            <p className="type-micro uppercase text-navy/80">Indicative monthly</p>
+            <p className="type-display-s text-navy">{formatAED(Math.round(monthly), locale)}</p>
           </div>
         </div>
-        <p className="type-micro text-iron/80">
+        <p className="type-micro text-navy/80">
           At {pct}% LTV, 25 years, 4.25% indicative. Not an offer of finance.
         </p>
         <Link
           href={`/mortgages/calculator?price=${price}&residency=${residency}`}
-          className="type-eyebrow self-start border border-iron px-4 py-2.5 text-iron transition-colors duration-fast ease-brand hover:bg-iron hover:text-ash"
+          className="type-eyebrow self-start border border-navy px-4 py-2.5 text-navy transition-colors duration-fast ease-brand hover:bg-navy hover:text-chalk"
         >
           Full calculator
         </Link>

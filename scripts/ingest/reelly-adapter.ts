@@ -846,7 +846,7 @@ async function importProjects() {
   }
   console.log(
     "\nAll drafts. A data licence is not an advertising permit — each still needs a\n" +
-      "Trakheesi number and an Alcázar verdict. Run `npm run validate:projects`.\n",
+      "Trakheesi number and an REIN Investment verdict. Run `npm run validate:projects`.\n",
   );
   process.exit(0);
 }

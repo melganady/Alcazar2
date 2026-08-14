@@ -1,3 +1,5 @@
+import { readFileSync } from "fs";
+import { join } from "path";
 import { ImageResponse } from "next/og";
 import { getProjectBySlug } from "@/lib/projects";
 import { formatHandoverOrDash } from "@/lib/format";
@@ -8,14 +10,24 @@ export const runtime = "nodejs";
 const size = { width: 1200, height: 630 };
 
 /**
- * §10 — per-project OG image in brand: frost white field, iron grey wordmark,
- * project name in display type, key facts strip. Token values are inlined because
- * @vercel/og renders in an isolated context with no stylesheet.
+ * §10 — per-project OG image in brand: navy field, the supplied wordmark
+ * reversed out of it, project name in display type, key facts strip. Token
+ * values are inlined because @vercel/og renders in an isolated context with
+ * no stylesheet.
  */
-const IRON = "#3F4244";
-const ASH = "#D7D1C6";
-const FROST = "#F7F7F5";
-const RULE = "#D7D1C6";
+const NAVY = "#050A30";
+const CHALK = "#F7F7F8";
+const STEEL = "#5980A6";
+const HAIRLINE = "rgba(247,247,248,0.22)";
+
+/*
+ * The wordmark is supplied artwork and is never re-typed, so it is read off
+ * disk and inlined as a data URL rather than set in a webfont. Read once at
+ * module scope: the file ships with the build and never changes at runtime.
+ */
+const wordmark = `data:image/png;base64,${readFileSync(
+  join(process.cwd(), "public/brand/wordmark-white.png"),
+).toString("base64")}`;
 
 export async function GET(
   _req: Request,
@@ -31,16 +43,14 @@ export async function GET(
           style={{
             width: "100%",
             height: "100%",
-            background: FROST,
+            background: NAVY,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            color: IRON,
-            fontSize: 72,
-            letterSpacing: "0.2em",
           }}
         >
-          ALCÁZAR
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={wordmark} alt="REIN Investment" width={520} />
         </div>
       ),
       size,
@@ -65,7 +75,7 @@ export async function GET(
         style={{
           width: "100%",
           height: "100%",
-          background: FROST,
+          background: NAVY,
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
@@ -74,48 +84,47 @@ export async function GET(
         }}
       >
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <div style={{ color: IRON, fontSize: 30, letterSpacing: "0.2em" }}>ALCÁZAR</div>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={wordmark} alt="REIN Investment" width={190} />
           {project.alcazarStatus === "shortlisted" ? (
             <div
               style={{
                 display: "flex",
                 alignItems: "center",
-                justifyContent: "center",
-                width: 44,
-                height: 44,
-                background: IRON,
-                color: ASH,
-                fontSize: 24,
+                fontSize: 15,
+                letterSpacing: "0.16em",
+                color: CHALK,
+                border: `1px solid ${HAIRLINE}`,
+                padding: "8px 14px",
               }}
             >
-              Á
+              SHORTLISTED
             </div>
           ) : null}
         </div>
 
-        <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-          <div style={{ color: IRON, opacity: 0.8, fontSize: 20, letterSpacing: "0.28em" }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+          <div style={{ color: STEEL, fontSize: 20, letterSpacing: "0.16em" }}>
             {`${project.subCommunity.toUpperCase()}, ${project.region.toUpperCase()}`}
           </div>
           <div
             style={{
-              color: IRON,
-              fontSize: project.name.length > 24 ? 62 : 78,
-              letterSpacing: "0.06em",
-              lineHeight: 1.1,
+              color: CHALK,
+              fontSize: project.name.length > 24 ? 66 : 84,
+              lineHeight: 1.02,
             }}
           >
-            {project.name.toUpperCase()}
+            {project.name}
           </div>
         </div>
 
-        <div style={{ display: "flex", borderTop: `1px solid ${RULE}`, paddingTop: 24, gap: 56 }}>
+        <div style={{ display: "flex", borderTop: `1px solid ${HAIRLINE}`, paddingTop: 24, gap: 56 }}>
           {facts.map(([label, value]) => (
             <div key={label} style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-              <div style={{ color: IRON, opacity: 0.8, fontSize: 15, letterSpacing: "0.2em" }}>
+              <div style={{ color: STEEL, fontSize: 15, letterSpacing: "0.16em" }}>
                 {label.toUpperCase()}
               </div>
-              <div style={{ color: IRON, fontSize: 26 }}>{value}</div>
+              <div style={{ color: CHALK, fontSize: 26 }}>{value}</div>
             </div>
           ))}
         </div>

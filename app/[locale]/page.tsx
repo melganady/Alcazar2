@@ -76,11 +76,11 @@ export default async function HomePage({
 
   return (
     <CompareProvider>
-      {/* 1 — Hero. Typographic on the frost ground; iron carries the headline.
+      {/* 1 — Hero. Typographic on the paper ground; navy carries the headline.
           The map now sits behind the copy as a quiet, full-bleed backdrop —
           proof of the seven markets, not decoration, and faint enough that
           the headline stays the loudest thing on the page. */}
-      <section className="relative overflow-hidden border-b border-rule bg-frost">
+      <section className="relative overflow-hidden border-b border-rule bg-paper">
         <div aria-hidden className="absolute inset-0">
           <WorldMap
             tone="muted"
@@ -90,14 +90,14 @@ export default async function HomePage({
           />
           {/* A soft, even wash toward the ground colour so the map recedes and
               the headline keeps full contrast wherever text falls on it. */}
-          <div className="absolute inset-0 bg-frost/55" />
+          <div className="absolute inset-0 bg-paper/55" />
         </div>
         <div className="relative mx-auto flex max-w-container flex-col items-start gap-7 px-4 py-20 md:px-6 md:py-28">
           <Eyebrow>{t("eyebrow")}</Eyebrow>
-          <h1 className="type-display-xl max-w-4xl text-iron">
+          <h1 className="type-display-xl max-w-4xl text-navy">
             {t("title", { low: RETURN_RANGE.low, high: RETURN_RANGE.high })}
           </h1>
-          <p className="type-body-l max-w-2xl text-iron/80">{t("support")}</p>
+          <p className="type-body-l max-w-2xl text-navy/80">{t("support")}</p>
           {/* The flags earn their place: seven markets is the differentiator,
               and a row of flags says it faster than a sentence. */}
           <ul className="flex flex-wrap items-center gap-x-5 gap-y-3">
@@ -106,7 +106,7 @@ export default async function HomePage({
                 <span aria-hidden className="text-2xl leading-none">
                   {m.flag}
                 </span>
-                <span className="type-micro uppercase tracking-eyebrow text-iron/80">
+                <span className="type-micro uppercase tracking-eyebrow text-navy/80">
                   {m.name === "United Arab Emirates" ? "UAE" : m.name}
                 </span>
               </li>
@@ -115,13 +115,13 @@ export default async function HomePage({
           <div className="flex flex-wrap gap-4">
             <Link
               href="/projects"
-              className="type-eyebrow bg-iron px-6 py-3.5 text-ash transition-colors duration-fast ease-brand hover:bg-iron/85"
+              className="type-eyebrow bg-navy px-6 py-3.5 text-chalk transition-colors duration-fast ease-brand hover:bg-navy/85"
             >
               {t("ctaShortlist")}
             </Link>
             <Link
               href="/mortgages/calculator"
-              className="type-eyebrow border border-iron px-6 py-3.5 text-iron transition-colors duration-fast ease-brand hover:bg-iron hover:text-ash"
+              className="type-eyebrow border border-navy px-6 py-3.5 text-navy transition-colors duration-fast ease-brand hover:bg-navy hover:text-chalk"
             >
               {t("ctaBorrow")}
             </Link>
@@ -134,8 +134,8 @@ export default async function HomePage({
         <section className="border-t border-rule">
           <div className="mx-auto flex max-w-container flex-col gap-8 px-4 py-16 md:px-6">
             <div className="flex flex-wrap items-baseline justify-between gap-4">
-              <h2 className="type-display-m text-iron">{t("liveTitle")}</h2>
-              <Link href="/projects" className="type-eyebrow text-iron/80 hover:text-iron">
+              <h2 className="type-display-m text-navy">{t("liveTitle")}</h2>
+              <Link href="/projects" className="type-eyebrow text-navy/80 hover:text-navy">
                 {t("allProjects")} →
               </Link>
             </div>
@@ -147,18 +147,18 @@ export default async function HomePage({
       <MarketMap title={t("mapTitle")} support={t("mapSupport")} note={t("returnsNote")} />
 
       {/* 3 — How capital goes in */}
-      <section className="border-t border-rule bg-pine/8">
+      <section className="border-t border-rule bg-steel/8">
         <div className="mx-auto flex max-w-container flex-col gap-8 px-4 py-16 md:px-6">
           <div className="flex flex-col gap-3">
             <Eyebrow>{t("modelsEyebrow")}</Eyebrow>
-            <h2 className="type-display-m max-w-3xl text-iron">{t("modelsTitle")}</h2>
+            <h2 className="type-display-m max-w-3xl text-navy">{t("modelsTitle")}</h2>
           </div>
           <div className="grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-4">
             {INVESTMENT_MODELS.map((m, i) => (
-              <div key={m.key} className="flex flex-col gap-2 border-t-2 border-pine pt-4">
-                <span className="type-micro text-iron/80">{String(i + 1).padStart(2, "0")}</span>
-                <h3 className="type-display-s text-iron">{m.title}</h3>
-                <p className="type-body-s text-iron/80">{m.line}</p>
+              <div key={m.key} className="flex flex-col gap-2 border-t-2 border-steel pt-4">
+                <span className="type-micro text-navy/80">{String(i + 1).padStart(2, "0")}</span>
+                <h3 className="type-display-s text-navy">{m.title}</h3>
+                <p className="type-body-s text-navy/80">{m.line}</p>
               </div>
             ))}
           </div>
@@ -170,7 +170,7 @@ export default async function HomePage({
         <div className="mx-auto grid max-w-container gap-10 px-4 py-16 md:px-6 lg:grid-cols-[1fr_minmax(0,24rem)]">
           <div className="flex flex-col gap-6">
             <Eyebrow>{t("filterEyebrow")}</Eyebrow>
-            <h2 className="type-display-m max-w-2xl text-iron">
+            <h2 className="type-display-m max-w-2xl text-navy">
               {showFilterNumber
                 ? t("filterNumber", {
                     reviewed: stats.launchesReviewedThisYear!,
@@ -178,22 +178,22 @@ export default async function HomePage({
                   })
                 : t("filterFallback")}
             </h2>
-            <p className="type-body-l max-w-2xl text-iron/80">{VERBATIM.theTest}</p>
+            <p className="type-body-l max-w-2xl text-navy/80">{VERBATIM.theTest}</p>
             <div className="grid gap-x-8 gap-y-5 sm:grid-cols-2">
               {EIGHT_TESTS.map((test, i) => (
                 <div key={test.key} className="flex flex-col gap-1.5 border-t border-rule pt-4">
-                  <span aria-hidden className="type-micro text-pine">{String(i + 1).padStart(2, "0")}</span>
-                  <span className="type-display-s text-iron">{test.title}</span>
+                  <span aria-hidden className="type-micro text-steel">{String(i + 1).padStart(2, "0")}</span>
+                  <span className="type-display-s text-navy">{test.title}</span>
                 </div>
               ))}
             </div>
-            <Link href="/how-we-work" className="type-eyebrow mt-2 self-start text-iron/80 hover:text-iron">
+            <Link href="/how-we-work" className="type-eyebrow mt-2 self-start text-navy/80 hover:text-navy">
               {t("howWeWork")} →
             </Link>
           </div>
           {showcase[0] ? (
             <figure className="flex flex-col gap-2 self-start">
-              <div className="relative aspect-[3/4] overflow-hidden bg-linen">
+              <div className="relative aspect-[3/4] overflow-hidden bg-surface">
                 <Image
                   src={showcase[0].url}
                   alt={showcase[0].alt}
@@ -202,7 +202,7 @@ export default async function HomePage({
                   className="object-cover"
                 />
               </div>
-              <figcaption className="type-micro text-iron/80">{showcase[0].project}</figcaption>
+              <figcaption className="type-micro text-navy/80">{showcase[0].project}</figcaption>
             </figure>
           ) : null}
         </div>
@@ -213,10 +213,10 @@ export default async function HomePage({
         <section className="border-t border-rule">
           <div className="mx-auto flex max-w-container flex-col gap-8 px-4 py-16 md:px-6">
             <div className="flex flex-wrap items-baseline justify-between gap-4">
-              <h2 className="type-display-m text-iron">{t("shortlistTitle")}</h2>
+              <h2 className="type-display-m text-navy">{t("shortlistTitle")}</h2>
               <Link
                 href="/projects?shortlisted=1"
-                className="type-eyebrow text-iron/80 hover:text-iron"
+                className="type-eyebrow text-navy/80 hover:text-navy"
               >
                 {t("allShortlisted")} →
               </Link>
@@ -230,11 +230,11 @@ export default async function HomePage({
         </section>
       ) : null}
 
-      {/* 6 — Market bar. The page's one full iron field; type reverses to ash. */}
+      {/* 6 — Market bar. The page's one full navy field; type reverses to chalk. */}
       {marketStats.length > 0 ? (
-        <section className="bg-iron">
+        <section className="bg-navy">
           <div className="mx-auto flex max-w-container flex-col gap-8 px-4 py-16 md:px-6">
-            <h2 className="type-display-m text-ash">{t("marketTitle")}</h2>
+            <h2 className="type-display-m text-chalk">{t("marketTitle")}</h2>
             <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
               {marketStats.map((s) => (
                 <StatBlock
@@ -251,18 +251,18 @@ export default async function HomePage({
       ) : null}
 
       {/* 7 — Where we place capital */}
-      <section className="border-t border-rule bg-pine/8">
+      <section className="border-t border-rule bg-steel/8">
         <div className="mx-auto flex max-w-container flex-col gap-8 px-4 py-16 md:px-6">
           <div className="flex flex-col gap-3">
             <Eyebrow>{t("marketsEyebrow")}</Eyebrow>
-            <h2 className="type-display-m max-w-3xl text-iron">{t("marketsTitle")}</h2>
-            <p className="type-body-l max-w-2xl text-iron/80">{t("marketsSupport")}</p>
+            <h2 className="type-display-m max-w-3xl text-navy">{t("marketsTitle")}</h2>
+            <p className="type-body-l max-w-2xl text-navy/80">{t("marketsSupport")}</p>
           </div>
           <ul className="flex flex-wrap gap-x-10 gap-y-4">
             {liveMarkets.map((m) => (
-              <li key={m.key} className="flex min-w-48 flex-col gap-1 border-t-2 border-pine pt-4">
-                <span className="type-display-s text-iron">{m.name}</span>
-                <span className="type-body-s text-iron/80">{m.note}</span>
+              <li key={m.key} className="flex min-w-48 flex-col gap-1 border-t-2 border-steel pt-4">
+                <span className="type-display-s text-navy">{m.name}</span>
+                <span className="type-body-s text-navy/80">{m.note}</span>
               </li>
             ))}
           </ul>
@@ -273,8 +273,8 @@ export default async function HomePage({
       <section className="border-t border-rule">
         <div className="mx-auto flex max-w-container flex-col gap-8 px-4 py-16 md:px-6">
           <div className="flex flex-col gap-3">
-            <h2 className="type-display-m text-iron">{t("financeTitle")}</h2>
-            <p className="type-body-l max-w-2xl text-iron/80">
+            <h2 className="type-display-m text-navy">{t("financeTitle")}</h2>
+            <p className="type-body-l max-w-2xl text-navy/80">
               {t("financeSupport", { pct: constants.ltv.nonResidentPct })}
             </p>
           </div>
@@ -283,15 +283,15 @@ export default async function HomePage({
       </section>
 
       {/* 9 — How we work */}
-      <section className="border-t border-rule bg-pine/8">
+      <section className="border-t border-rule bg-steel/8">
         <div className="mx-auto flex max-w-container flex-col gap-8 px-4 py-16 md:px-6">
-          <h2 className="type-display-m text-iron">{t("stagesTitle")}</h2>
+          <h2 className="type-display-m text-navy">{t("stagesTitle")}</h2>
           <ol className="grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-5">
             {FIVE_STAGES.map((s) => (
-              <li key={s.n} className="flex flex-col gap-2 border-t-2 border-pine pt-4">
-                <span aria-hidden className="type-micro text-pine">{s.n}</span>
-                <span className="type-display-s text-iron">{s.title}</span>
-                <span className="type-body-s text-iron/80">{s.line}</span>
+              <li key={s.n} className="flex flex-col gap-2 border-t-2 border-steel pt-4">
+                <span aria-hidden className="type-micro text-steel">{s.n}</span>
+                <span className="type-display-s text-navy">{s.title}</span>
+                <span className="type-body-s text-navy/80">{s.line}</span>
               </li>
             ))}
           </ol>
@@ -303,8 +303,8 @@ export default async function HomePage({
         <section className="border-t border-rule">
           <div className="mx-auto flex max-w-container flex-col gap-8 px-4 py-16 md:px-6">
             <div className="flex flex-wrap items-baseline justify-between gap-4">
-              <h2 className="type-display-m text-iron">{t("insightsTitle")}</h2>
-              <Link href="/insights" className="type-eyebrow text-iron/80 hover:text-iron">
+              <h2 className="type-display-m text-navy">{t("insightsTitle")}</h2>
+              <Link href="/insights" className="type-eyebrow text-navy/80 hover:text-navy">
                 {t("allInsights")} →
               </Link>
             </div>
@@ -313,13 +313,13 @@ export default async function HomePage({
                 <Link
                   key={a.id}
                   href={`/insights/${a.slug}`}
-                  className="group flex flex-col gap-2 border border-rule bg-linen p-5 transition-colors duration-fast ease-brand hover:border-pine"
+                  className="group flex flex-col gap-2 border border-rule bg-surface p-5 transition-colors duration-fast ease-brand hover:border-steel"
                 >
-                  <span className="type-micro uppercase text-iron/80">{a.category}</span>
-                  <span className="type-display-s text-iron group-hover:underline group-hover:underline-offset-4">
+                  <span className="type-micro uppercase text-navy/80">{a.category}</span>
+                  <span className="type-display-s text-navy group-hover:underline group-hover:underline-offset-4">
                     {a.title}
                   </span>
-                  {a.excerpt ? <span className="type-body-s text-iron/80">{a.excerpt}</span> : null}
+                  {a.excerpt ? <span className="type-body-s text-navy/80">{a.excerpt}</span> : null}
                 </Link>
               ))}
             </div>
@@ -331,12 +331,12 @@ export default async function HomePage({
       <section className="border-t border-rule">
         <div className="mx-auto px-4 py-16 md:px-6">
           <CropMarks className="mx-auto max-w-container">
-            <div className="grid gap-8 bg-linen p-8 md:grid-cols-[1fr_minmax(0,18rem)] md:items-center">
+            <div className="grid gap-8 bg-surface p-8 md:grid-cols-[1fr_minmax(0,18rem)] md:items-center">
               <div className="flex flex-col gap-3">
-                <h2 className="type-display-m text-iron">{t("contactTitle")}</h2>
-                <p className="type-body max-w-md text-iron/80">{t("contactSupport")}</p>
+                <h2 className="type-display-m text-navy">{t("contactTitle")}</h2>
+                <p className="type-body max-w-md text-navy/80">{t("contactSupport")}</p>
                 {agent ? (
-                  <p className="type-body-s mt-1 text-iron/80">
+                  <p className="type-body-s mt-1 text-navy/80">
                     {[agent.name, agent.role, brokerNumber(agent.brn, agent.brnExpiry)].filter(Boolean).join(" · ")}
                   </p>
                 ) : null}
@@ -348,14 +348,14 @@ export default async function HomePage({
                   ) : null}
                   <Link
                     href="/contact"
-                    className="type-eyebrow border border-iron px-6 py-3.5 text-iron transition-colors duration-fast ease-brand hover:bg-iron hover:text-ash"
+                    className="type-eyebrow border border-navy px-6 py-3.5 text-navy transition-colors duration-fast ease-brand hover:bg-navy hover:text-chalk"
                   >
                     {t("contactCta")}
                   </Link>
                 </div>
               </div>
               {showcase[1] ? (
-                <div className="relative aspect-[4/3] overflow-hidden bg-ash">
+                <div className="relative aspect-[4/3] overflow-hidden bg-chalk">
                   <Image
                     src={showcase[1].url}
                     alt={showcase[1].alt}

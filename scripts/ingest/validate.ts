@@ -20,7 +20,7 @@ export function missingForPublish(project: Partial<Project>): string[] {
   if (!project.trakheesiPermitNumber) missing.push("Trakheesi permit number");
   const verdictEmpty =
     !project.alcazarVerdict || JSON.stringify(project.alcazarVerdict).indexOf('"text"') === -1;
-  if (verdictEmpty) missing.push("Alcázar verdict");
+  if (verdictEmpty) missing.push("REIN Investment verdict");
   if (!project.developer) missing.push("developer");
   if (!project.handoverQuarter) missing.push("handover quarter");
   if (!project.handoverYear) missing.push("handover year");

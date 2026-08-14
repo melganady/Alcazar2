@@ -81,7 +81,7 @@ export default async function NonResidentsPage({
   return (
     <>
       <PageHero
-        eyebrow="Alcázar · Non-resident financing"
+        eyebrow="REIN Investment · Non-resident financing"
         title="You do not need a UAE visa to hold a UAE mortgage"
         support={`Banks here lend to non-residents at up to ${constants.ltv.nonResidentPct}% of a completed property's value. The process is document-driven and predictable — if you know the sequence. This is the sequence.`}
         compact
@@ -94,13 +94,13 @@ export default async function NonResidentsPage({
 
       {/* Eligibility table */}
       <section className="flex flex-col gap-5">
-        <h2 className="type-display-m text-iron">What the caps allow</h2>
-        <div className="overflow-x-auto border border-rule bg-linen">
+        <h2 className="type-display-m text-navy">What the caps allow</h2>
+        <div className="overflow-x-auto border border-rule bg-surface">
           <table className="w-full min-w-[36rem] border-collapse">
             <thead>
-              <tr className="border-b-2 border-pine">
+              <tr className="border-b-2 border-steel">
                 {["Scenario", "Max LTV", "Deposit from"].map((h) => (
-                  <th key={h} className="type-eyebrow p-3 text-start text-iron/80">{h}</th>
+                  <th key={h} className="type-eyebrow p-3 text-start text-navy/80">{h}</th>
                 ))}
               </tr>
             </thead>
@@ -112,14 +112,14 @@ export default async function NonResidentsPage({
               ].map((row) => (
                 <tr key={row[0]} className="border-b border-rule/60">
                   {row.map((cell, i) => (
-                    <td key={i} className={`type-body-s p-3 ${i === 0 ? "font-medium" : ""} text-iron`}>{cell}</td>
+                    <td key={i} className={`type-body-s p-3 ${i === 0 ? "font-medium" : ""} text-navy`}>{cell}</td>
                   ))}
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
-        <p className="type-micro max-w-3xl text-iron/80">
+        <p className="type-micro max-w-3xl text-navy/80">
           Caps effective {constants.effectiveFrom}. {constants.sourceNote}
         </p>
       </section>
@@ -127,22 +127,22 @@ export default async function NonResidentsPage({
       {/* Documents */}
       <section className="grid gap-8 md:grid-cols-2">
         <div className="flex flex-col gap-4">
-          <h2 className="type-display-m text-iron">The document checklist</h2>
-          <ul className="flex flex-col divide-y divide-rule border border-rule bg-linen">
+          <h2 className="type-display-m text-navy">The document checklist</h2>
+          <ul className="flex flex-col divide-y divide-rule border border-rule bg-surface">
             {DOCS.map((d) => (
-              <li key={d} className="type-body-s p-3 text-iron">{d}</li>
+              <li key={d} className="type-body-s p-3 text-navy">{d}</li>
             ))}
           </ul>
         </div>
         <div className="flex flex-col gap-4">
-          <h2 className="type-display-m text-iron">The timeline</h2>
-          <ol className="flex flex-col divide-y divide-rule border border-rule bg-linen">
+          <h2 className="type-display-m text-navy">The timeline</h2>
+          <ol className="flex flex-col divide-y divide-rule border border-rule bg-surface">
             {STEPS.map(([title, body], i) => (
               <li key={title} className="flex gap-4 p-4">
-                <span className="type-display-s text-iron/80">{i + 1}</span>
+                <span className="type-display-s text-navy/80">{i + 1}</span>
                 <div>
-                  <p className="type-body-s font-medium text-iron">{title}</p>
-                  <p className="type-body-s text-iron/80">{body}</p>
+                  <p className="type-body-s font-medium text-navy">{title}</p>
+                  <p className="type-body-s text-navy/80">{body}</p>
                 </div>
               </li>
             ))}
@@ -154,25 +154,25 @@ export default async function NonResidentsPage({
           table, which would read as "no bank lends to non-residents". */}
       {lendersRes.docs.length > 0 ? (
       <section className="flex flex-col gap-5">
-        <h2 className="type-display-m text-iron">Lenders that take non-residents</h2>
-        <div className="overflow-x-auto border border-rule bg-linen">
+        <h2 className="type-display-m text-navy">Lenders that take non-residents</h2>
+        <div className="overflow-x-auto border border-rule bg-surface">
           <table className="w-full min-w-[36rem] border-collapse">
             <thead>
-              <tr className="border-b-2 border-pine">
+              <tr className="border-b-2 border-steel">
                 {["Lender", "Max LTV non-resident", "Min income (USD/mo)", "Indicative rate"].map((h) => (
-                  <th key={h} className="type-eyebrow p-3 text-start text-iron/80">{h}</th>
+                  <th key={h} className="type-eyebrow p-3 text-start text-navy/80">{h}</th>
                 ))}
               </tr>
             </thead>
             <tbody>
               {lendersRes.docs.map((l) => (
                 <tr key={l.id} className="border-b border-rule/60">
-                  <td className="type-body-s p-3 font-medium text-iron">{l.name}</td>
-                  <td className="type-body-s p-3 text-iron">{l.maxLtvNonResidentPct}%</td>
-                  <td className="type-body-s p-3 text-iron">
+                  <td className="type-body-s p-3 font-medium text-navy">{l.name}</td>
+                  <td className="type-body-s p-3 text-navy">{l.maxLtvNonResidentPct}%</td>
+                  <td className="type-body-s p-3 text-navy">
                     {l.minMonthlyIncomeNonResidentUSD?.toLocaleString() ?? "—"}
                   </td>
-                  <td className="type-body-s p-3 text-iron">{l.indicativeFixedRatePct}% / {l.fixedPeriodYears}y fixed</td>
+                  <td className="type-body-s p-3 text-navy">{l.indicativeFixedRatePct}% / {l.fixedPeriodYears}y fixed</td>
                 </tr>
               ))}
             </tbody>
@@ -183,14 +183,14 @@ export default async function NonResidentsPage({
 
       {/* FAQ */}
       <section className="flex flex-col gap-5">
-        <h2 className="type-display-m text-iron">Questions we answer daily</h2>
-        <div className="flex flex-col divide-y divide-rule border border-rule bg-linen">
+        <h2 className="type-display-m text-navy">Questions we answer daily</h2>
+        <div className="flex flex-col divide-y divide-rule border border-rule bg-surface">
           {FAQ.map((f) => (
             <details key={f.q} className="group p-5">
-              <summary className="type-body cursor-pointer font-medium text-iron underline-offset-4 transition-colors duration-fast ease-brand hover:underline">
+              <summary className="type-body cursor-pointer font-medium text-navy underline-offset-4 transition-colors duration-fast ease-brand hover:underline">
                 {f.q}
               </summary>
-              <p className="type-body mt-3 max-w-3xl text-iron/80">{f.a}</p>
+              <p className="type-body mt-3 max-w-3xl text-navy/80">{f.a}</p>
             </details>
           ))}
         </div>
@@ -198,22 +198,22 @@ export default async function NonResidentsPage({
 
       {/* CTA */}
       <CropMarks className="self-start">
-        <div className="flex flex-col items-start gap-4 bg-pine/18 p-8">
-          <p className="type-display-s max-w-xl text-iron">
+        <div className="flex flex-col items-start gap-4 bg-steel/18 p-8">
+          <p className="type-display-s max-w-xl text-navy">
             Model your exact scenario — deposit, monthly, and the constraint that binds you.
           </p>
           <Link
             href="/mortgages/calculator?residency=non-resident"
-            className="type-eyebrow bg-iron px-6 py-3.5 text-ash transition-colors duration-fast ease-brand hover:bg-iron/85"
+            className="type-eyebrow bg-navy px-6 py-3.5 text-chalk transition-colors duration-fast ease-brand hover:bg-navy/85"
           >
             Open the calculator
           </Link>
         </div>
       </CropMarks>
 
-      <p className="type-micro max-w-3xl text-iron/80">
+      <p className="type-micro max-w-3xl text-navy/80">
         Indicative only — not an offer of finance. Lender criteria and rates vary and approval is
-        not guaranteed. Alcázar acts as an intermediary and is not a lender.
+        not guaranteed. REIN Investment acts as an intermediary and is not a lender.
       </p>
       </div>
     </>

@@ -14,7 +14,7 @@ export function CompareCheckbox({ slug, name }: { slug: string; name: string }) 
     <label
       className={cn(
         "type-micro inline-flex cursor-pointer items-center gap-1.5 uppercase transition-colors duration-fast ease-brand",
-        active ? "text-iron" : "text-iron/80 hover:underline hover:underline-offset-4",
+        active ? "text-navy" : "text-navy/80 hover:underline hover:underline-offset-4",
       )}
     >
       <input
@@ -24,7 +24,7 @@ export function CompareCheckbox({ slug, name }: { slug: string; name: string }) 
           toggle({ slug, name });
           if (!active) track({ name: "compare_added", slug, count: items.length + 1 });
         }}
-        className="h-3.5 w-3.5 accent-[var(--iron-grey)]"
+        className="h-3.5 w-3.5 accent-[var(--rein-navy)]"
       />
       {t("compare")}
     </label>
@@ -36,10 +36,10 @@ export function CompareTray() {
   const { items, clear } = useCompare();
   if (items.length === 0) return null;
   return (
-    <div className="fixed inset-x-0 bottom-0 z-40 border-t border-rule bg-linen">
+    <div className="fixed inset-x-0 bottom-0 z-40 border-t border-rule bg-surface">
       <div className="mx-auto flex max-w-container flex-wrap items-center justify-between gap-3 px-4 py-3 md:px-6">
         <div className="flex flex-wrap items-center gap-2">
-          <span className="type-eyebrow text-iron/80">
+          <span className="type-eyebrow text-navy/80">
             {t("compareTitle")} · {items.length}/3
           </span>
           {items.map((i) => (
@@ -52,7 +52,7 @@ export function CompareTray() {
           <button
             type="button"
             onClick={clear}
-            className="type-micro uppercase text-iron/80 hover:underline hover:underline-offset-4"
+            className="type-micro uppercase text-navy/80 hover:underline hover:underline-offset-4"
           >
             {t("clear")}
           </button>
@@ -61,8 +61,8 @@ export function CompareTray() {
             className={cn(
               "type-eyebrow px-4 py-2.5 transition-colors duration-fast ease-brand",
               items.length >= 2
-                ? "bg-iron text-ash hover:bg-iron/85"
-                : "pointer-events-none bg-rule text-iron/40",
+                ? "bg-navy text-chalk hover:bg-navy/85"
+                : "pointer-events-none bg-rule text-navy/40",
             )}
           >
             {t("compare")}

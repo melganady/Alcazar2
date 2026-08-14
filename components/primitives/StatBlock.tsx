@@ -2,7 +2,7 @@ import { cn } from "@/lib/cn";
 
 /**
  * Numbers first, adjectives last. Value renders in display type;
- * no animated counters. `reversed` is for stats sitting on an iron field.
+ * no animated counters. `reversed` is for stats sitting on an navy field.
  */
 export function StatBlock({
   value,
@@ -18,10 +18,10 @@ export function StatBlock({
   className?: string;
 }) {
   const valueColor =
-    tone === "reversed" ? "text-ash" : "text-iron";
-  const labelColor = tone === "reversed" ? "text-ash/80" : "text-iron/80";
+    tone === "reversed" ? "text-chalk" : "text-navy";
+  const labelColor = tone === "reversed" ? "text-chalk/80" : "text-navy/80";
   return (
-    <div className={cn("flex flex-col gap-1.5 border-t-2 border-pine pt-3", className)}>
+    <div className={cn("flex flex-col gap-1.5 border-t-2 border-steel pt-3", className)}>
       <span className={cn("type-display-m", valueColor)}>{value}</span>
       <span className={cn("type-eyebrow", labelColor)}>{label}</span>
       {source ? (

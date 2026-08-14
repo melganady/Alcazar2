@@ -86,24 +86,24 @@ export default async function ComparePage({
   return (
     <>
       <PageHero
-        eyebrow="Alcázar"
+        eyebrow="REIN Investment"
         title={t("compareTitle")}
         support={projects.length < 2 ? t("compareHint") : undefined}
         compact
       />
       <div className="mx-auto flex max-w-container flex-col gap-8 px-4 py-12 md:px-6">
       {projects.length > 0 ? (
-        <div className="overflow-x-auto border border-rule bg-linen">
+        <div className="overflow-x-auto border border-rule bg-surface">
           <table className="w-full min-w-[44rem] border-collapse">
             <thead>
-              <tr className="border-b-2 border-pine">
+              <tr className="border-b-2 border-steel">
                 <th className="w-44 p-4" />
                 {projects.map((p) => (
                   <th key={p.id} className="p-4 text-start">
-                    <Link href={`/projects/${p.slug}`} className="type-display-s text-iron underline-offset-4 hover:underline">
+                    <Link href={`/projects/${p.slug}`} className="type-display-s text-navy underline-offset-4 hover:underline">
                       {p.name}
                     </Link>
-                    <p className="type-body-s mt-1 font-normal text-iron/80">
+                    <p className="type-body-s mt-1 font-normal text-navy/80">
                       {p.subCommunity}, {p.region}
                     </p>
                   </th>
@@ -113,9 +113,9 @@ export default async function ComparePage({
             <tbody>
               {rows.map(([label, render]) => (
                 <tr key={label} className="border-b border-rule/60 align-top">
-                  <th className="type-eyebrow p-4 text-start text-iron/80">{label}</th>
+                  <th className="type-eyebrow p-4 text-start text-navy/80">{label}</th>
                   {projects.map((p) => (
-                    <td key={p.id} className="type-body-s p-4 text-iron">
+                    <td key={p.id} className="type-body-s p-4 text-navy">
                       {render(p)}
                     </td>
                   ))}
@@ -125,10 +125,10 @@ export default async function ComparePage({
           </table>
         </div>
       ) : (
-        <p className="type-body text-iron/80">{t("compareHint")}</p>
+        <p className="type-body text-navy/80">{t("compareHint")}</p>
       )}
 
-      <Link href="/projects" className="type-eyebrow self-start text-iron/80 hover:underline hover:underline-offset-4">
+      <Link href="/projects" className="type-eyebrow self-start text-navy/80 hover:underline hover:underline-offset-4">
         ← {t("title")}
       </Link>
       </div>

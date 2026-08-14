@@ -6,7 +6,7 @@ function Mark({ position }: { position: string }) {
     <svg
       aria-hidden
       viewBox="0 0 12 12"
-      className={cn("absolute h-3 w-3 text-pine", position)}
+      className={cn("absolute h-3 w-3 text-steel", position)}
     >
       <path
         d="M6 0v12M0 6h12"

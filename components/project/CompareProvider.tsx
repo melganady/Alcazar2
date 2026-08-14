@@ -24,7 +24,7 @@ export function useCompare() {
   return ctx;
 }
 
-const KEY = "alcazar-compare";
+const KEY = "rein-compare";
 export const COMPARE_MAX = 3;
 
 export function CompareProvider({ children }: { children: ReactNode }) {

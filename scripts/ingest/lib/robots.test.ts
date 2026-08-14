@@ -36,18 +36,18 @@ describe("parseRobots", () => {
 describe("isAllowed", () => {
   const r = parseRobots(SAMPLE);
   it("allows paths with no matching rule", () => {
-    expect(isAllowed(r, "AlcazarBot", "/about")).toBe(true);
+    expect(isAllowed(r, "ReinBot", "/about")).toBe(true);
   });
   it("blocks disallowed prefixes", () => {
-    expect(isAllowed(r, "AlcazarBot", "/admin/users")).toBe(false);
-    expect(isAllowed(r, "AlcazarBot", "/search?q=x")).toBe(false);
+    expect(isAllowed(r, "ReinBot", "/admin/users")).toBe(false);
+    expect(isAllowed(r, "ReinBot", "/search?q=x")).toBe(false);
   });
   it("honours an explicit Allow", () => {
-    expect(isAllowed(r, "AlcazarBot", "/projects/seaside")).toBe(true);
+    expect(isAllowed(r, "ReinBot", "/projects/seaside")).toBe(true);
   });
   it("applies the agent-specific group over the wildcard", () => {
     expect(isAllowed(r, "BadBot/1.0", "/projects")).toBe(false);
-    expect(isAllowed(r, "AlcazarBot/1.0", "/projects")).toBe(true);
+    expect(isAllowed(r, "ReinBot/1.0", "/projects")).toBe(true);
   });
   it("longest match wins, Allow wins ties", () => {
     const rr = parseRobots("User-agent: *\nDisallow: /a\nAllow: /a/b");

@@ -4,9 +4,9 @@
  */
 
 export const VERBATIM = {
-  tagline: "The address before it exists.",
+  tagline: "Fresh thinking, real income.",
   positioning:
-    "A modern, agile real estate investment house. We place capital into property across the UAE and beyond — off-plan, ready, and repositioned — for private investors buying in cash or on finance.",
+    "REIN Investment is a private real estate desk placing capital across seven markets. We select, underwrite and structure pre-construction, income-producing and fix-and-flip assets for private investors, and arrange financing for residents and non-residents alongside the asset.",
   theTest: "If we cannot write the exit, we do not write the entry.",
   careersHeadline: "Young, not casual.",
 } as const;

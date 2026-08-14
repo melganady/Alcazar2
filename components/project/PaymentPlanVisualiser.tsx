@@ -57,19 +57,19 @@ export function PaymentPlanVisualiser({
       </div>
 
       {/* Timeline */}
-      <div className="flex h-16 w-full overflow-hidden border border-rule bg-linen" aria-hidden>
+      <div className="flex h-16 w-full overflow-hidden border border-rule bg-surface" aria-hidden>
         {milestones.map((m, i) => (
           <div
             key={i}
             style={{ width: `${(m.pct / total) * 100}%` }}
             className={
               i % 2 === 0
-                ? "flex flex-col justify-center gap-0.5 bg-pine/18 px-2"
-                : "flex flex-col justify-center gap-0.5 bg-linen px-2"
+                ? "flex flex-col justify-center gap-0.5 bg-steel/18 px-2"
+                : "flex flex-col justify-center gap-0.5 bg-surface px-2"
             }
           >
-            <span className="type-micro truncate uppercase text-iron/80">{m.label}</span>
-            <span className="type-body-s font-medium text-iron">{m.pct}%</span>
+            <span className="type-micro truncate uppercase text-navy/80">{m.label}</span>
+            <span className="type-body-s font-medium text-navy">{m.pct}%</span>
           </div>
         ))}
       </div>
@@ -80,10 +80,10 @@ export function PaymentPlanVisualiser({
           <caption className="sr-only">{planLabel}</caption>
           <thead>
             <tr className="border-b border-rule">
-              <th className="type-eyebrow py-2 pe-4 text-start text-iron/80">{t("milestone")}</th>
-              <th className="type-eyebrow py-2 pe-4 text-start text-iron/80">{t("trigger")}</th>
-              <th className="type-eyebrow py-2 pe-4 text-end text-iron/80">{t("share")}</th>
-              <th className="type-eyebrow py-2 text-end text-iron/80">{t("amount")}</th>
+              <th className="type-eyebrow py-2 pe-4 text-start text-navy/80">{t("milestone")}</th>
+              <th className="type-eyebrow py-2 pe-4 text-start text-navy/80">{t("trigger")}</th>
+              <th className="type-eyebrow py-2 pe-4 text-end text-navy/80">{t("share")}</th>
+              <th className="type-eyebrow py-2 text-end text-navy/80">{t("amount")}</th>
             </tr>
           </thead>
           <tbody>
@@ -92,13 +92,13 @@ export function PaymentPlanVisualiser({
               const converted = formatConverted(amount, currency, locale);
               return (
                 <tr key={i} className="border-b border-rule/60">
-                  <td className="type-body-s py-2.5 pe-4 font-medium text-iron">{m.label}</td>
-                  <td className="type-body-s py-2.5 pe-4 text-iron/80">{m.trigger}</td>
-                  <td className="type-body-s py-2.5 pe-4 text-end text-iron">{m.pct}%</td>
-                  <td className="type-body-s py-2.5 text-end text-iron">
+                  <td className="type-body-s py-2.5 pe-4 font-medium text-navy">{m.label}</td>
+                  <td className="type-body-s py-2.5 pe-4 text-navy/80">{m.trigger}</td>
+                  <td className="type-body-s py-2.5 pe-4 text-end text-navy">{m.pct}%</td>
+                  <td className="type-body-s py-2.5 text-end text-navy">
                     {formatAED(amount, locale)}
                     {converted ? (
-                      <span className="ms-2 text-iron/80">{converted}</span>
+                      <span className="ms-2 text-navy/80">{converted}</span>
                     ) : null}
                   </td>
                 </tr>
@@ -107,7 +107,7 @@ export function PaymentPlanVisualiser({
           </tbody>
         </table>
       </div>
-      {note ? <p className="type-micro text-iron/80">{note}</p> : null}
+      {note ? <p className="type-micro text-navy/80">{note}</p> : null}
     </div>
   );
 }

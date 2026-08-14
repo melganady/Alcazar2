@@ -48,7 +48,7 @@ export function FloatingContact({
           onClick={() => track({ name: "whatsapp_click", source: "floating" })}
           aria-label={whatsappLabel}
           title={whatsappLabel}
-          className="flex h-14 w-14 items-center justify-center rounded-full bg-pine text-frost shadow-lg ring-1 ring-iron/10 transition-transform duration-fast ease-brand hover:scale-105"
+          className="flex h-14 w-14 items-center justify-center rounded-full bg-steel text-paper shadow-lg ring-1 ring-navy/10 transition-transform duration-fast ease-brand hover:scale-105"
         >
           {/* WhatsApp glyph, drawn rather than loaded, so the button costs no request. */}
           <svg viewBox="0 0 24 24" className="h-7 w-7 fill-current" aria-hidden focusable="false">
@@ -64,7 +64,7 @@ export function FloatingContact({
           onClick={() => track({ name: "call_click", source: "floating" })}
           aria-label={callLabel}
           title={callLabel}
-          className="flex h-14 w-14 items-center justify-center rounded-full bg-iron text-ash shadow-lg ring-1 ring-iron/10 transition-transform duration-fast ease-brand hover:scale-105"
+          className="flex h-14 w-14 items-center justify-center rounded-full bg-navy text-chalk shadow-lg ring-1 ring-navy/10 transition-transform duration-fast ease-brand hover:scale-105"
         >
           <svg viewBox="0 0 24 24" className="h-6 w-6 fill-current" aria-hidden focusable="false">
             <path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.02-.24c1.12.37 2.33.57 3.57.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.24.2 2.45.57 3.57a1 1 0 0 1-.25 1.02l-2.2 2.2Z" />

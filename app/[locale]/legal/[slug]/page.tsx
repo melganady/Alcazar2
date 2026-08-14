@@ -11,13 +11,13 @@ type Section = { h: string; p: string[] };
 type LegalDoc = { title: string; intro: string; sections: Section[] };
 
 const ESCROW =
-  "Purchase payments are made to the developer's DLD-registered escrow account. Alcázar does not hold client funds.";
+  "Purchase payments are made to the developer's DLD-registered escrow account. REIN Investment does not hold client funds.";
 
 const buildDocs = (identityLine: string): Record<string, LegalDoc> => ({
   privacy: {
     title: "Privacy policy",
     intro:
-      "How Alcázar collects, uses and retains personal data, under UAE Federal Decree-Law No. 45 of 2021 on the Protection of Personal Data (PDPL).",
+      "How REIN Investment collects, uses and retains personal data, under UAE Federal Decree-Law No. 45 of 2021 on the Protection of Personal Data (PDPL).",
     sections: [
       {
         h: "What we collect and why",
@@ -59,7 +59,7 @@ const buildDocs = (identityLine: string): Record<string, LegalDoc> => ({
   },
   terms: {
     title: "Terms of use",
-    intro: "The terms on which Alcázar provides this website.",
+    intro: "The terms on which REIN Investment provides this website.",
     sections: [
       {
         h: "What this site is",
@@ -77,7 +77,7 @@ const buildDocs = (identityLine: string): Record<string, LegalDoc> => ({
       {
         h: "Financing",
         p: [
-          "Alcázar acts as an intermediary and is not a lender. Figures produced by the mortgage calculator are indicative, are not an offer of finance, and do not guarantee approval. Lender criteria, rates and fees vary and change. Your property may be repossessed if you do not keep up repayments.",
+          "REIN Investment acts as an intermediary and is not a lender. Figures produced by the mortgage calculator are indicative, are not an offer of finance, and do not guarantee approval. Lender criteria, rates and fees vary and change. Your property may be repossessed if you do not keep up repayments.",
         ],
       },
       { h: "Client funds", p: [ESCROW] },
@@ -116,7 +116,7 @@ const buildDocs = (identityLine: string): Record<string, LegalDoc> => ({
         ],
       },
       { h: "Financing", p: [
-        "Alcázar is not a lender and does not guarantee any financing outcome. Indicative regulatory caps and fees are published with the date they took effect and the source we relied on.",
+        "REIN Investment is not a lender and does not guarantee any financing outcome. Indicative regulatory caps and fees are published with the date they took effect and the source we relied on.",
       ] },
       { h: "Client funds", p: [ESCROW] },
     ],
@@ -140,7 +140,7 @@ const buildDocs = (identityLine: string): Record<string, LegalDoc> => ({
       {
         h: "Changing your mind",
         p: [
-          "Clear the alcazar-consent cookie in your browser and the banner will ask again on your next visit. Reject all is offered with the same prominence as Accept all, every time.",
+          "Clear the rein-consent cookie in your browser and the banner will ask again on your next visit. Reject all is offered with the same prominence as Accept all, every time.",
         ],
       },
       {
@@ -188,17 +188,17 @@ export default async function LegalPage({
   return (
     <div className="mx-auto flex max-w-3xl flex-col gap-10 px-4 py-12 md:px-6">
       <header className="flex flex-col gap-3">
-        <Eyebrow>Alcázar · Legal</Eyebrow>
-        <h1 className="type-display-l text-iron">{doc.title}</h1>
-        <p className="type-body-l text-iron/80">{doc.intro}</p>
+        <Eyebrow>REIN Investment · Legal</Eyebrow>
+        <h1 className="type-display-l text-navy">{doc.title}</h1>
+        <p className="type-body-l text-navy/80">{doc.intro}</p>
       </header>
 
       <div className="flex flex-col gap-8">
         {doc.sections.map((s) => (
           <section key={s.h} className="flex flex-col gap-3 border-t border-rule pt-6">
-            <h2 className="type-display-s text-iron">{s.h}</h2>
+            <h2 className="type-display-s text-navy">{s.h}</h2>
             {s.p.map((p, i) => (
-              <p key={i} className="type-body text-iron/80">
+              <p key={i} className="type-body text-navy/80">
                 {p}
               </p>
             ))}
@@ -206,7 +206,7 @@ export default async function LegalPage({
         ))}
       </div>
 
-      <p className="type-micro text-iron/80">
+      <p className="type-micro text-navy/80">
         These pages are drafted for review by counsel before launch and are not
         legal advice.
       </p>

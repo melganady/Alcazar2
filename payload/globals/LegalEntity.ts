@@ -3,7 +3,7 @@ import type { GlobalConfig } from "payload";
 /**
  * The regulated identity behind the brand (§11.3).
  *
- * Alcázar is the brand. The entity that actually holds the brokerage licence
+ * REIN Investment is the brand. The entity that actually holds the brokerage licence
  * is what DLD registers, what Trakheesi permits are issued against, and what
  * an ORN resolves to in the public register. Those are separate things, so the
  * site models them separately: `brand` appears everywhere, `licensedEntity`
@@ -27,7 +27,7 @@ export const LegalEntity: GlobalConfig = {
       name: "brandName",
       type: "text",
       required: true,
-      defaultValue: "Alcázar",
+      defaultValue: "REIN Investment",
       admin: { description: "The consumer-facing brand. Used everywhere on the site." },
     },
     {

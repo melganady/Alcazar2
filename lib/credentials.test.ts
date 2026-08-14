@@ -26,7 +26,7 @@ describe("brokerNumber", () => {
 });
 
 describe("whatsappHref — the CMS holds the number in whatever shape it was typed", () => {
-  const expected = "https://wa.me/971585827070?text=Enquiry%20from%20alcazar.ae";
+  const expected = "https://wa.me/971585827070?text=Enquiry%20from%20rein.investments";
 
   it("normalises spacing, plus signs and 00 prefixes to the same link", () => {
     for (const input of [

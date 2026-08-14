@@ -72,7 +72,7 @@ export default async function ArticlePage({
     datePublished: article.publishedAt,
     dateModified: article.updatedAt2 ?? article.publishedAt,
     author: author ? { "@type": "Person", name: author.name } : undefined,
-    publisher: { "@type": "Organization", name: "Alcázar" },
+    publisher: { "@type": "Organization", name: "REIN Investment" },
   };
 
   const faqJsonLd =
@@ -110,21 +110,21 @@ export default async function ArticlePage({
 
       <article className="mx-auto flex max-w-container flex-col gap-10 px-4 py-12 md:px-6">
         {article.body ? (
-          <div className="type-body-l max-w-3xl text-iron/85 [&_h2]:mb-3 [&_h2]:mt-8 [&_h2]:font-display [&_h2]:uppercase [&_h2]:tracking-display-m [&_h2]:text-iron [&_p]:mb-4">
+          <div className="type-body-l max-w-3xl text-navy/85 [&_h2]:mb-3 [&_h2]:mt-8 [&_h2]:font-display [&_h2]:uppercase [&_h2]:tracking-display-m [&_h2]:text-navy [&_p]:mb-4">
             <RichText data={article.body} />
           </div>
         ) : null}
 
         {article.faq && article.faq.length > 0 ? (
           <section className="flex max-w-3xl flex-col gap-4">
-            <h2 className="type-display-m text-iron">Questions</h2>
-            <div className="flex flex-col divide-y divide-rule border border-rule bg-linen">
+            <h2 className="type-display-m text-navy">Questions</h2>
+            <div className="flex flex-col divide-y divide-rule border border-rule bg-surface">
               {article.faq.map((f) => (
                 <details key={f.id ?? f.q} className="p-5">
-                  <summary className="type-body cursor-pointer font-medium text-iron underline-offset-4 hover:underline">
+                  <summary className="type-body cursor-pointer font-medium text-navy underline-offset-4 hover:underline">
                     {f.q}
                   </summary>
-                  <p className="type-body mt-3 text-iron/80">{f.a}</p>
+                  <p className="type-body mt-3 text-navy/80">{f.a}</p>
                 </details>
               ))}
             </div>
@@ -133,7 +133,7 @@ export default async function ArticlePage({
 
         {relatedProjects.length > 0 ? (
           <section className="flex flex-col gap-5 border-t border-rule pt-10">
-            <h2 className="type-display-m text-iron">Projects in this piece</h2>
+            <h2 className="type-display-m text-navy">Projects in this piece</h2>
             <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {relatedProjects.slice(0, 3).map((p) => (
                 <ProjectCard key={p.id} project={p} />
@@ -142,7 +142,7 @@ export default async function ArticlePage({
           </section>
         ) : null}
 
-        <Link href="/insights" className="type-eyebrow self-start text-iron/80 hover:underline hover:underline-offset-4">
+        <Link href="/insights" className="type-eyebrow self-start text-navy/80 hover:underline hover:underline-offset-4">
           ← Insights
         </Link>
       </article>

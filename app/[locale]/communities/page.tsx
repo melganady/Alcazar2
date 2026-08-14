@@ -27,7 +27,7 @@ export default async function CommunitiesPage({
   return (
     <>
       <PageHero
-        eyebrow="Alcázar · Communities"
+        eyebrow="REIN Investment · Communities"
         title="Location is the one thing you cannot renovate"
         support="Supply in window is the fifth of our eight tests. Your exit competes with everything completing around you."
         image={lead?.image ? { url: lead.image, alt: lead.imageAlt ?? lead.name } : null}
@@ -36,7 +36,7 @@ export default async function CommunitiesPage({
       <div className="mx-auto flex max-w-container flex-col gap-10 px-4 py-12 md:px-6">
         {communities.length > 0 ? (
           <>
-            <p aria-live="polite" className="type-eyebrow text-iron/80">
+            <p aria-live="polite" className="type-eyebrow text-navy/80">
               {communities.length} communities with assets on our books
             </p>
             <DirectoryGrid
@@ -46,7 +46,7 @@ export default async function CommunitiesPage({
             />
           </>
         ) : (
-          <p className="type-body text-iron/80">
+          <p className="type-body text-navy/80">
             We publish an area once we have stock in it and a view worth reading.
           </p>
         )}

@@ -1,21 +1,24 @@
-import { Jost, Montserrat, IBM_Plex_Sans_Arabic } from "next/font/google";
+import { Barlow, Barlow_Condensed, IBM_Plex_Sans_Arabic } from "next/font/google";
 
 /*
  * Self-hosted via next/font (downloaded at build, served from our origin).
- * Jost is the display face and is preloaded as a single variable file —
- * this satisfies "preload the two display weights only" with one request.
- * Montserrat (text) and the Arabic face load with swap, no preload.
+ * Barlow Condensed is the display face and carries the three sanctioned
+ * heading weights. Barlow (text) and the Arabic face load with swap, no
+ * preload. Neither Barlow family ships a variable file on Google Fonts, so
+ * the weights are pinned to the ones the identity actually uses.
  */
 
-export const jost = Jost({
+export const barlowCondensed = Barlow_Condensed({
   subsets: ["latin", "latin-ext"],
-  variable: "--font-jost",
+  weight: ["500", "600", "700"],
+  variable: "--font-barlow-condensed",
   display: "swap",
 });
 
-export const montserrat = Montserrat({
+export const barlow = Barlow({
   subsets: ["latin", "latin-ext"],
-  variable: "--font-montserrat",
+  weight: ["300", "400", "500"],
+  variable: "--font-barlow",
   display: "swap",
   preload: false,
 });

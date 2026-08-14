@@ -20,7 +20,7 @@ export function DirectoryGrid({
       {entries.map((e) => (
         <article
           key={e.slug}
-          className="group border border-rule bg-linen transition-colors duration-fast ease-brand hover:border-pine"
+          className="group border border-rule bg-surface transition-colors duration-fast ease-brand hover:border-steel"
         >
           <Link href={`${basePath}/${e.slug}`} className="block">
             <MediaWell
@@ -32,7 +32,7 @@ export function DirectoryGrid({
             />
           </Link>
           <div className="flex flex-col gap-2 p-5">
-            <h2 className="type-display-s text-iron">
+            <h2 className="type-display-s text-navy">
               <Link
                 href={`${basePath}/${e.slug}`}
                 className="underline-offset-4 group-hover:underline"
@@ -40,11 +40,11 @@ export function DirectoryGrid({
                 {e.name}
               </Link>
             </h2>
-            {e.subtitle ? <p className="type-body-s text-iron/80">{e.subtitle}</p> : null}
+            {e.subtitle ? <p className="type-body-s text-navy/80">{e.subtitle}</p> : null}
             <div className="mt-2 flex items-baseline justify-between gap-3 border-t border-rule pt-3">
-              <span className="type-body-s text-iron">{countLabel(e.projectCount)}</span>
+              <span className="type-body-s text-navy">{countLabel(e.projectCount)}</span>
               {e.priceFromAED ? (
-                <span className="type-body-s text-iron/80">
+                <span className="type-body-s text-navy/80">
                   from AED {e.priceFromAED.toLocaleString("en-AE")}
                 </span>
               ) : null}

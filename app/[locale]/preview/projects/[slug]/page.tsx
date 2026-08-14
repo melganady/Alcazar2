@@ -30,12 +30,12 @@ export default async function ProjectPreviewPage({
 
   return (
     <>
-      <div className="border-b border-rule bg-pine/25">
+      <div className="border-b border-rule bg-steel/25">
         <div className="mx-auto flex max-w-container flex-wrap items-center justify-between gap-3 px-4 py-3 md:px-6">
-          <p className="type-eyebrow text-iron">
+          <p className="type-eyebrow text-navy">
             Draft preview · not public · signed in as {user.email}
           </p>
-          <p className="type-micro text-iron/80">
+          <p className="type-micro text-navy/80">
             Publishing requires a Trakheesi permit number on this project.
           </p>
         </div>

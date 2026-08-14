@@ -53,7 +53,7 @@ export function TeamFilter({ agents }: { agents: TeamMember[] }) {
       onClick={onClick}
       className={cn(
         "type-micro border px-3 py-1.5 uppercase transition-colors duration-fast ease-brand",
-        active ? "border-iron bg-iron text-ash" : "border-rule text-iron/80 hover:border-iron hover:underline hover:underline-offset-4",
+        active ? "border-navy bg-navy text-chalk" : "border-rule text-navy/80 hover:border-navy hover:underline hover:underline-offset-4",
       )}
     >
       {label}
@@ -64,7 +64,7 @@ export function TeamFilter({ agents }: { agents: TeamMember[] }) {
     <div className="flex flex-col gap-8">
       <div className="flex flex-col gap-4">
         <div className="flex flex-wrap items-center gap-2">
-          <span className="type-eyebrow me-2 text-iron/80">Language</span>
+          <span className="type-eyebrow me-2 text-navy/80">Language</span>
           {languages.map((l) => (
             <Chip
               key={l}
@@ -75,7 +75,7 @@ export function TeamFilter({ agents }: { agents: TeamMember[] }) {
           ))}
         </div>
         <div className="flex flex-wrap items-center gap-2">
-          <span className="type-eyebrow me-2 text-iron/80">Specialism</span>
+          <span className="type-eyebrow me-2 text-navy/80">Specialism</span>
           {specialisms.map((s) => (
             <Chip
               key={s}
@@ -87,29 +87,29 @@ export function TeamFilter({ agents }: { agents: TeamMember[] }) {
         </div>
       </div>
 
-      <p aria-live="polite" className="type-eyebrow text-iron/80">
+      <p aria-live="polite" className="type-eyebrow text-navy/80">
         {visible.length} {visible.length === 1 ? "consultant" : "consultants"}
       </p>
 
       <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {visible.map((a) => (
-          <article key={a.id} className="flex flex-col gap-2 border border-rule bg-linen p-5">
-            <div className="flex h-14 w-14 items-center justify-center bg-iron font-display text-display-s text-ash">
+          <article key={a.id} className="flex flex-col gap-2 border border-rule bg-surface p-5">
+            <div className="flex h-14 w-14 items-center justify-center bg-navy font-display text-display-s text-chalk">
               {a.name.charAt(0)}
             </div>
-            <h2 className="type-display-s mt-2 text-iron">{a.name}</h2>
-            <p className="type-body-s text-iron/80">{a.role}</p>
+            <h2 className="type-display-s mt-2 text-navy">{a.name}</h2>
+            <p className="type-body-s text-navy/80">{a.role}</p>
             {brokerNumber(a.brn, a.brnExpiry) ? (
-              <p className="type-micro text-iron/80">{brokerNumber(a.brn, a.brnExpiry)}</p>
+              <p className="type-micro text-navy/80">{brokerNumber(a.brn, a.brnExpiry)}</p>
             ) : null}
-            {a.bio ? <p className="type-body-s mt-1 text-iron/80">{a.bio}</p> : null}
-            <p className="type-micro mt-1 text-iron/80">{a.languages.join(" · ")}</p>
-            <p className="type-micro text-iron/80">{a.specialisms.join(" · ")}</p>
+            {a.bio ? <p className="type-body-s mt-1 text-navy/80">{a.bio}</p> : null}
+            <p className="type-micro mt-1 text-navy/80">{a.languages.join(" · ")}</p>
+            <p className="type-micro text-navy/80">{a.specialisms.join(" · ")}</p>
             <div className="mt-3 flex flex-wrap gap-3">
               {a.whatsapp ? (
                 <a
                   href={`https://wa.me/${a.whatsapp.replace(/[^\d]/g, "")}`}
-                  className="type-eyebrow bg-iron px-4 py-2.5 text-ash transition-colors duration-fast ease-brand hover:bg-iron/85"
+                  className="type-eyebrow bg-navy px-4 py-2.5 text-chalk transition-colors duration-fast ease-brand hover:bg-navy/85"
                 >
                   WhatsApp
                 </a>
@@ -117,7 +117,7 @@ export function TeamFilter({ agents }: { agents: TeamMember[] }) {
               {a.email ? (
                 <a
                   href={`mailto:${a.email}`}
-                  className="type-eyebrow border border-iron px-4 py-2.5 text-iron transition-colors duration-fast ease-brand hover:bg-iron hover:text-ash"
+                  className="type-eyebrow border border-navy px-4 py-2.5 text-navy transition-colors duration-fast ease-brand hover:bg-navy hover:text-chalk"
                 >
                   Email
                 </a>

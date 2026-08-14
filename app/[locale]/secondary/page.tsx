@@ -60,12 +60,12 @@ export default async function SecondaryPage({
       <section className="mx-auto flex max-w-container flex-col items-start gap-6 px-4 py-20 md:px-6 md:py-24">
         <div className="flex flex-wrap items-center gap-4">
           <Eyebrow>{t("eyebrow")}</Eyebrow>
-          <span className="type-micro border border-pine bg-pine/18 px-3 py-1 uppercase tracking-eyebrow text-iron">
+          <span className="type-micro border border-steel bg-steel/18 px-3 py-1 uppercase tracking-eyebrow text-navy">
             {t("badge")}
           </span>
         </div>
-        <h1 className="type-display-xl max-w-3xl text-iron">{t("title")}</h1>
-        <p className="type-body-l max-w-2xl text-iron/80">{t("support")}</p>
+        <h1 className="type-display-xl max-w-3xl text-navy">{t("title")}</h1>
+        <p className="type-body-l max-w-2xl text-navy/80">{t("support")}</p>
       </section>
 
       {/* Live resale stock, when there is any */}
@@ -73,8 +73,8 @@ export default async function SecondaryPage({
         <section className="border-t border-rule">
           <div className="mx-auto flex max-w-container flex-col gap-8 px-4 py-16 md:px-6">
             <div className="flex flex-wrap items-baseline justify-between gap-4">
-              <h2 className="type-display-m text-iron">{t("liveTitle")}</h2>
-              <span className="type-eyebrow text-iron/80">
+              <h2 className="type-display-m text-navy">{t("liveTitle")}</h2>
+              <span className="type-eyebrow text-navy/80">
                 {listings.totalDocs} {listings.totalDocs === 1 ? "listing" : "listings"}
               </span>
             </div>
@@ -90,17 +90,17 @@ export default async function SecondaryPage({
       ) : null}
 
       {/* How resale differs */}
-      <section className="border-t border-rule bg-pine/8">
+      <section className="border-t border-rule bg-steel/8">
         <div className="mx-auto flex max-w-container flex-col gap-8 px-4 py-16 md:px-6">
-          <h2 className="type-display-m max-w-3xl text-iron">{t("differsTitle")}</h2>
+          <h2 className="type-display-m max-w-3xl text-navy">{t("differsTitle")}</h2>
           <div className="grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-4">
             {SECONDARY.differences.map((d, i) => (
-              <div key={d.title} className="flex flex-col gap-2 border-t-2 border-pine pt-4">
-                <span aria-hidden className="type-micro text-pine">
+              <div key={d.title} className="flex flex-col gap-2 border-t-2 border-steel pt-4">
+                <span aria-hidden className="type-micro text-steel">
                   {String(i + 1).padStart(2, "0")}
                 </span>
-                <h3 className="type-display-s text-iron">{d.title}</h3>
-                <p className="type-body-s text-iron/80">{d.body}</p>
+                <h3 className="type-display-s text-navy">{d.title}</h3>
+                <p className="type-body-s text-navy/80">{d.body}</p>
               </div>
             ))}
           </div>
@@ -111,14 +111,14 @@ export default async function SecondaryPage({
       <section className="border-t border-rule">
         <div className="mx-auto flex max-w-container flex-col gap-8 px-4 py-16 md:px-6">
           <div className="flex flex-col gap-3">
-            <h2 className="type-display-m text-iron">{t("marketsTitle")}</h2>
-            <p className="type-body-l max-w-2xl text-iron/80">{t("marketsSupport")}</p>
+            <h2 className="type-display-m text-navy">{t("marketsTitle")}</h2>
+            <p className="type-body-l max-w-2xl text-navy/80">{t("marketsSupport")}</p>
           </div>
           <ul className="grid gap-x-10 gap-y-5 sm:grid-cols-2 lg:grid-cols-4">
             {SECONDARY.markets.map((m) => (
               <li key={m.key} className="flex flex-col gap-1 border-t border-rule pt-4">
-                <span className="type-display-s text-iron">{m.name}</span>
-                <span className="type-body-s text-iron/80">{m.note}</span>
+                <span className="type-display-s text-navy">{m.name}</span>
+                <span className="type-body-s text-navy/80">{m.note}</span>
               </li>
             ))}
           </ul>
@@ -128,9 +128,9 @@ export default async function SecondaryPage({
       {/* Same method */}
       <section className="border-t border-rule">
         <div className="mx-auto flex max-w-container flex-col gap-4 px-4 py-16 md:px-6">
-          <h2 className="type-display-m max-w-3xl text-iron">{t("filterTitle")}</h2>
-          <p className="type-body-l max-w-3xl text-iron/80">{t("filterBody")}</p>
-          <p className="type-display-s mt-2 max-w-2xl text-iron">{VERBATIM.theTest}</p>
+          <h2 className="type-display-m max-w-3xl text-navy">{t("filterTitle")}</h2>
+          <p className="type-body-l max-w-3xl text-navy/80">{t("filterBody")}</p>
+          <p className="type-display-s mt-2 max-w-2xl text-navy">{VERBATIM.theTest}</p>
         </div>
       </section>
 
@@ -138,10 +138,10 @@ export default async function SecondaryPage({
       <section className="border-t border-rule">
         <div className="mx-auto px-4 py-16 md:px-6">
           <CropMarks className="mx-auto max-w-container">
-            <div className="flex flex-col gap-6 bg-pine/18 p-8">
+            <div className="flex flex-col gap-6 bg-steel/18 p-8">
               <div className="flex flex-col gap-2">
-                <h2 className="type-display-m text-iron">{t("registerTitle")}</h2>
-                <p className="type-body max-w-2xl text-iron/80">{t("registerBody")}</p>
+                <h2 className="type-display-m text-navy">{t("registerTitle")}</h2>
+                <p className="type-body max-w-2xl text-navy/80">{t("registerBody")}</p>
               </div>
 
               <Suspense fallback={null}>
@@ -164,20 +164,20 @@ export default async function SecondaryPage({
                 <Field id="sec-email" name="email" type="email" label="Email" required />
 
                 <fieldset className="sm:col-span-2">
-                  <legend className="type-body-s mb-3 font-medium text-iron">
+                  <legend className="type-body-s mb-3 font-medium text-navy">
                     {t("marketsLabel")}
                   </legend>
                   <div className="grid gap-x-8 gap-y-2 sm:grid-cols-3">
                     {SECONDARY.markets.map((m) => (
                       <label
                         key={m.key}
-                        className="type-body-s flex items-center gap-2 text-iron"
+                        className="type-body-s flex items-center gap-2 text-navy"
                       >
                         <input
                           type="checkbox"
                           name="markets"
                           value={m.name}
-                          className="h-4 w-4 accent-[var(--pine-smoke)]"
+                          className="h-4 w-4 accent-[var(--steel)]"
                         />
                         {m.name}
                       </label>
@@ -185,25 +185,25 @@ export default async function SecondaryPage({
                   </div>
                 </fieldset>
 
-                <label className="type-body-s flex items-start gap-2 text-iron sm:col-span-2">
+                <label className="type-body-s flex items-start gap-2 text-navy sm:col-span-2">
                   <input
                     type="checkbox"
                     name="marketingConsent"
-                    className="mt-1 h-4 w-4 accent-[var(--pine-smoke)]"
+                    className="mt-1 h-4 w-4 accent-[var(--steel)]"
                   />
                   You may email me when a desk opens in these markets.
                 </label>
 
                 <button
                   type="submit"
-                  className="type-eyebrow bg-iron px-6 py-3.5 text-ash transition-colors duration-fast ease-brand hover:bg-iron/85 sm:col-span-2 sm:justify-self-start"
+                  className="type-eyebrow bg-navy px-6 py-3.5 text-chalk transition-colors duration-fast ease-brand hover:bg-navy/85 sm:col-span-2 sm:justify-self-start"
                 >
                   {t("submit")}
                 </button>
               </form>
 
               {/* Stated plainly: nothing here is a property advert. */}
-              <p className="type-micro max-w-2xl text-iron/80">{t("note")}</p>
+              <p className="type-micro max-w-2xl text-navy/80">{t("note")}</p>
             </div>
           </CropMarks>
         </div>

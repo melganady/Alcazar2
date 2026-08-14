@@ -25,11 +25,11 @@ export function SiteHeader() {
   const links = NAV_KEYS.map(({ key, href, soon }) => ({ href, label: t(key), soon }));
 
   return (
-    <header className="border-b border-rule bg-frost">
+    <header className="border-b border-rule bg-paper">
       {/* Utility bar: locale, currency, units (§9) */}
       <div className="border-b border-rule">
         <div className="mx-auto flex max-w-container items-center justify-between gap-4 px-4 py-1.5 md:px-6">
-          <p className="type-micro hidden text-iron/80 sm:block">
+          <p className="type-micro hidden text-navy/80 sm:block">
             {tBrand("tagline")}
           </p>
           <div className="flex items-center gap-5">
@@ -50,14 +50,14 @@ export function SiteHeader() {
             <Link
               key={l.href}
               href={l.href}
-              className="type-eyebrow text-iron/80 transition-colors duration-fast ease-brand hover:text-iron hover:underline hover:underline-offset-4"
+              className="type-eyebrow text-navy/80 transition-colors duration-fast ease-brand hover:text-navy hover:underline hover:underline-offset-4"
             >
               {l.label}
             </Link>
           ))}
           <Link
             href="/contact"
-            className="type-eyebrow border border-iron px-4 py-2.5 text-iron transition-colors duration-fast ease-brand hover:bg-iron hover:text-ash"
+            className="type-eyebrow border border-navy px-4 py-2.5 text-navy transition-colors duration-fast ease-brand hover:bg-navy hover:text-chalk"
           >
             {t("enquire")}
           </Link>

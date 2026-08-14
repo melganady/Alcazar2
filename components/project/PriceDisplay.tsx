@@ -22,7 +22,7 @@ export function PriceDisplay({
     <span className={className}>
       {formatAED(amountAED, locale)}
       {converted ? (
-        <span className={cn("text-iron/80", convertedClassName)}> {converted}</span>
+        <span className={cn("text-navy/80", convertedClassName)}> {converted}</span>
       ) : null}
     </span>
   );

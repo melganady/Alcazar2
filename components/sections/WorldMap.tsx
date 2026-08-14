@@ -86,7 +86,7 @@ export function WorldMap({
       preserveAspectRatio={preserveAspectRatio}
       className={className ?? "h-auto w-full"}
       role="img"
-      aria-label={`World map marking the countries Alcázar operates in: ${MARKETS.map((m) => m.name).join(", ")}.`}
+      aria-label={`World map marking the countries REIN Investment operates in: ${MARKETS.map((m) => m.name).join(", ")}.`}
     >
       {/* Every country, quietly. The markets are then lifted out of it. */}
       <g>
@@ -101,11 +101,11 @@ export function WorldMap({
               className={
                 muted
                   ? isMarket
-                    ? "fill-pine/25 stroke-frost"
-                    : "fill-ash/25 stroke-frost"
+                    ? "fill-steel/25 stroke-paper"
+                    : "fill-chalk/25 stroke-paper"
                   : isMarket
-                    ? "fill-pine stroke-linen"
-                    : "fill-ash/70 stroke-linen"
+                    ? "fill-steel stroke-surface"
+                    : "fill-chalk/70 stroke-surface"
               }
               strokeWidth={0.5}
             />
@@ -126,22 +126,22 @@ export function WorldMap({
                 cx={x}
                 cy={y}
                 r={13}
-                className={muted ? "fill-none stroke-iron/35" : "fill-none stroke-iron"}
+                className={muted ? "fill-none stroke-navy/35" : "fill-none stroke-navy"}
                 strokeWidth={1.5}
               />
             ) : null}
-            <circle cx={x} cy={y} r={4.5} className={muted ? "fill-iron/45" : "fill-iron"} />
-            <circle cx={x} cy={y} r={1.75} className="fill-frost" />
+            <circle cx={x} cy={y} r={4.5} className={muted ? "fill-navy/45" : "fill-navy"} />
+            <circle cx={x} cy={y} r={1.75} className="fill-paper" />
             {showLabels ? (
               <text
                 x={x + label.dx}
                 y={y + label.dy}
                 textAnchor={label.anchor}
-                className="fill-iron"
+                className="fill-navy"
                 style={{ fontSize: 16, fontWeight: 500, letterSpacing: "0.02em" }}
               >
                 {m.name === "United Arab Emirates" ? "UAE" : m.name}
-                <tspan className="fill-iron/70" style={{ fontSize: 14, fontWeight: 400 }}>
+                <tspan className="fill-navy/70" style={{ fontSize: 14, fontWeight: 400 }}>
                   {"  "}
                   {m.returnLow}–{m.returnHigh}%
                 </tspan>

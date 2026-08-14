@@ -99,9 +99,9 @@ const seed = async () => {
   if (users.totalDocs === 0) {
     await payload.create({
       collection: "users",
-      data: { email: "admin@alcazar.ae", password: "alcazar-dev-2026", name: "Alcázar Admin" },
+      data: { email: "admin@rein.investments", password: "rein-dev-2026", name: "REIN Investment Admin" },
     });
-    console.log("Admin user: admin@alcazar.ae / alcazar-dev-2026");
+    console.log("Admin user: admin@rein.investments / rein-dev-2026");
   }
 
   const communityIds: Record<string, number> = {};
@@ -176,7 +176,7 @@ const seed = async () => {
         languages: [...a.langs],
         specialisms: [...a.specs],
         whatsapp: "+971500000000",
-        email: `${a.slug.split("-")[0]}@alcazar.ae`,
+        email: `${a.slug.split("-")[0]}@rein.investments`,
         bio: "Fixture profile — replaced with real consultant data before launch.",
         isFixture: true,
       },

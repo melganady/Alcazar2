@@ -19,13 +19,13 @@ export async function SiteFooter() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="bg-iron text-ash">
+    <footer className="bg-navy text-chalk">
       <div className="mx-auto flex max-w-container flex-col gap-10 px-4 py-12 md:px-6">
         <div className="flex flex-col justify-between gap-8 md:flex-row md:items-start">
           <div className="flex flex-col gap-4">
             <Logo reversed className="-m-2" />
             {/* Reachable from any page, rather than only from /contact. */}
-            <address className="type-body-s not-italic text-ash/80">
+            <address className="type-body-s not-italic text-chalk/80">
               {identity.address ? (
                 <span className="block whitespace-pre-line">{identity.address}</span>
               ) : null}
@@ -34,7 +34,7 @@ export async function SiteFooter() {
                 {identity.phone ? (
                   <a
                     href={`tel:${identity.phone.replace(/\s/g, "")}`}
-                    className="text-ash underline-offset-4 hover:underline"
+                    className="text-chalk underline-offset-4 hover:underline"
                   >
                     {identity.phone}
                   </a>
@@ -43,7 +43,7 @@ export async function SiteFooter() {
                   <WhatsAppLink
                     href={waHref}
                     source="footer"
-                    className="bg-transparent p-0 text-ash underline-offset-4 hover:bg-transparent hover:underline"
+                    className="bg-transparent p-0 text-chalk underline-offset-4 hover:bg-transparent hover:underline"
                   >
                     WhatsApp
                   </WhatsAppLink>
@@ -51,7 +51,7 @@ export async function SiteFooter() {
                 {identity.email ? (
                   <a
                     href={`mailto:${identity.email}`}
-                    className="text-ash underline-offset-4 hover:underline"
+                    className="text-chalk underline-offset-4 hover:underline"
                   >
                     {identity.email}
                   </a>
@@ -64,7 +64,7 @@ export async function SiteFooter() {
               <Link
                 key={l.href}
                 href={l.href}
-                className="type-micro uppercase text-ash/80 transition-colors duration-fast ease-brand hover:text-ash"
+                className="type-micro uppercase text-chalk/80 transition-colors duration-fast ease-brand hover:text-chalk"
               >
                 {l.label}
               </Link>
@@ -73,16 +73,16 @@ export async function SiteFooter() {
         </div>
 
         {/* §11 — compliance strip. ORN / licence numbers are placeholders until Q3 is answered. */}
-        <div className="flex flex-col gap-3 border-t border-ash/15 pt-8">
-          <p className="type-micro text-ash/80">
+        <div className="flex flex-col gap-3 border-t border-chalk/15 pt-8">
+          <p className="type-micro text-chalk/80">
             {[identity.licenceLine, ...identity.registrations, identity.city]
               .filter(Boolean)
               .join(" · ")}
           </p>
-          <p className="type-micro text-ash/80">{t("escrow")}</p>
-          <p className="type-micro text-ash/80">{t("investment")}</p>
-          <p className="type-micro text-ash/80">{t("mortgage")}</p>
-          <p className="type-micro text-ash/80">{t("rights", { year })}</p>
+          <p className="type-micro text-chalk/80">{t("escrow")}</p>
+          <p className="type-micro text-chalk/80">{t("investment")}</p>
+          <p className="type-micro text-chalk/80">{t("mortgage")}</p>
+          <p className="type-micro text-chalk/80">{t("rights", { year })}</p>
         </div>
       </div>
     </footer>

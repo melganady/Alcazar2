@@ -58,7 +58,7 @@ export default async function MortgagesPage({
   return (
     <>
       <PageHero
-        eyebrow="Alcázar · Mortgage advisory"
+        eyebrow="REIN Investment · Mortgage advisory"
         title="Financing, without the fog"
         support="Residents and non-residents. We arrange, we do not lend — and we show you which constraint actually limits what you can borrow before any bank does."
         compact
@@ -69,10 +69,10 @@ export default async function MortgagesPage({
           <Link
             key={c.href}
             href={c.href}
-            className="group flex flex-col gap-3 border border-rule bg-linen p-6 transition-colors duration-fast ease-brand hover:border-pine"
+            className="group flex flex-col gap-3 border border-rule bg-surface p-6 transition-colors duration-fast ease-brand hover:border-steel"
           >
-            <h2 className="type-display-s text-iron group-hover:underline group-hover:underline-offset-4">{c.title}</h2>
-            <p className="type-body-s text-iron/80">{c.body}</p>
+            <h2 className="type-display-s text-navy group-hover:underline group-hover:underline-offset-4">{c.title}</h2>
+            <p className="type-body-s text-navy/80">{c.body}</p>
           </Link>
         ))}
       </div>
@@ -82,34 +82,34 @@ export default async function MortgagesPage({
           unfinished page. */}
       {lenders.length > 0 ? (
       <section className="flex flex-col gap-5">
-        <h2 className="type-display-m text-iron">Lender panel</h2>
-        <div className="overflow-x-auto border border-rule bg-linen">
+        <h2 className="type-display-m text-navy">Lender panel</h2>
+        <div className="overflow-x-auto border border-rule bg-surface">
           <table className="w-full min-w-[44rem] border-collapse">
             <thead>
-              <tr className="border-b-2 border-pine">
+              <tr className="border-b-2 border-steel">
                 {["Lender", "Max LTV resident", "Max LTV non-resident", "Finances off-plan", "Indicative fixed rate", "Fixed period"].map((h) => (
-                  <th key={h} className="type-eyebrow p-3 text-start text-iron/80">{h}</th>
+                  <th key={h} className="type-eyebrow p-3 text-start text-navy/80">{h}</th>
                 ))}
               </tr>
             </thead>
             <tbody>
               {lenders.map((l) => (
                 <tr key={l.id} className="border-b border-rule/60">
-                  <td className="type-body-s p-3 font-medium text-iron">{l.name}</td>
-                  <td className="type-body-s p-3 text-iron">{l.maxLtvResidentPct}%</td>
-                  <td className="type-body-s p-3 text-iron">{l.maxLtvNonResidentPct}%</td>
-                  <td className="type-body-s p-3 text-iron">{l.financesOffplan ? "Yes" : "No"}</td>
-                  <td className="type-body-s p-3 text-iron">{l.indicativeFixedRatePct}%</td>
-                  <td className="type-body-s p-3 text-iron">{l.fixedPeriodYears} years</td>
+                  <td className="type-body-s p-3 font-medium text-navy">{l.name}</td>
+                  <td className="type-body-s p-3 text-navy">{l.maxLtvResidentPct}%</td>
+                  <td className="type-body-s p-3 text-navy">{l.maxLtvNonResidentPct}%</td>
+                  <td className="type-body-s p-3 text-navy">{l.financesOffplan ? "Yes" : "No"}</td>
+                  <td className="type-body-s p-3 text-navy">{l.indicativeFixedRatePct}%</td>
+                  <td className="type-body-s p-3 text-navy">{l.fixedPeriodYears} years</td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
-        <p className="type-micro max-w-3xl text-iron/80">
+        <p className="type-micro max-w-3xl text-navy/80">
           Rates effective{" "}
           {lenders[0]?.ratesEffectiveFrom?.slice(0, 10) ?? constants.effectiveFrom}. Indicative
-          only; lender criteria vary and approval is not guaranteed. Alcázar acts as an
+          only; lender criteria vary and approval is not guaranteed. REIN Investment acts as an
           intermediary and is not a lender.
         </p>
       </section>

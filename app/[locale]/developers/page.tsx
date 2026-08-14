@@ -29,7 +29,7 @@ export default async function DevelopersPage({
   return (
     <>
       <PageHero
-        eyebrow="Alcázar · Developers"
+        eyebrow="REIN Investment · Developers"
         title="Who builds it matters"
         support="Developer record is the first of our eight tests. What they have delivered, and how late, decides whether their stock reaches you."
         image={lead?.image ? { url: lead.image, alt: lead.imageAlt ?? lead.name } : null}
@@ -38,7 +38,7 @@ export default async function DevelopersPage({
       <div className="mx-auto flex max-w-container flex-col gap-10 px-4 py-12 md:px-6">
         {developers.length > 0 ? (
           <>
-            <p aria-live="polite" className="type-eyebrow text-iron/80">
+            <p aria-live="polite" className="type-eyebrow text-navy/80">
               {developers.length} developers with assets on our books
             </p>
             <DirectoryGrid
@@ -48,7 +48,7 @@ export default async function DevelopersPage({
             />
           </>
         ) : (
-          <p className="type-body text-iron/80">
+          <p className="type-body text-navy/80">
             We publish a developer once we hold a delivery record we have checked ourselves.
           </p>
         )}

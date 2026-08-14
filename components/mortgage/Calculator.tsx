@@ -46,7 +46,7 @@ function Money({ aed, small = false }: { aed: number; small?: boolean }) {
     <>
       {formatAED(Math.round(aed), locale)}
       {converted ? (
-        <span className={small ? "type-micro ms-1.5 text-iron/80" : "type-body-s ms-2 text-iron/80"}>
+        <span className={small ? "type-micro ms-1.5 text-navy/80" : "type-body-s ms-2 text-navy/80"}>
           {converted}
         </span>
       ) : null}
@@ -193,7 +193,7 @@ export function Calculator({
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = "alcazar-amortisation.csv";
+    a.download = "rein-amortisation.csv";
     a.click();
     URL.revokeObjectURL(url);
   };
@@ -213,7 +213,7 @@ export function Calculator({
   return (
     <div className="grid gap-8 lg:grid-cols-[minmax(0,24rem)_1fr]">
       {/* Inputs */}
-      <div className="flex h-fit flex-col gap-4 border border-rule bg-linen p-6">
+      <div className="flex h-fit flex-col gap-4 border border-rule bg-surface p-6">
         <Field
           id="c-price" label={t("price")} type="number" inputMode="numeric" min={200000} step={50000}
           value={price || ""} onChange={(e) => { setPrice(Number(e.target.value)); setDepositOverride(null); }}
@@ -277,14 +277,14 @@ export function Calculator({
 
       {/* Outputs */}
       <div className="flex flex-col gap-6">
-        <div className="border border-rule bg-linen p-6">
-          <p className="type-eyebrow text-iron/80">{t("maxBorrowing")}</p>
-          <p className="type-display-m mt-1 text-iron">
+        <div className="border border-rule bg-surface p-6">
+          <p className="type-eyebrow text-navy/80">{t("maxBorrowing")}</p>
+          <p className="type-display-m mt-1 text-navy">
             <Money aed={borrowing.loanAED} />
           </p>
-          <p className="type-body-s mt-2 max-w-xl text-iron/80">{bindingNote}</p>
+          <p className="type-body-s mt-2 max-w-xl text-navy/80">{bindingNote}</p>
           {tenure.ageCapped ? (
-            <p className="type-body-s mt-1 text-iron/80">
+            <p className="type-body-s mt-1 text-navy/80">
               {t("ageCapNote", {
                 years: tenure.years,
                 maxAge: employment === "self-employed" ? constants.tenure.maxAgeSelfEmployed : constants.tenure.maxAgeSalaried,
@@ -293,17 +293,17 @@ export function Calculator({
           ) : null}
           <div className="mt-5 grid grid-cols-2 gap-5 border-t border-rule pt-5 sm:grid-cols-3">
             <div>
-              <p className="type-micro uppercase text-iron/80">{t("depositRequired")}</p>
-              <p className="type-body font-medium text-iron"><Money aed={deposit} small /></p>
+              <p className="type-micro uppercase text-navy/80">{t("depositRequired")}</p>
+              <p className="type-body font-medium text-navy"><Money aed={deposit} small /></p>
             </div>
             <div>
-              <p className="type-micro uppercase text-iron/80">{t("monthly")}</p>
-              <p className="type-body font-medium text-iron"><Money aed={monthly} small /></p>
+              <p className="type-micro uppercase text-navy/80">{t("monthly")}</p>
+              <p className="type-body font-medium text-navy"><Money aed={monthly} small /></p>
             </div>
             <div>
-              <p className="type-micro uppercase text-iron/80">{t("totalOverTerm", { years: tenure.years })}</p>
-              <p className="type-body font-medium text-iron"><Money aed={totalPaidAED} small /></p>
-              <p className="type-micro text-iron/80">
+              <p className="type-micro uppercase text-navy/80">{t("totalOverTerm", { years: tenure.years })}</p>
+              <p className="type-body font-medium text-navy"><Money aed={totalPaidAED} small /></p>
+              <p className="type-micro text-navy/80">
                 {t("totalInterest")} <Money aed={totalInterestAED} small />
               </p>
             </div>
@@ -311,17 +311,17 @@ export function Calculator({
         </div>
 
         {/* Upfront costs */}
-        <div className="border border-rule bg-linen p-6">
-          <p className="type-eyebrow text-iron/80">{t("upfront")}</p>
-          <p className="type-display-s mt-1 text-iron">
+        <div className="border border-rule bg-surface p-6">
+          <p className="type-eyebrow text-navy/80">{t("upfront")}</p>
+          <p className="type-display-s mt-1 text-navy">
             <Money aed={costs.totalMinAED} />
-            {costs.totalMaxAED > costs.totalMinAED ? <span className="text-iron/80"> – <Money aed={costs.totalMaxAED} small /></span> : null}
+            {costs.totalMaxAED > costs.totalMinAED ? <span className="text-navy/80"> – <Money aed={costs.totalMaxAED} small /></span> : null}
           </p>
           <ul className="mt-4 flex flex-col divide-y divide-rule/60">
             {costs.lines.map((l) => (
               <li key={l.key} className="flex items-baseline justify-between gap-4 py-2">
-                <span className="type-body-s text-iron/80">{lineLabel[l.key] ?? l.key}</span>
-                <span className="type-body-s font-medium text-iron">
+                <span className="type-body-s text-navy/80">{lineLabel[l.key] ?? l.key}</span>
+                <span className="type-body-s font-medium text-navy">
                   {l.amountAED != null ? (
                     <Money aed={l.amountAED} small />
                   ) : (
@@ -333,40 +333,40 @@ export function Calculator({
               </li>
             ))}
           </ul>
-          <p className="type-micro mt-3 text-iron/80">
+          <p className="type-micro mt-3 text-navy/80">
             {t("insuranceNote", { amount: formatAED(Math.round(insuranceAnnual), locale) })}
           </p>
         </div>
 
         {/* Off-plan two-stage mode */}
         {propertyStatus === "off-plan" ? (
-          <div className="border border-rule bg-linen p-6">
-            <p className="type-eyebrow text-iron/80">{t("offplanTitle")}</p>
+          <div className="border border-rule bg-surface p-6">
+            <p className="type-eyebrow text-navy/80">{t("offplanTitle")}</p>
             <div className="mt-4 grid gap-6 sm:grid-cols-2">
               <div>
-                <p className="type-body-s font-medium text-iron">{t("offplanDuring")}</p>
+                <p className="type-body-s font-medium text-navy">{t("offplanDuring")}</p>
                 {projectMilestones?.length ? (
                   <ul className="mt-2 flex flex-col divide-y divide-rule/60">
                     {projectMilestones.map((m, i) => (
                       <li key={i} className="flex justify-between gap-3 py-1.5">
-                        <span className="type-body-s text-iron/80">
+                        <span className="type-body-s text-navy/80">
                           {m.label} · {m.pct}%
                         </span>
-                        <span className="type-body-s text-iron">
+                        <span className="type-body-s text-navy">
                           <Money aed={(price * m.pct) / 100} small />
                         </span>
                       </li>
                     ))}
                   </ul>
                 ) : (
-                  <p className="type-body-s mt-2 text-iron/80">
+                  <p className="type-body-s mt-2 text-navy/80">
                     {projectName ?? ""}
                   </p>
                 )}
               </div>
               <div>
-                <p className="type-body-s font-medium text-iron">{t("offplanAtHandover")}</p>
-                <p className="type-body-s mt-2 text-iron/80">
+                <p className="type-body-s font-medium text-navy">{t("offplanAtHandover")}</p>
+                <p className="type-body-s mt-2 text-navy/80">
                   {t("offplanHandoverNote", { pct: borrowing.ltvPct })}
                 </p>
                 <div className="mt-3">
@@ -376,7 +376,7 @@ export function Calculator({
                   />
                 </div>
                 {valuationPct < 100 ? (
-                  <p className="type-body-s mt-2 text-iron/80">
+                  <p className="type-body-s mt-2 text-navy/80">
                     {t("valuationGapNote", {
                       pct: valuationPct,
                       loan: formatAED(Math.round(gap.actualLoanAED), locale),
@@ -390,35 +390,35 @@ export function Calculator({
         ) : null}
 
         {/* Amortisation */}
-        <details className="border border-rule bg-linen">
-          <summary className="type-eyebrow cursor-pointer p-6 text-iron/80">
+        <details className="border border-rule bg-surface">
+          <summary className="type-eyebrow cursor-pointer p-6 text-navy/80">
             {t("amortisation")}
           </summary>
           <div className="px-6 pb-6">
             <button
               type="button"
               onClick={downloadCsv}
-              className="type-eyebrow mb-4 border border-iron px-4 py-2 text-iron transition-colors duration-fast ease-brand hover:bg-iron hover:text-ash"
+              className="type-eyebrow mb-4 border border-navy px-4 py-2 text-navy transition-colors duration-fast ease-brand hover:bg-navy hover:text-chalk"
             >
               {t("downloadCsv")}
             </button>
             <div className="max-h-96 overflow-auto">
               <table className="w-full min-w-[32rem] border-collapse">
-                <thead className="sticky top-0 bg-linen">
+                <thead className="sticky top-0 bg-surface">
                   <tr className="border-b border-rule">
                     {[t("amMonth"), t("amOpening"), t("amInterest"), t("amPrincipal"), t("amClosing")].map((h) => (
-                      <th key={h} className="type-eyebrow py-2 pe-4 text-start text-iron/80">{h}</th>
+                      <th key={h} className="type-eyebrow py-2 pe-4 text-start text-navy/80">{h}</th>
                     ))}
                   </tr>
                 </thead>
                 <tbody>
                   {amortRows.map((r) => (
                     <tr key={r.month} className="border-b border-rule/40">
-                      <td className="type-body-s py-1.5 pe-4 text-iron/80">{r.month}</td>
-                      <td className="type-body-s py-1.5 pe-4 text-iron">{Math.round(r.openingAED).toLocaleString()}</td>
-                      <td className="type-body-s py-1.5 pe-4 text-iron">{Math.round(r.interestAED).toLocaleString()}</td>
-                      <td className="type-body-s py-1.5 pe-4 text-iron">{Math.round(r.principalAED).toLocaleString()}</td>
-                      <td className="type-body-s py-1.5 text-iron">{Math.round(r.closingAED).toLocaleString()}</td>
+                      <td className="type-body-s py-1.5 pe-4 text-navy/80">{r.month}</td>
+                      <td className="type-body-s py-1.5 pe-4 text-navy">{Math.round(r.openingAED).toLocaleString()}</td>
+                      <td className="type-body-s py-1.5 pe-4 text-navy">{Math.round(r.interestAED).toLocaleString()}</td>
+                      <td className="type-body-s py-1.5 pe-4 text-navy">{Math.round(r.principalAED).toLocaleString()}</td>
+                      <td className="type-body-s py-1.5 text-navy">{Math.round(r.closingAED).toLocaleString()}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -428,10 +428,10 @@ export function Calculator({
         </details>
 
         {/* PDF soft gate — the lead */}
-        <div className="border border-rule bg-linen p-6">
-          <p className="type-display-s text-iron">{t("pdfTitle")}</p>
+        <div className="border border-rule bg-surface p-6">
+          <p className="type-display-s text-navy">{t("pdfTitle")}</p>
           {pdfState?.ok ? (
-            <p role="status" className="type-body mt-3 text-iron/80">{t("pdfSent")}</p>
+            <p role="status" className="type-body mt-3 text-navy/80">{t("pdfSent")}</p>
           ) : (
             <form
               action={pdfAction}
@@ -452,7 +452,7 @@ export function Calculator({
               <Field id="pdf-email" name="email" type="email" label={tp("formEmail")} required />
               <button
                 type="submit"
-                className="type-eyebrow self-end bg-iron px-6 py-3 text-ash transition-colors duration-fast ease-brand hover:bg-iron/85"
+                className="type-eyebrow self-end bg-navy px-6 py-3 text-chalk transition-colors duration-fast ease-brand hover:bg-navy/85"
               >
                 {t("pdfCta")}
               </button>
@@ -461,8 +461,8 @@ export function Calculator({
         </div>
 
         <Rule />
-        <p className="type-micro max-w-3xl text-iron/80">{t("disclaimer")}</p>
-        <p className="type-micro max-w-3xl text-iron/80">
+        <p className="type-micro max-w-3xl text-navy/80">{t("disclaimer")}</p>
+        <p className="type-micro max-w-3xl text-navy/80">
           {t("constantsNote", { date: constants.effectiveFrom, source: constants.sourceNote })}
           {note ? ` · ${note}` : ""}
         </p>

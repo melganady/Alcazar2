@@ -34,7 +34,7 @@ export function ProjectCard({
   return (
     <article
       className={cn(
-        "group border border-rule bg-linen transition-colors duration-fast ease-brand hover:border-pine",
+        "group border border-rule bg-surface transition-colors duration-fast ease-brand hover:border-steel",
         layout === "list" && "sm:grid sm:grid-cols-[minmax(0,16rem)_1fr]",
       )}
     >
@@ -49,19 +49,19 @@ export function ProjectCard({
         {shortlisted ? (
           <span
             title={t("shortlisted")}
-            className="absolute end-3 top-3 flex h-7 w-7 items-center justify-center border border-pine bg-frost font-display text-body-s text-iron"
+            className="absolute end-3 top-3 flex h-7 w-7 items-center justify-center border border-steel bg-paper font-display text-body-s font-bold text-navy"
           >
-            Á
+            R
           </span>
         ) : null}
       </Link>
 
       <div className="flex flex-col gap-2 p-5">
-        <p className="type-eyebrow text-iron/80">
+        <p className="type-eyebrow text-navy/80">
           {(project.propertyTypes ?? []).join(" · ")} ·{" "}
           {formatBedrooms(project.bedroomsMin, project.bedroomsMax)}
         </p>
-        <h3 className="type-display-s text-iron">
+        <h3 className="type-display-s text-navy">
           <Link
             href={`/projects/${project.slug}`}
             className="transition-colors duration-fast ease-brand group-hover:underline group-hover:underline-offset-4"
@@ -69,31 +69,31 @@ export function ProjectCard({
             {project.name}, {project.subCommunity}
           </Link>
         </h3>
-        <p className="type-body-s text-iron/80">
+        <p className="type-body-s text-navy/80">
           {rel(project, "community")}, {project.region}
         </p>
-        <p className="type-display-s text-iron">
+        <p className="type-display-s text-navy">
           {project.priceFromAED > 0 ? (
             <>
-              <span className="type-micro me-2 uppercase text-iron/80">{t("from")}</span>
+              <span className="type-micro me-2 uppercase text-navy/80">{t("from")}</span>
               <PriceDisplay amountAED={project.priceFromAED} convertedClassName="type-body-s" />
             </>
           ) : (
-            <span className="type-body text-iron/80">{t("priceOnApplication")}</span>
+            <span className="type-body text-navy/80">{t("priceOnApplication")}</span>
           )}
         </p>
         <div className="mt-2 grid grid-cols-3 gap-2 border-t border-rule pt-3">
           <div>
-            <p className="type-micro uppercase text-iron/80">{t("plan")}</p>
-            <p className="type-body-s text-iron">{project.paymentPlan?.label ?? "—"}</p>
+            <p className="type-micro uppercase text-navy/80">{t("plan")}</p>
+            <p className="type-body-s text-navy">{project.paymentPlan?.label ?? "—"}</p>
           </div>
           <div>
-            <p className="type-micro uppercase text-iron/80">{t("developer")}</p>
-            <p className="type-body-s truncate text-iron">{rel(project, "developer")}</p>
+            <p className="type-micro uppercase text-navy/80">{t("developer")}</p>
+            <p className="type-body-s truncate text-navy">{rel(project, "developer")}</p>
           </div>
           <div>
-            <p className="type-micro uppercase text-iron/80">{t("handover")}</p>
-            <p className="type-body-s text-iron">
+            <p className="type-micro uppercase text-navy/80">{t("handover")}</p>
+            <p className="type-body-s text-navy">
               {formatHandoverOrDash(project.handoverQuarter, project.handoverYear)}
             </p>
           </div>

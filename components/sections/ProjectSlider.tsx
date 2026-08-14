@@ -92,7 +92,7 @@ export function ProjectSlider({
       tabIndex={0}
       onKeyDown={onKey}
       onPointerDown={() => setEngaged(true)}
-      className="flex flex-col gap-5 focus-visible:outline-2 focus-visible:outline-iron"
+      className="flex flex-col gap-5 focus-visible:outline-2 focus-visible:outline-navy"
     >
       <div className="overflow-hidden">
         <div
@@ -126,7 +126,7 @@ export function ProjectSlider({
               }}
               className={cn(
                 "h-1 transition-all duration-fast ease-brand",
-                i === index ? "w-8 bg-iron" : "w-4 bg-pine/50 hover:bg-pine",
+                i === index ? "w-8 bg-navy" : "w-4 bg-steel/50 hover:bg-steel",
               )}
             />
           ))}
@@ -158,7 +158,7 @@ function SliderButton({
       type="button"
       aria-label={label}
       onClick={onClick}
-      className="type-body flex h-9 w-9 items-center justify-center border border-pine text-iron transition-colors duration-fast ease-brand hover:bg-pine/25"
+      className="type-body flex h-9 w-9 items-center justify-center border border-steel text-navy transition-colors duration-fast ease-brand hover:bg-steel/25"
     >
       {children}
     </button>
@@ -167,7 +167,7 @@ function SliderButton({
 
 function SlideCard({ slide, large = false }: { slide: Slide; large?: boolean }) {
   return (
-    <article className={cn("group border border-rule bg-linen", large && "sm:grid sm:grid-cols-2")}>
+    <article className={cn("group border border-rule bg-surface", large && "sm:grid sm:grid-cols-2")}>
       <Link href={`/projects/${slide.slug}`} className="block">
         <MediaWell
           src={slide.image}
@@ -178,22 +178,22 @@ function SlideCard({ slide, large = false }: { slide: Slide; large?: boolean }) 
         />
       </Link>
       <div className={cn("flex flex-col justify-center gap-3 p-5", large && "sm:p-8")}>
-        <p className="type-eyebrow text-iron/80">
+        <p className="type-eyebrow text-navy/80">
           {slide.subCommunity}, {slide.region}
         </p>
-        <h3 className={cn("text-iron", large ? "type-display-m" : "type-display-s")}>
+        <h3 className={cn("text-navy", large ? "type-display-m" : "type-display-s")}>
           <Link href={`/projects/${slide.slug}`} className="underline-offset-4 group-hover:underline">
             {slide.name}
           </Link>
         </h3>
-        <p className={cn("text-iron", large ? "type-display-s" : "type-body")}>
+        <p className={cn("text-navy", large ? "type-display-s" : "type-body")}>
           {slide.priceFromAED > 0 ? (
             <>
-              <span className="type-micro me-2 uppercase text-iron/80">From</span>
+              <span className="type-micro me-2 uppercase text-navy/80">From</span>
               {slide.priceLabel}
             </>
           ) : (
-            <span className="type-body text-iron/80">Price on application</span>
+            <span className="type-body text-navy/80">Price on application</span>
           )}
         </p>
         <div className="mt-1 grid grid-cols-3 gap-3 border-t border-rule pt-3">
@@ -203,8 +203,8 @@ function SlideCard({ slide, large = false }: { slide: Slide; large?: boolean }) 
             ["Developer", slide.developer],
           ].map(([k, v]) => (
             <div key={k}>
-              <p className="type-micro uppercase text-iron/80">{k}</p>
-              <p className="type-body-s truncate text-iron">{v}</p>
+              <p className="type-micro uppercase text-navy/80">{k}</p>
+              <p className="type-body-s truncate text-navy">{v}</p>
             </div>
           ))}
         </div>

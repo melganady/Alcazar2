@@ -39,17 +39,17 @@ export function RangeSlider({
       className={cn("flex flex-col gap-2", className)}
     >
       <div className="flex items-baseline justify-between">
-        <span id={`${id}-label`} className="type-body-s font-medium text-iron">
+        <span id={`${id}-label`} className="type-body-s font-medium text-navy">
           {label}
         </span>
-        <span className="type-body-s text-iron/80">
+        <span className="type-body-s text-navy/80">
           {format(valueMin)} — {format(valueMax)}
         </span>
       </div>
       <div className="relative h-6">
         <div className="absolute top-1/2 h-px w-full -translate-y-1/2 bg-rule" />
         <div
-          className="absolute top-1/2 h-0.5 -translate-y-1/2 bg-iron"
+          className="absolute top-1/2 h-0.5 -translate-y-1/2 bg-navy"
           style={{ insetInlineStart: `${lowPct}%`, width: `${highPct - lowPct}%` }}
         />
         <input
