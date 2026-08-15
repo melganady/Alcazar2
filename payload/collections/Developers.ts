@@ -4,7 +4,7 @@ import { revalidateDirectoryEntry, revalidateDirectoryEntryOnDelete } from "../h
 
 export const Developers: CollectionConfig = {
   slug: "developers",
-  admin: { useAsTitle: "name", defaultColumns: ["name", "alcazarPanelStatus"] },
+  admin: { useAsTitle: "name", defaultColumns: ["name", "panelStatus"] },
   access: { read: () => true },
   hooks: {
     beforeOperation: [hideFixtures],
@@ -30,7 +30,7 @@ export const Developers: CollectionConfig = {
     },
     { name: "deliveryTrackRecord", type: "richText" },
     {
-      name: "alcazarPanelStatus",
+      name: "panelStatus",
       type: "select",
       required: true,
       defaultValue: "not-on-panel",

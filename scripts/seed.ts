@@ -99,9 +99,9 @@ const seed = async () => {
   if (users.totalDocs === 0) {
     await payload.create({
       collection: "users",
-      data: { email: "admin@rein.investments", password: "rein-dev-2026", name: "REIN Investment Admin" },
+      data: { email: "admin@rein-international.com", password: "rein-dev-2026", name: "REIN Investment Admin" },
     });
-    console.log("Admin user: admin@rein.investments / rein-dev-2026");
+    console.log("Admin user: admin@rein-international.com / rein-dev-2026");
   }
 
   const communityIds: Record<string, number> = {};
@@ -136,7 +136,7 @@ const seed = async () => {
         projectsDelivered: d.delivered,
         averageHandoverSlippageMonths: d.slippage,
         deliveryTrackRecord: rt(`${d.name}: ${d.delivered} projects delivered since ${d.founded}, average handover slippage ${d.slippage} months. Fixture data.`),
-        alcazarPanelStatus: d.slippage <= 5 ? "active" : d.slippage <= 9 ? "selective" : "not-on-panel",
+        panelStatus: d.slippage <= 5 ? "active" : d.slippage <= 9 ? "selective" : "not-on-panel",
         isFixture: true,
       },
     });
@@ -176,7 +176,7 @@ const seed = async () => {
         languages: [...a.langs],
         specialisms: [...a.specs],
         whatsapp: "+971500000000",
-        email: `${a.slug.split("-")[0]}@rein.investments`,
+        email: `${a.slug.split("-")[0]}@rein-international.com`,
         bio: "Fixture profile — replaced with real consultant data before launch.",
         isFixture: true,
       },
@@ -200,7 +200,7 @@ const seed = async () => {
     const sizeFrom = 420 + ((i * 137) % 30) * 55;
     const handoverYear = 2026 + ((i * 3 + 1) % 4);
     const quarter = (["Q1", "Q2", "Q3", "Q4"] as const)[(i * 5) % 4];
-    const alcazarStatus =
+    const deskStatus =
       i % 4 === 0 ? "shortlisted" : i % 9 === 5 ? "declined" : "monitoring";
     const published = i % 5 !== 4; // 32 published, 8 drafts
     const score = (base: number, j: number) => (((i * 13 + j * 7 + base) % 4) + 2) as 2 | 3 | 4 | 5;
@@ -257,13 +257,13 @@ const seed = async () => {
         assignmentAllowed: i % 3 !== 2,
         assignmentMinPaidPct: i % 3 !== 2 ? 30 + (i % 3) * 10 : undefined,
         developerNocFeeAED: 5000 + (i % 4) * 2500,
-        alcazarStatus,
-        alcazarVerdict: rt(
-          alcazarStatus === "declined"
+        deskStatus,
+        deskVerdict: rt(
+          deskStatus === "declined"
             ? `Declined at review. Fixture verdict for ${name}: the exit could not be written, so the entry was not written.`
             : `Fixture verdict for ${name}, ${community.name}: ${plan.label} plan against a ${quarter} ${handoverYear} handover, entry from AED ${priceFrom.toLocaleString()}. Replace with the real written view before launch.`,
         ),
-        alcazarFilterScores: {
+        filterScores: {
           developerRecord: score(1, 1),
           regulatoryStanding: score(2, 2),
           priceVsComparables: score(0, 3),
@@ -273,7 +273,7 @@ const seed = async () => {
           runningCost: score(1, 7),
           unitQuality: score(2, 8),
         },
-        ...(alcazarStatus === "declined"
+        ...(deskStatus === "declined"
           ? {
               declineReason:
                 "Failed on price vs comparables and exit terms at review date. Fixture text.",
@@ -339,7 +339,7 @@ const seed = async () => {
   const agentDocs = await payload.find({ collection: "agents", limit: 1, sort: "slug" });
   const shortlisted = await payload.find({
     collection: "projects",
-    where: { alcazarStatus: { equals: "shortlisted" } },
+    where: { deskStatus: { equals: "shortlisted" } },
     limit: 3,
     depth: 0,
   });

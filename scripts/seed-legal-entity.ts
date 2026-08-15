@@ -27,7 +27,7 @@ const run = async () => {
       city: "Dubai, United Arab Emirates",
       phone: "+971 58 582 7070",
       whatsapp: "+971585827070",
-      email: "hello@rein.investments",
+      email: "hello@rein-international.com",
     },
   });
   console.log("Legal entity seeded. ORN / trade licence left blank — enter the real numbers in /admin.");

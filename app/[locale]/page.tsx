@@ -45,7 +45,7 @@ export default async function HomePage({
     getShowcaseImages(2),
     payload.find({
       collection: "projects",
-      where: { and: [...baseWhere(), { alcazarStatus: { equals: "shortlisted" } }] },
+      where: { and: [...baseWhere(), { deskStatus: { equals: "shortlisted" } }] },
       sort: "editorialOrder",
       limit: 3,
       depth: 1,

@@ -16,7 +16,7 @@ export const revalidate = 3600;
 export const metadata: Metadata = {
   title: "Contact",
   description:
-    "Reach an REIN Investment consultant on WhatsApp or by form. Offices in Dubai. Residency status first — it changes what we show you.",
+    "Reach a REIN Investment consultant on WhatsApp or by form. Offices in Dubai. Residency status first — it changes what we show you.",
 };
 
 export default async function ContactPage({

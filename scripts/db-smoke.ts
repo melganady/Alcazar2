@@ -58,7 +58,7 @@ const run = async () => {
     bedroomsMin: 1,
     bedroomsMax: 3,
     status: "launched" as const,
-    alcazarStatus: "monitoring" as const,
+    deskStatus: "monitoring" as const,
     mediaLicence: "developer-supplied" as const,
     propertyTypes: ["Apartment"],
     paymentPlan: { label: "60/40" },

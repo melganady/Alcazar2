@@ -44,7 +44,7 @@ export type ListingType = "offplan" | "secondary";
 export function baseWhere(listingType?: ListingType): Where[] {
   const and: Where[] = [
     { publishedAt: { exists: true } },
-    { alcazarStatus: { not_equals: "declined" } },
+    { deskStatus: { not_equals: "declined" } },
   ];
   if (process.env.EXCLUDE_FIXTURES === "true") {
     and.push({ isFixture: { not_equals: true } });
@@ -105,7 +105,7 @@ export async function queryProjects(
   if (filters.status) and.push({ status: { equals: filters.status } });
   if (filters.mortgageable) and.push({ mortgageable: { equals: filters.mortgageable } });
   if (filters.goldenVisa === "1") and.push({ goldenVisaEligible: { equals: true } });
-  if (filters.shortlisted === "1") and.push({ alcazarStatus: { equals: "shortlisted" } });
+  if (filters.shortlisted === "1") and.push({ deskStatus: { equals: "shortlisted" } });
 
   const page = Math.max(1, Number(filters.page) || 1);
   const sort = SORTS[filters.sort ?? "relevance"] ?? SORTS.relevance;

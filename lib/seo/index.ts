@@ -1,7 +1,7 @@
 import type { Agent, Community, Developer, Project } from "@/payload-types";
 import { SITE } from "@/lib/site";
 
-export const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://rein.investments";
+export const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://rein-international.com";
 
 export function absolute(path: string): string {
   return new URL(path, BASE_URL).toString();

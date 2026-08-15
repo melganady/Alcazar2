@@ -16,7 +16,7 @@ const KEYS = [
 export function FilterScoreRow({
   scores,
 }: {
-  scores: NonNullable<Project["alcazarFilterScores"]>;
+  scores: NonNullable<Project["filterScores"]>;
 }) {
   const t = useTranslations("project");
   return (

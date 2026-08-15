@@ -86,7 +86,7 @@ export async function GET(
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={wordmark} alt="REIN Investment" width={190} />
-          {project.alcazarStatus === "shortlisted" ? (
+          {project.deskStatus === "shortlisted" ? (
             <div
               style={{
                 display: "flex",

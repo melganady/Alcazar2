@@ -323,7 +323,7 @@ export function toProjectDraft(p: ReellyProject, contractRef: string) {
     developerName: str(p.developer),
     mediaLicence: "developer-supplied" as const,
     mediaLicenceNote: `Licensed feed: Reelly, contract ${contractRef}`,
-    alcazarStatus: "monitoring" as const,
+    deskStatus: "monitoring" as const,
     isFixture: false,
     // publishedAt deliberately absent — the Trakheesi gate still applies.
   };
@@ -776,7 +776,7 @@ async function importProjects() {
             data: {
               slug: slugify(draft.developerName),
               name: draft.developerName,
-              alcazarPanelStatus: "selective",
+              panelStatus: "selective",
             },
           })
         ).id;
@@ -846,7 +846,7 @@ async function importProjects() {
   }
   console.log(
     "\nAll drafts. A data licence is not an advertising permit — each still needs a\n" +
-      "Trakheesi number and an REIN Investment verdict. Run `npm run validate:projects`.\n",
+      "Trakheesi number and a REIN Investment verdict. Run `npm run validate:projects`.\n",
   );
   process.exit(0);
 }

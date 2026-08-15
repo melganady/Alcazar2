@@ -50,7 +50,7 @@ const run = async () => {
       await payload.update({
         collection: "projects",
         id: doc.id,
-        data: { publishedAt: now, alcazarStatus: doc.alcazarStatus ?? "monitoring" },
+        data: { publishedAt: now, deskStatus: doc.deskStatus ?? "monitoring" },
         overrideAccess: true,
       });
       published++;

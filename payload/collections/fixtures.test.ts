@@ -51,7 +51,7 @@ describe("hideFixtures", () => {
 
   it("still shows fixtures to a signed-in editor, who has to find them to delete them", () => {
     process.env.EXCLUDE_FIXTURES = "true";
-    const req = { user: { id: 1, email: "admin@rein.investments" } } as never;
+    const req = { user: { id: 1, email: "admin@rein-international.com" } } as never;
     expect(call({ req }).where).toBeUndefined();
   });
 

@@ -19,7 +19,7 @@ export const Projects: CollectionConfig = {
   slug: "projects",
   admin: {
     useAsTitle: "name",
-    defaultColumns: ["name", "subCommunity", "alcazarStatus", "publishedAt"],
+    defaultColumns: ["name", "subCommunity", "deskStatus", "publishedAt"],
     description:
       "A project cannot be published without media licence, Trakheesi permit, our verdict, and complete core facts. The publish gate lists anything missing.",
   },
@@ -69,8 +69,8 @@ export const Projects: CollectionConfig = {
             missing.push("Trakheesi permit number (§11.1, required for UAE listings)");
           }
           const verdictEmpty =
-            !data.alcazarVerdict ||
-            JSON.stringify(data.alcazarVerdict).indexOf('"text"') === -1;
+            !data.deskVerdict ||
+            JSON.stringify(data.deskVerdict).indexOf('"text"') === -1;
           if (verdictEmpty) missing.push("REIN Investment verdict (our own written view)");
           if (!data.developer) missing.push("developer");
           if (data.priceFromAED == null) missing.push("price from (AED)");
@@ -448,7 +448,8 @@ export const Projects: CollectionConfig = {
 
     // ---- The REIN Investment layer ----
     {
-      name: "alcazarStatus",
+      name: "deskStatus",
+      label: "Desk status",
       type: "select",
       required: true,
       defaultValue: "monitoring",
@@ -456,12 +457,14 @@ export const Projects: CollectionConfig = {
       admin: { position: "sidebar" },
     },
     {
-      name: "alcazarVerdict",
+      name: "deskVerdict",
+      label: "Desk verdict",
       type: "richText",
       admin: { description: "Our own written view, 80–150 words. Never sourced from a competitor's text. This is the product." },
     },
     {
-      name: "alcazarFilterScores",
+      name: "filterScores",
+      label: "The eight tests",
       type: "group",
       admin: { description: "The eight tests. 1 = fail, 5 = strong." },
       fields: FILTER_TESTS.map(([name, label]) => ({
@@ -476,7 +479,7 @@ export const Projects: CollectionConfig = {
       name: "declineReason",
       type: "textarea",
       admin: {
-        condition: (data) => data?.alcazarStatus === "declined",
+        condition: (data) => data?.deskStatus === "declined",
         description:
           "Factual test outcomes only — no characterisations. Legal review required before any declined page goes public.",
       },
@@ -486,7 +489,7 @@ export const Projects: CollectionConfig = {
       type: "checkbox",
       defaultValue: false,
       admin: {
-        condition: (data) => data?.alcazarStatus === "declined",
+        condition: (data) => data?.deskStatus === "declined",
         description: "Render a public stripped page for this declined project. Case-by-case decision (§6).",
       },
     },

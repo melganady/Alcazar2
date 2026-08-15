@@ -154,7 +154,7 @@ async function run() {
         handoverYear: num(r.handoverYear),
         dldProjectNumber: r.dldProjectNumber || undefined,
         serviceChargeEstimateAEDPerSqft: num(r.serviceChargeAEDPerSqft),
-        alcazarStatus: "monitoring",
+        deskStatus: "monitoring",
         mediaLicence: "developer-supplied",
         mediaLicenceNote: licenceNote,
         // publishedAt deliberately unset — the gate still needs a Trakheesi
@@ -166,7 +166,7 @@ async function run() {
   }
 
   console.log(
-    `\n${created} drafts created, ${skipped} skipped. All require a Trakheesi permit and an REIN Investment verdict before they can publish.`,
+    `\n${created} drafts created, ${skipped} skipped. All require a Trakheesi permit and a REIN Investment verdict before they can publish.`,
   );
   process.exit(0);
 }

@@ -339,11 +339,11 @@ export interface Project {
         }[]
       | null;
   };
-  alcazarStatus: 'shortlisted' | 'monitoring' | 'declined';
+  deskStatus: 'shortlisted' | 'monitoring' | 'declined';
   /**
    * Our own written view, 80–150 words. Never sourced from a competitor's text. This is the product.
    */
-  alcazarVerdict?: {
+  deskVerdict?: {
     root: {
       type: string;
       children: {
@@ -361,7 +361,7 @@ export interface Project {
   /**
    * The eight tests. 1 = fail, 5 = strong.
    */
-  alcazarFilterScores?: {
+  filterScores?: {
     developerRecord?: number | null;
     regulatoryStanding?: number | null;
     priceVsComparables?: number | null;
@@ -570,7 +570,7 @@ export interface Developer {
     };
     [k: string]: unknown;
   } | null;
-  alcazarPanelStatus: 'active' | 'selective' | 'not-on-panel';
+  panelStatus: 'active' | 'selective' | 'not-on-panel';
   updatedAt: string;
   createdAt: string;
 }
@@ -975,9 +975,9 @@ export interface ProjectsSelect<T extends boolean = true> {
               id?: T;
             };
       };
-  alcazarStatus?: T;
-  alcazarVerdict?: T;
-  alcazarFilterScores?:
+  deskStatus?: T;
+  deskVerdict?: T;
+  filterScores?:
     | T
     | {
         developerRecord?: T;
@@ -1048,7 +1048,7 @@ export interface DevelopersSelect<T extends boolean = true> {
   projectsDelivered?: T;
   averageHandoverSlippageMonths?: T;
   deliveryTrackRecord?: T;
-  alcazarPanelStatus?: T;
+  panelStatus?: T;
   updatedAt?: T;
   createdAt?: T;
 }

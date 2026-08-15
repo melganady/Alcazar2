@@ -29,7 +29,7 @@ export function ProjectCard({
 }) {
   const t = useTranslations("projects");
   const hero = heroUrl(project);
-  const shortlisted = project.alcazarStatus === "shortlisted";
+  const shortlisted = project.deskStatus === "shortlisted";
 
   return (
     <article

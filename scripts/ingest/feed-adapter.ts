@@ -65,7 +65,7 @@ export function toDraftProject(listing: FeedListing): Partial<Project> | { rejec
     handoverYear: listing.handoverYear,
     mediaLicence: "developer-supplied",
     mediaLicenceNote: `Licensed feed: ${listing.licence.provider}, contract ${listing.licence.contractRef}`,
-    alcazarStatus: "monitoring",
+    deskStatus: "monitoring",
     // publishedAt intentionally absent — the §5 gate still applies.
   };
 }

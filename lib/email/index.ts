@@ -49,7 +49,7 @@ const resendAdapter = (apiKey: string, from: string): EmailAdapter => ({
 
 export function getEmailAdapter(): EmailAdapter {
   const key = process.env.RESEND_API_KEY;
-  const from = process.env.EMAIL_FROM ?? "REIN Investment <hello@rein.investments>";
+  const from = process.env.EMAIL_FROM ?? "REIN Investment <hello@rein-international.com>";
   return key ? resendAdapter(key, from) : consoleAdapter;
 }
 

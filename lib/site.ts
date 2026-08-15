@@ -4,7 +4,7 @@ export const SITE = {
   // a separate Arabic lockup, and an improvised transliteration is worse than
   // none.
   nameAr: "REIN Investment",
-  domain: "rein.investments",
+  domain: "rein-international.com",
   compliance: {
     // Licence numbers live on the Legal entity global, not here — this is only
     // the fallback for a page rendered before that global is populated. Blank

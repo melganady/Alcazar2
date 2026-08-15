@@ -12,8 +12,8 @@ import {
  * checked before every request. There is no override flag by design.
  */
 
-export const CONTACT_EMAIL = process.env.CRAWLER_CONTACT_EMAIL ?? "tech@rein.investments";
-export const USER_AGENT = `ReinBot/1.0 (+https://rein.investments/bot; ${CONTACT_EMAIL})`;
+export const CONTACT_EMAIL = process.env.CRAWLER_CONTACT_EMAIL ?? "tech@rein-international.com";
+export const USER_AGENT = `ReinBot/1.0 (+https://rein-international.com/bot; ${CONTACT_EMAIL})`;
 
 const MIN_DELAY_MS = 2000;
 const MAX_DELAY_MS = 3000;

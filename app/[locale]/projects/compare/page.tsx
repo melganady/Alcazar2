@@ -75,7 +75,7 @@ export default async function ComparePage({
     [
       t("compareScores"),
       (p) => {
-        const s = p.alcazarFilterScores;
+        const s = p.filterScores;
         if (!s) return "—";
         const total = SCORE_KEYS.reduce((sum, k) => sum + (s[k] ?? 0), 0);
         return `${total} / 40`;

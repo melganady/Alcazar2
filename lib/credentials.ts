@@ -16,7 +16,7 @@
  */
 export function whatsappHref(
   number?: string | null,
-  message = "Enquiry from rein.investments",
+  message = "Enquiry from rein-international.com",
 ): string | null {
   const digits = (number ?? "").replace(/\D/g, "").replace(/^00/, "");
   if (digits.length < 8) return null;

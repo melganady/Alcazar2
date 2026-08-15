@@ -28,7 +28,8 @@
     "publish:all": "node --env-file=.env --import tsx scripts/publish-all.ts",
     "upload:media": "node --env-file-if-exists=.env --import tsx scripts/upload-media.ts",
     "db:smoke": "node --env-file-if-exists=.env --import tsx scripts/db-smoke.ts",
-    "preflight": "node --env-file-if-exists=.env --import tsx scripts/preflight.ts"
+    "preflight": "node --env-file-if-exists=.env --import tsx scripts/preflight.ts",
+    "migrate:desk-fields": "node --env-file-if-exists=.env --import tsx scripts/rename-desk-fields.ts"
   },
   "dependencies": {
     "@payloadcms/db-postgres": "^3.87.1",

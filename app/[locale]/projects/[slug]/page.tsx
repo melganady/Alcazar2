@@ -115,7 +115,7 @@ export default async function ProjectPage({
   // they may not be advertised. Staff can still review them via /preview.
   if (!project.publishedAt && !preview) notFound();
 
-  const declined = project.alcazarStatus === "declined";
+  const declined = project.deskStatus === "declined";
   if (declined && !project.declinePublic) notFound();
 
   const t = await getTranslations("project");
@@ -160,7 +160,7 @@ export default async function ProjectPage({
 
   const waHref = whatsappHref(
     identity.whatsapp,
-    `Enquiry from rein.investments — ${project.name}, ${project.subCommunity}. Ref ${project.slug}.`,
+    `Enquiry from rein-international.com — ${project.name}, ${project.subCommunity}. Ref ${project.slug}.`,
   );
 
   const mortgageableKey =
@@ -185,7 +185,7 @@ export default async function ProjectPage({
   const comparables = (project.resale?.comparables ?? []).filter((c) => c?.amountAED);
   const hasPlan =
     !isResale && Boolean(project.paymentPlan?.milestones?.length || project.paymentPlan?.label);
-  const hasView = Boolean(project.alcazarVerdict || project.alcazarFilterScores);
+  const hasView = Boolean(project.deskVerdict || project.filterScores);
   const developerStats = developer
     ? [
         developer.foundedYear ? t("developerFounded", { year: developer.foundedYear }) : null,
@@ -271,7 +271,7 @@ export default async function ProjectPage({
       <TrackProjectView
         slug={project.slug}
         community={community?.name}
-        status={project.alcazarStatus}
+        status={project.deskStatus}
       />
       <script
         type="application/ld+json"
@@ -627,13 +627,13 @@ export default async function ProjectPage({
         <Section id="our-view" title={t("viewTitle")} titleBlue>
           <CropMarks>
             <div className="flex flex-col gap-8 border-s-2 border-steel bg-steel/18 p-6 md:p-8">
-              {project.alcazarVerdict ? (
+              {project.deskVerdict ? (
                 <div className="type-body-l max-w-2xl text-navy [&_p]:mb-3">
-                  <RichText data={project.alcazarVerdict} />
+                  <RichText data={project.deskVerdict} />
                 </div>
               ) : null}
-              {project.alcazarFilterScores ? (
-                <FilterScoreRow scores={project.alcazarFilterScores} />
+              {project.filterScores ? (
+                <FilterScoreRow scores={project.filterScores} />
               ) : null}
             </div>
           </CropMarks>

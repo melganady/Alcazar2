@@ -1,4 +1,4 @@
-# Deploying Alcázar
+# Deploying REIN Investment
 
 Everything below is a one-time setup.
 
@@ -9,14 +9,14 @@ password, so they are yours to do; everything after is scripted.
 
 **1. Neon** — neon.tech, create a project, copy the *pooled* connection string.
 
-**2. Cloudflare R2** — create a bucket named `alcazar-media`, then an API token
+**2. Cloudflare R2** — create a bucket named `rein-media`, then an API token
 with Object Read & Write. Note the bucket name, account endpoint, access key
 and secret. R2 has no egress fees, which matters for 1.2 GB of renders.
 
 **3. Vercel** — an account is enough; the CLI creates the project. No GitHub
 repository is needed, the CLI uploads the working directory directly.
 
-Then, from `~/Projects/alcazar-site`:
+Then, from the project root:
 
 ```bash
 npx vercel login
@@ -37,7 +37,7 @@ DATABASE_URI=<Neon pooled connection string>
 NEXT_PUBLIC_SITE_URL=https://<your domain>
 EXCLUDE_FIXTURES=true
 ALLOW_INCOMPLETE_PUBLISH=true
-S3_BUCKET=alcazar-media
+S3_BUCKET=rein-media
 S3_ENDPOINT=https://<account>.r2.cloudflarestorage.com
 S3_REGION=auto
 S3_ACCESS_KEY_ID=<R2 key>
@@ -47,7 +47,7 @@ S3_SECRET_ACCESS_KEY=<R2 secret>
 Fill the bucket and the database, then ship:
 
 ```bash
-S3_BUCKET=alcazar-media S3_ENDPOINT=https://<account>.r2.cloudflarestorage.com S3_ACCESS_KEY_ID=<key> S3_SECRET_ACCESS_KEY=<secret> npm run upload:media
+S3_BUCKET=rein-media S3_ENDPOINT=https://<account>.r2.cloudflarestorage.com S3_ACCESS_KEY_ID=<key> S3_SECRET_ACCESS_KEY=<secret> npm run upload:media
 ```
 
 ```bash
@@ -119,7 +119,7 @@ the flag holds everything as drafts again.
 
 Two gaps the flag also lets through, both visible on the pages themselves:
 14 of 49 have no handover date from the feed and render "—", and none carries
-an Alcázar verdict — the "Our view" panel says the desk's opinion is still
+a REIN Investment verdict — the "Our view" panel says the desk's opinion is still
 being written rather than inventing one. Verdicts are never auto-generated.
 
 **No demo content goes live.** The development database is seeded with content
@@ -164,7 +164,7 @@ Uploads also live on the ephemeral filesystem, so renders would vanish on
 redeploy. Cloudflare R2 is the cheap option (no egress fees).
 
 ```
-S3_BUCKET=alcazar-media
+S3_BUCKET=rein-media
 S3_ENDPOINT=https://<account>.r2.cloudflarestorage.com
 S3_REGION=auto
 S3_ACCESS_KEY_ID=…
@@ -179,7 +179,7 @@ re-imported with `npm run reelly:all`.
 ```
 PAYLOAD_SECRET=<long random string — rotate the dev one>
 DATABASE_URI=postgres://…
-NEXT_PUBLIC_SITE_URL=https://alcazar.ae
+NEXT_PUBLIC_SITE_URL=https://rein-international.com
 EXCLUDE_FIXTURES=true
 ```
 
@@ -189,6 +189,26 @@ site. Preflight treats a missing flag on a database holding demo content as a
 blocking fault.
 
 Run `npm run preflight` to see what is still missing before deploying.
+
+### Custom domain — rein-international.com
+
+`NEXT_PUBLIC_SITE_URL` is what canonical tags, `sitemap.xml`, `robots.txt` and
+OG image URLs are built from. It is read at build time, so changing it needs a
+redeploy, not just a restart — and until it matches the domain the site is
+actually served on, search engines are told the canonical copy lives elsewhere.
+
+In Vercel → Project → Settings → Domains, add both `rein-international.com` and
+`www.rein-international.com`, then at the registrar:
+
+| Record | Name | Value |
+|---|---|---|
+| `A` | `@` | `76.76.21.21` |
+| `CNAME` | `www` | `cname.vercel-dns.com` |
+
+Vercel prints the exact values when the domain is added — use those if they
+differ from the table. Set one of the pair as primary so the other redirects
+rather than serving a duplicate. Once the certificate is issued, set
+`NEXT_PUBLIC_SITE_URL=https://rein-international.com` and redeploy.
 
 ## 4. Optional — each degrades gracefully
 
@@ -222,7 +242,7 @@ content ever does reach production, `npm run mark:fixtures` flags it and
 `EXCLUDE_FIXTURES=true` withholds it.
 
 Then create an admin user at `/admin` on first visit, and **rotate the dev
-password** — `alcazar-dev-2026` must not reach production.
+password** — `rein-dev-2026` must not reach production.
 
 ## 7. Still owed on every published project
 
@@ -230,7 +250,7 @@ The listings are live; these are what each is still missing. `npm run
 validate:projects` prints the per-project list.
 
 - **Trakheesi permit number** — the one with a regulatory deadline attached
-- An Alcázar verdict — our own written view, not the developer's copy
+- A REIN Investment verdict — our own written view, not the developer's copy
 - Handover quarter and year where the feed left them blank (14 of 49)
 
 Media licence is already recorded on all 49 from the Reelly contract.
