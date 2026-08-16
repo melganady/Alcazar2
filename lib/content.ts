@@ -231,6 +231,21 @@ export const MARKETS = [
     returnHigh: 40,
     basis: "Return on capital per completed flip",
   },
+  {
+    key: "uk",
+    name: "United Kingdom",
+    note: "London, Manchester, Birmingham",
+    // Country is set up (schema, filters, world map) but no listings have
+    // been sourced yet — matches Oman/Georgia/Thailand/etc above, not the
+    // live UAE market.
+    live: false,
+    flag: "🇬🇧",
+    lat: 51.51,
+    lng: -0.13,
+    returnLow: 5,
+    returnHigh: 9,
+    basis: "Gross rental yield, city-dependent",
+  },
 ] as const;
 
 /** The floor and ceiling actually quoted anywhere on the site. */

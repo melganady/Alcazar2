@@ -77,6 +77,16 @@ export const COUNTRIES = [
     regions: ["Limassol", "Paphos", "Larnaca", "Nicosia"],
     compliance: "none-configured" as ComplianceRegime,
   },
+  {
+    code: "GB",
+    name: "United Kingdom",
+    currency: "GBP",
+    regionLabel: "Region",
+    regions: ["London", "Manchester", "Birmingham", "Liverpool", "Leeds", "Edinburgh"],
+    // No UK advertising-permit regime is modelled yet — added if a real one
+    // applies once actual listings are being published here.
+    compliance: "none-configured" as ComplianceRegime,
+  },
 ] as const;
 
 export type CountryCode = (typeof COUNTRIES)[number]["code"];

@@ -28,6 +28,7 @@ const MARKET_ISO: Record<string, string> = {
   indonesia: "360",
   egypt: "818",
   usa: "840",
+  uk: "826",
 };
 const MARKET_IDS = new Set(Object.values(MARKET_ISO));
 
@@ -43,6 +44,7 @@ const LABEL: Record<string, { dx: number; dy: number; anchor: "middle" | "start"
   oman: { dx: 14, dy: 18, anchor: "start" },
   thailand: { dx: 10, dy: -14, anchor: "start" },
   indonesia: { dx: 0, dy: 30, anchor: "middle" },
+  uk: { dx: -14, dy: -12, anchor: "end" },
 };
 
 const world = worldAtlas as unknown as Topology;
@@ -140,7 +142,11 @@ export function WorldMap({
                 className="fill-navy"
                 style={{ fontSize: 16, fontWeight: 500, letterSpacing: "0.02em" }}
               >
-                {m.name === "United Arab Emirates" ? "UAE" : m.name}
+                {m.name === "United Arab Emirates"
+                  ? "UAE"
+                  : m.name === "United Kingdom"
+                    ? "UK"
+                    : m.name}
                 <tspan className="fill-navy/70" style={{ fontSize: 14, fontWeight: 400 }}>
                   {"  "}
                   {m.returnLow}–{m.returnHigh}%

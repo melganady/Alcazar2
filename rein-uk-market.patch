@@ -1,0 +1,132 @@
+diff --git a/components/sections/WorldMap.tsx b/components/sections/WorldMap.tsx
+index 4b0515b..974c88c 100644
+--- a/components/sections/WorldMap.tsx
++++ b/components/sections/WorldMap.tsx
+@@ -28,6 +28,7 @@ const MARKET_ISO: Record<string, string> = {
+   indonesia: "360",
+   egypt: "818",
+   usa: "840",
++  uk: "826",
+ };
+ const MARKET_IDS = new Set(Object.values(MARKET_ISO));
+ 
+@@ -43,6 +44,7 @@ const LABEL: Record<string, { dx: number; dy: number; anchor: "middle" | "start"
+   oman: { dx: 14, dy: 18, anchor: "start" },
+   thailand: { dx: 10, dy: -14, anchor: "start" },
+   indonesia: { dx: 0, dy: 30, anchor: "middle" },
++  uk: { dx: -14, dy: -12, anchor: "end" },
+ };
+ 
+ const world = worldAtlas as unknown as Topology;
+@@ -140,7 +142,11 @@ export function WorldMap({
+                 className="fill-navy"
+                 style={{ fontSize: 16, fontWeight: 500, letterSpacing: "0.02em" }}
+               >
+-                {m.name === "United Arab Emirates" ? "UAE" : m.name}
++                {m.name === "United Arab Emirates"
++                  ? "UAE"
++                  : m.name === "United Kingdom"
++                    ? "UK"
++                    : m.name}
+                 <tspan className="fill-navy/70" style={{ fontSize: 14, fontWeight: 400 }}>
+                   {"  "}
+                   {m.returnLow}–{m.returnHigh}%
+diff --git a/lib/content.ts b/lib/content.ts
+index c2c2477..06c4af3 100644
+--- a/lib/content.ts
++++ b/lib/content.ts
+@@ -231,6 +231,21 @@ export const MARKETS = [
+     returnHigh: 40,
+     basis: "Return on capital per completed flip",
+   },
++  {
++    key: "uk",
++    name: "United Kingdom",
++    note: "London, Manchester, Birmingham",
++    // Country is set up (schema, filters, world map) but no listings have
++    // been sourced yet — matches Oman/Georgia/Thailand/etc above, not the
++    // live UAE market.
++    live: false,
++    flag: "🇬🇧",
++    lat: 51.51,
++    lng: -0.13,
++    returnLow: 5,
++    returnHigh: 9,
++    basis: "Gross rental yield, city-dependent",
++  },
+ ] as const;
+ 
+ /** The floor and ceiling actually quoted anywhere on the site. */
+diff --git a/payload-types.ts b/payload-types.ts
+index c4f85ad..5a8bd47 100644
+--- a/payload-types.ts
++++ b/payload-types.ts
+@@ -160,7 +160,7 @@ export interface Project {
+   /**
+    * Decides which advertising rules apply. UAE listings require a Trakheesi permit; other markets have their own regime.
+    */
+-  country: 'AE' | 'OM' | 'GE' | 'TH' | 'ID' | 'EG' | 'US' | 'CY';
++  country: 'AE' | 'OM' | 'GE' | 'TH' | 'ID' | 'EG' | 'US' | 'CY' | 'GB';
+   /**
+    * Emirate, governorate, province or state, depending on the country.
+    */
+@@ -204,7 +204,13 @@ export interface Project {
+     | 'Limassol'
+     | 'Paphos'
+     | 'Larnaca'
+-    | 'Nicosia';
++    | 'Nicosia'
++    | 'London'
++    | 'Manchester'
++    | 'Birmingham'
++    | 'Liverpool'
++    | 'Leeds'
++    | 'Edinburgh';
+   developer?: (number | null) | Developer;
+   status: 'pre-launch' | 'launched' | 'under-construction' | 'nearing-handover' | 'handed-over' | 'sold-out';
+   propertyTypes: (
+@@ -444,7 +450,7 @@ export interface Community {
+   isFixture?: boolean | null;
+   slug: string;
+   name: string;
+-  country: 'AE' | 'OM' | 'GE' | 'TH' | 'ID' | 'EG' | 'US' | 'CY';
++  country: 'AE' | 'OM' | 'GE' | 'TH' | 'ID' | 'EG' | 'US' | 'CY' | 'GB';
+   region:
+     | 'Dubai'
+     | 'Abu Dhabi'
+@@ -485,7 +491,13 @@ export interface Community {
+     | 'Limassol'
+     | 'Paphos'
+     | 'Larnaca'
+-    | 'Nicosia';
++    | 'Nicosia'
++    | 'London'
++    | 'Manchester'
++    | 'Birmingham'
++    | 'Liverpool'
++    | 'Leeds'
++    | 'Edinburgh';
+   description?: {
+     root: {
+       type: string;
+diff --git a/payload/collections/markets.ts b/payload/collections/markets.ts
+index e7162ea..1e68854 100644
+--- a/payload/collections/markets.ts
++++ b/payload/collections/markets.ts
+@@ -77,6 +77,16 @@ export const COUNTRIES = [
+     regions: ["Limassol", "Paphos", "Larnaca", "Nicosia"],
+     compliance: "none-configured" as ComplianceRegime,
+   },
++  {
++    code: "GB",
++    name: "United Kingdom",
++    currency: "GBP",
++    regionLabel: "Region",
++    regions: ["London", "Manchester", "Birmingham", "Liverpool", "Leeds", "Edinburgh"],
++    // No UK advertising-permit regime is modelled yet — added if a real one
++    // applies once actual listings are being published here.
++    compliance: "none-configured" as ComplianceRegime,
++  },
+ ] as const;
+ 
+ export type CountryCode = (typeof COUNTRIES)[number]["code"];

@@ -160,7 +160,7 @@ export interface Project {
   /**
    * Decides which advertising rules apply. UAE listings require a Trakheesi permit; other markets have their own regime.
    */
-  country: 'AE' | 'OM' | 'GE' | 'TH' | 'ID' | 'EG' | 'US' | 'CY';
+  country: 'AE' | 'OM' | 'GE' | 'TH' | 'ID' | 'EG' | 'US' | 'CY' | 'GB';
   /**
    * Emirate, governorate, province or state, depending on the country.
    */
@@ -204,7 +204,13 @@ export interface Project {
     | 'Limassol'
     | 'Paphos'
     | 'Larnaca'
-    | 'Nicosia';
+    | 'Nicosia'
+    | 'London'
+    | 'Manchester'
+    | 'Birmingham'
+    | 'Liverpool'
+    | 'Leeds'
+    | 'Edinburgh';
   developer?: (number | null) | Developer;
   status: 'pre-launch' | 'launched' | 'under-construction' | 'nearing-handover' | 'handed-over' | 'sold-out';
   propertyTypes: (
@@ -444,7 +450,7 @@ export interface Community {
   isFixture?: boolean | null;
   slug: string;
   name: string;
-  country: 'AE' | 'OM' | 'GE' | 'TH' | 'ID' | 'EG' | 'US' | 'CY';
+  country: 'AE' | 'OM' | 'GE' | 'TH' | 'ID' | 'EG' | 'US' | 'CY' | 'GB';
   region:
     | 'Dubai'
     | 'Abu Dhabi'
@@ -485,7 +491,13 @@ export interface Community {
     | 'Limassol'
     | 'Paphos'
     | 'Larnaca'
-    | 'Nicosia';
+    | 'Nicosia'
+    | 'London'
+    | 'Manchester'
+    | 'Birmingham'
+    | 'Liverpool'
+    | 'Leeds'
+    | 'Edinburgh';
   description?: {
     root: {
       type: string;
